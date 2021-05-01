@@ -1,0 +1,204 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation
+###################################################################
+
+info:
+  version: v1.0
+  title: Octopus Customer Management
+  license:
+    name: Octopus
+
+
+host: example.com
+basePath : /customerManagement/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /admin/application:
+    get:
+      operationId: getApplication
+      tags:
+        - "Admin Management"
+      summary: "List of Admin Users"
+      description: "Produces List of Admin Users"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - List of Admin Users Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AdminUserResponse"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        404:
+          $ref: "#/responses/404-NotFound"
+    post:
+      tags:
+        - "Admin Management"
+      summary: "Create New Admin User"
+      description: "Produces List of Admin Users"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Admin User Input
+          required: true
+          schema:
+            $ref: "#/definitions/AdminUserInput"
+      responses:
+        200:
+          description: |
+            *OK* - List of Admin Users Will be returned Successfully
+          schema:
+            $ref: "#/definitions/AdminUserResponse"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        404:
+          $ref: "#/responses/404-NotFound"
+
+  /admin/login:
+    post:
+      tags:
+        - "Admin Management"
+      summary: "Login Admin User"
+      description: "Logged in Admin User"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Login Crendentials
+          required: true
+          schema:
+            $ref: "#/definitions/AdminLoginInput"
+      responses:
+        200:
+          description: |
+            *OK* - List of Admin Users Will be returned Successfully
+          schema:
+            $ref: "#/definitions/AdminUserResponse"
+        400:
+          $ref: "#/responses/400-BadRequest"
+        500:
+          $ref: "#/responses/500-InternalServerError"
+        404:
+          $ref: "#/responses/404-NotFound"
+
+definitions:
+  Customer:
+    type: object
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Customer
+        readOnly: true
+      firstName:
+        type: string
+        description: |
+          First name of Particular Customer
+      lastName:
+        type: string
+        description: |
+          Last name of Particular Customer
+      fullName:
+        type: string
+        description: |
+          Full name of Particular Customer
+      _type:
+        type: string
+        description: |
+          Type of Particular Customer
+      postal_address:
+        $ref: "#/definitions/CustomerPostalAdress"
+      contact_details:
+        $ref: "#/definitions/ContactMedium"
+      caseListIds:
+        type: array
+        items:
+          type: string
+      financialAccount:
+        $ref: "#/definitions/FinancialAccountRef"
+    
+  FinancialAccountRef:
+    type: object
+    properties:
+      id: 
+        type: string
+        readOnly: true
+      _type: 
+        type: string
+        description: |
+          Type of the account belongs to the Customer
+      status:
+        type: string
+        description: |
+          status of FA will tell active or suspended
+          
+          
+  CustomerPostalAdress:
+    type: object
+    properties:
+      area:
+        type: string
+        description: |
+          Area of Postal adress
+      street:
+        type: string
+        description: |
+          street of Postal adress
+      city:
+        type: string
+        description: |
+          city of Postal adress
+      zipcode:
+        type: string
+        description: |
+          zipcode of Postal adress
+      country:
+        type: string
+        description: |
+          country of Postal adress
+          
+  ContactMedium:
+    type: object
+    properties:
+      email:
+        type: string
+        description: |
+          Email id of Particular Customer
+      mobile:
+        type: string
+        description: |
+          mobile of Particular Customer
+      fax:
+        type: string
+        description: |
+          fax of Particular Customer
+      alternate_number:
+        type: string
+        description: |
+          mobile of Particular Customer
+
+ 
+  
