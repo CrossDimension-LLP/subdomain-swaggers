@@ -1,0 +1,179 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation
+###################################################################
+
+info:
+  version: v1.0
+  title: Octopus Product Management
+  license:
+    name: Octopus
+
+
+host: example.com
+basePath : /productManagement/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /product:
+    get:
+      tags:
+        - "Product Management"
+      summary: "List of Products"
+      description: "Produces List of Products"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - List of Products Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+        400:
+          $ref: ""
+        500:
+          $ref: ""
+        404:
+          $ref: ""
+    post:
+      tags:
+        - "Product Management"
+      summary: "Create New Product"
+      description: "Produces List of Products"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Product Input
+          required: true
+          schema:
+            $ref: "#/definitions/ProductInput"
+      responses:
+        200:
+          description: |
+            *OK* - List of Products Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Product"
+        400:
+          $ref: ""
+        500:
+          $ref: ""
+        404:
+          $ref: ""
+
+  
+definitions:
+  Product:
+    type: object
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Product
+        readOnly: true
+      productType:
+        type: string
+        description: |
+          Type of the particular product
+      productSource:
+        $ref: "#/definitions/ProductSource"
+      productCategory:
+        $ref: "#/definitions/ProductCategory"
+  
+  
+  
+  ProductSource:
+    type: object
+    properties:
+      id:
+        type: string
+        description: |
+          Id of particular product source
+        readOnly: true
+      name:
+        type: string
+        description: |
+          name of the product source
+      sourceType:
+        type: string
+        description: |
+          source type of the product
+      domain:
+        type: string
+        description: |
+          domain of the product
+  
+
+  ProductCategory:
+    type: object
+    properties:
+      id:
+        type: string
+        description: |
+          Id of particular product category
+        readOnly: true
+      name:
+        type: string
+        description: |
+          name of the product category
+      desc:
+        type: string
+        description: |
+          desc of the product category
+      productCategory:
+        $ref: "#/definitions/ProductSubCategory"
+  
+  
+  ProductSubCategory:
+    type: object
+    properties:
+      id:
+        type: string
+        description: |
+          Id of particular product sub category
+        readOnly: true
+      name:
+        type: string
+        description: |
+          name of the product sub category
+      desc:
+        type: string
+        description: |
+          description of product sub category
+      functionalUnit:
+        $ref: ""
+  
+  
+
+  ProductInput:
+    type: object
+    required: [productType, productSource, productCategory]
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Product
+        readOnly: true
+      productType:
+        type: string
+        description: |
+          Type of the particular product
+      productSource:
+        $ref: "#/definitions/ProductSource"
+      productCategory:
+        $ref: "#/definitions/ProductCategory"
+
+  
