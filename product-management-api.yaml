@@ -84,6 +84,10 @@ definitions:
         description : |
           Id of Particular Product
         readOnly: true
+      name:
+        type: string
+        description: |
+          Name of the Product
       productType:
         type: string
         description: |
@@ -92,8 +96,29 @@ definitions:
         $ref: "#/definitions/ProductSource"
       productCategory:
         $ref: "#/definitions/ProductCategory"
+      subProducts:
+        type: array
+        items:
+          $ref: "#/definitions/SubProduct"
   
-  
+  SubProduct:
+    type: object
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Sub-Product
+        readOnly: true
+      name:
+        type: string
+        description: |
+          Name of the Sub-Product
+      productType:
+        type: string
+        description: |
+          Type of the particular sub-product
+      productCategory:
+        $ref: "#/definitions/ProductCategory"
   
   ProductSource:
     type: object
@@ -115,6 +140,10 @@ definitions:
         type: string
         description: |
           domain of the product
+      subdomain:
+        type: string
+        description: |
+          sub-domain of the product
   
 
   ProductCategory:
@@ -160,13 +189,17 @@ definitions:
 
   ProductInput:
     type: object
-    required: [productType, productSource, productCategory]
+    required: [name, productType, productSource, productCategory]
     properties:
       id:
         type: string
         description : |
           Id of Particular Product
         readOnly: true
+      name:
+        type: string
+        description: |
+          Name of the Product
       productType:
         type: string
         description: |
@@ -175,5 +208,9 @@ definitions:
         $ref: "#/definitions/ProductSource"
       productCategory:
         $ref: "#/definitions/ProductCategory"
+      subProducts:
+        type: array
+        items:
+          $ref: "#/definitions/SubProduct"
 
   
