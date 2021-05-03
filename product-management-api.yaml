@@ -5,10 +5,10 @@ swagger: '2.0'
 ###################################################################
 
 info:
-  version: v1.0
+  version: v1.0-beta
   title: Octopus Product Management
   license:
-    name: Octopus
+    name: Octopus.org
 
 
 host: example.com
@@ -27,11 +27,18 @@ paths:
       tags:
         - "Product Management"
       summary: "List of Products"
+      operationId: searchProduct
       description: "Produces List of Products"
       consumes:
         - "application/json"
       produces:
         - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          items:
+            type: string
       responses:
         200:
           description: |
@@ -41,16 +48,26 @@ paths:
             items:
               $ref: "#/definitions/Product"
         400:
-          $ref: ""
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
         500:
-          $ref: ""
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          $ref: ""
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
     post:
       tags:
         - "Product Management"
       summary: "Create New Product"
       description: "Produces List of Products"
+      operationId: createProduct
       consumes:
         - "application/json"
       produces:
@@ -68,11 +85,20 @@ paths:
           schema:
             $ref: "#/definitions/Product"
         400:
-          $ref: ""
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
         500:
-          $ref: ""
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          $ref: ""
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
 
   
 definitions:
@@ -162,7 +188,7 @@ definitions:
         type: string
         description: |
           desc of the product category
-      productCategory:
+      productSubCategory:
         $ref: "#/definitions/ProductSubCategory"
   
   
@@ -212,5 +238,23 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/SubProduct"
-
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
   
