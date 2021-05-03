@@ -1,11 +1,11 @@
 swagger: '2.0'
 
 ###################################################################
-#                     API Documentation
+#                     API Documentation                           #
 ###################################################################
 
 info:
-  version: v1.0
+  version: v1.0-beta
   title: Octopus Customer Management
   license:
     name: Octopus
@@ -22,17 +22,23 @@ produces:
   - application/json
 
 paths:
-  /admin/application:
+  /customer:
     get:
-      operationId: getApplication
+      operationId: searchCustomer
       tags:
-        - "Admin Management"
-      summary: "List of Admin Users"
-      description: "Produces List of Admin Users"
+        - "Customer Management"
+      summary: "List of Customers"
+      description: "Produces List of Customers"
       consumes:
         - "application/json"
       produces:
         - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          items:
+            type: string
       responses:
         200:
           description: |
@@ -40,69 +46,58 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AdminUserResponse"
+              $ref: "#/definitions/Customer"
         400:
-          $ref: "#/responses/400-BadRequest"
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
         500:
-          $ref: "#/responses/500-InternalServerError"
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          $ref: "#/responses/404-NotFound"
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
     post:
       tags:
-        - "Admin Management"
-      summary: "Create New Admin User"
-      description: "Produces List of Admin Users"
+        - "Customer Management"
+      summary: "Customer Registration"
+      description: "Creates New entry for the customer"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
         - in: body
-          name: Admin User Input
+          name: Customer Input
           required: true
           schema:
-            $ref: "#/definitions/AdminUserInput"
+            $ref: "#/definitions/Customer"
       responses:
         200:
           description: |
             *OK* - List of Admin Users Will be returned Successfully
           schema:
-            $ref: "#/definitions/AdminUserResponse"
+            $ref: "#/definitions/Customer"
         400:
-          $ref: "#/responses/400-BadRequest"
-        500:
-          $ref: "#/responses/500-InternalServerError"
-        404:
-          $ref: "#/responses/404-NotFound"
-
-  /admin/login:
-    post:
-      tags:
-        - "Admin Management"
-      summary: "Login Admin User"
-      description: "Logged in Admin User"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: body
-          name: Login Crendentials
-          required: true
-          schema:
-            $ref: "#/definitions/AdminLoginInput"
-      responses:
-        200:
           description: |
-            *OK* - List of Admin Users Will be returned Successfully
+            *Error* - Bad Request
           schema:
-            $ref: "#/definitions/AdminUserResponse"
-        400:
-          $ref: "#/responses/400-BadRequest"
+            $ref: "#/definitions/Error"
         500:
-          $ref: "#/responses/500-InternalServerError"
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
         404:
-          $ref: "#/responses/404-NotFound"
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
   Customer:
@@ -139,6 +134,10 @@ definitions:
           type: string
       financialAccount:
         $ref: "#/definitions/FinancialAccountRef"
+      status:
+        type: string
+      prefferedVendor:
+        $ref: "#/definitions/PreferredVendorRef"
     
   FinancialAccountRef:
     type: object
@@ -154,7 +153,6 @@ definitions:
         type: string
         description: |
           status of FA will tell active or suspended
-          
           
   CustomerPostalAdress:
     type: object
@@ -199,6 +197,36 @@ definitions:
         type: string
         description: |
           mobile of Particular Customer
-
+          
+  PreferredVendorRef:
+    type: object
+    required: [vendorId]
+    properties:
+      vendorId:
+        type: string
+        description: |
+          Vendor ID to which customer has choosen for
+      vendorName:
+        type: string
+        description: |
+          Vendor Name for Which customer wants to choose for
  
-  
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
