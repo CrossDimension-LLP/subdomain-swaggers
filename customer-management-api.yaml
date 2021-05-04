@@ -42,7 +42,7 @@ paths:
       responses:
         200:
           description: |
-            *OK* - List of Admin Users Will be returned Successfully
+            *OK* - List of Customer Will be returned Successfully
           schema:
             type: "array"
             items:
@@ -98,10 +98,97 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+  /customer/{customerId}:
+    get:
+      operationId: getCustomerById
+      tags:
+        - "Customer Management"
+      summary: "Specific Customer"
+      description: "Produces List of Customers"
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          type: string
+          description: |
+            "customer Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Customer Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Customer"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      operationId: updateCustomer
+      tags:
+        - "Customer Management"
+      summary: "Specific Customer Updation"
+      description: "Produces List of Customers"
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          type: string
+          description: |
+            "customer Id"
+        - in: header
+          name: If-Match
+          required: false
+          type: string
+          description: |
+            "customer Id"
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "customer patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Customer Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Customer"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+      
 
 definitions:
   Customer:
     type: object
+    required: [_type, firstName, postal_address]
     properties:
       id:
         type: string
@@ -137,7 +224,7 @@ definitions:
       status:
         type: string
       prefferedVendor:
-        $ref: "#/definitions/PreferredVendorRef"
+        $ref: "#/definitions/ProductSourceRef"
     
   FinancialAccountRef:
     type: object
@@ -156,6 +243,7 @@ definitions:
           
   CustomerPostalAdress:
     type: object
+    required: [city, zipcode, state, country]
     properties:
       area:
         type: string
@@ -169,6 +257,10 @@ definitions:
         type: string
         description: |
           city of Postal adress
+      state:
+        type: string
+        description: |
+          State of Postal adress
       zipcode:
         type: string
         description: |
@@ -198,7 +290,7 @@ definitions:
         description: |
           mobile of Particular Customer
           
-  PreferredVendorRef:
+  ProductSourceRef:
     type: object
     required: [vendorId]
     properties:
@@ -210,7 +302,25 @@ definitions:
         type: string
         description: |
           Vendor Name for Which customer wants to choose for
- 
+          
+  PatchElement:
+    type: array
+    items: 
+      properties:
+        op: 
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value: 
+          type: string
+          description: |
+            Value To be replaced
+        path: 
+          type: string
+          description: |
+            Object Path to be Patched
+
   Error:
     type: object
     properties:

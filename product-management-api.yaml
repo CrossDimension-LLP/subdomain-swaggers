@@ -21,7 +21,77 @@ consumes:
 produces:
   - application/json
 
-paths:
+paths: 
+  /category:
+    post:
+      tags:
+        - "Category Management"
+      summary: "Create Category"
+      operationId: createCategory
+      description: "Create Category"
+      parameters: 
+        - in: body
+          name: Category Input 
+          required: true
+          schema: 
+            $ref: "#/definitions/ProductCategory"
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          schema:
+            $ref: "#/definitions/ProductCategory"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  /category/groups:
+    post:
+      tags:
+        - "Category Management"
+      summary: "Grouping multiple Categories"
+      operationId: groupCategory
+      description: "Create Category"
+      parameters: 
+        - in: body
+          name: Group Inputs 
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductCategory"
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          schema:
+            $ref: "#/definitions/ProductCategory"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
   /product:
     get:
       tags:
@@ -122,29 +192,6 @@ definitions:
         $ref: "#/definitions/ProductSource"
       productCategory:
         $ref: "#/definitions/ProductCategory"
-      subProducts:
-        type: array
-        items:
-          $ref: "#/definitions/SubProduct"
-  
-  SubProduct:
-    type: object
-    properties:
-      id:
-        type: string
-        description : |
-          Id of Particular Sub-Product
-        readOnly: true
-      name:
-        type: string
-        description: |
-          Name of the Sub-Product
-      productType:
-        type: string
-        description: |
-          Type of the particular sub-product
-      productCategory:
-        $ref: "#/definitions/ProductCategory"
   
   ProductSource:
     type: object
@@ -174,44 +221,29 @@ definitions:
 
   ProductCategory:
     type: object
+    required: [name]
     properties:
       id:
         type: string
         description: |
           Id of particular product category
         readOnly: true
-      name:
+      categoryName:
         type: string
         description: |
           name of the product category
-      desc:
+      displayName:
+        type: string
+        description: |
+          name of the product which will be diplayed at UI
+      description:
         type: string
         description: |
           desc of the product category
       productSubCategory:
-        $ref: "#/definitions/ProductSubCategory"
-  
-  
-  ProductSubCategory:
-    type: object
-    properties:
-      id:
-        type: string
-        description: |
-          Id of particular product sub category
-        readOnly: true
-      name:
-        type: string
-        description: |
-          name of the product sub category
-      desc:
-        type: string
-        description: |
-          description of product sub category
-      functionalUnit:
-        $ref: ""
-  
-  
+        type: array
+        items:
+          $ref: "#/definitions/ProductCategory"
 
   ProductInput:
     type: object
@@ -234,10 +266,25 @@ definitions:
         $ref: "#/definitions/ProductSource"
       productCategory:
         $ref: "#/definitions/ProductCategory"
-      subProducts:
-        type: array
-        items:
-          $ref: "#/definitions/SubProduct"
+       
+  PatchElement:
+    type: array
+    items: 
+      properties:
+        op: 
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value: 
+          type: string
+          description: |
+            Value To be replaced
+        path: 
+          type: string
+          description: |
+            Object Path to be Patched
+            
   Error:
     type: object
     properties:
