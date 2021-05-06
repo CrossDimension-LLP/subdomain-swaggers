@@ -56,6 +56,48 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+            
+  /category/{categoryId}:
+    patch:
+      tags:
+        - "Category Management"
+      summary: "Grouping multiple Categories"
+      operationId: addSubCategory
+      description: "Create Category"
+      parameters: 
+        - in: path
+          name: categoryId
+          required: true
+          type: string
+          
+        - in: body
+          name: Sub Category Input
+          required: true
+          schema: 
+            $ref: "#/definitions/PatchSubProduct"
+            
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          schema:
+            $ref: "#/definitions/ProductCategory"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+          
   /category/groups:
     post:
       tags:
@@ -70,7 +112,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/ProductCategory"
+              $ref: "#/definitions/PatchSubProduct"
       responses:
         200:
           description: |
@@ -228,6 +270,10 @@ definitions:
         description: |
           Id of particular product category
         readOnly: true
+      parentId:
+        type: string
+        description: |
+          This is contain the Id of Immediate parent.
       categoryName:
         type: string
         description: |
@@ -236,6 +282,10 @@ definitions:
         type: string
         description: |
           name of the product which will be diplayed at UI
+      isParentCategory:
+        type: boolean
+        description: |
+          This is signifies that category is boolean or not
       description:
         type: string
         description: |
@@ -280,6 +330,22 @@ definitions:
           type: string
           description: |
             Value To be replaced
+        path: 
+          type: string
+          description: |
+            Object Path to be Patched
+            
+  PatchSubProduct:
+    type: array
+    items:
+      properties:
+        op: 
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value: 
+          $ref: "#/definitions/ProductCategory"
         path: 
           type: string
           description: |
