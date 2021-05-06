@@ -58,10 +58,44 @@ paths:
             $ref: "#/definitions/Error"
             
   /category/{categoryId}:
+    get:
+      tags:
+        - "Category Management"
+      summary: "Get Category by Id"
+      operationId: getCategoryById
+      description: "Create Category"
+      parameters: 
+        - in: path
+          name: categoryId
+          required: true
+          type: string
+          
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          schema:
+            $ref: "#/definitions/ProductCategory"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
     patch:
       tags:
         - "Category Management"
-      summary: "Grouping multiple Categories"
+      summary: "Adding Sub category by Patch"
       operationId: addSubCategory
       description: "Create Category"
       parameters: 
@@ -97,7 +131,8 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-          
+            
+            
   /category/groups:
     post:
       tags:
