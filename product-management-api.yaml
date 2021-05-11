@@ -23,6 +23,54 @@ produces:
 
 paths: 
   /category:
+    get:
+      tags:
+        - "Category Management"
+      summary: "Get Category"
+      operationId: searchCategory
+      description: "Create Category"
+      parameters: 
+        - in: query
+          name: filters
+          type: array
+          items:
+            type: string
+          description: |
+            List of Ids to be Inserted here.
+        - in: query
+          name: isParentCategory
+          type: boolean
+        - in: query
+          name: _type
+          type: array
+          items:
+            type: string
+          description: |
+            List of types to be Inserted here.
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/ProductCategory"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+          
     post:
       tags:
         - "Category Management"
@@ -31,10 +79,47 @@ paths:
       description: "Create Category"
       parameters: 
         - in: body
-          name: Category Input 
+          name: Category Input
           required: true
           schema: 
             $ref: "#/definitions/ProductCategory"
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          schema:
+            $ref: "#/definitions/ProductCategory"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /category/groups:
+    post:
+      tags:
+        - "Category Management"
+      summary: "Grouping multiple Categories"
+      operationId: groupCategory
+      description: "Create Category"
+      parameters: 
+        - in: body
+          name: Group Inputs 
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/ProductCategory"
       responses:
         200:
           description: |
@@ -132,22 +217,19 @@ paths:
           schema:
             $ref: "#/definitions/Error"
             
-            
-  /category/groups:
-    post:
+    delete: 
       tags:
         - "Category Management"
-      summary: "Grouping multiple Categories"
-      operationId: groupCategory
-      description: "Create Category"
+      summary: "Delete Category"
+      operationId: deleteCategory
+      description: "Delete Category"
       parameters: 
-        - in: body
-          name: Group Inputs 
+        - in: path
+          name: categoryId
+          type: string
           required: true
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/ProductCategory"
+          description: |
+            Id to be dleted here.
       responses:
         200:
           description: |
@@ -169,6 +251,8 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+      
+  
   /product:
     get:
       tags:
@@ -261,6 +345,10 @@ definitions:
         type: string
         description: |
           Name of the Product
+      displayName:
+        type: string
+        description: |
+          Display Name of the Product
       productType:
         type: string
         description: |
@@ -268,7 +356,7 @@ definitions:
       productSource:
         $ref: "#/definitions/ProductSource"
       productCategory:
-        $ref: "#/definitions/ProductCategory"
+        $ref: "#/definitions/ProductCategoryRef"
   
   ProductSource:
     type: object
@@ -295,10 +383,8 @@ definitions:
         description: |
           sub-domain of the product
   
-
-  ProductCategory:
+  ProductCategoryRef:
     type: object
-    required: [name]
     properties:
       id:
         type: string
@@ -317,6 +403,40 @@ definitions:
         type: string
         description: |
           name of the product which will be diplayed at UI
+      _type:
+        type: string
+        description: |
+          type of the product which will be diplayed at UI
+
+  ProductCategory:
+    type: object
+    required: [name, _type, subType, parentId, isParentCategory, categoryName]
+    properties:
+      id:
+        type: string
+        description: |
+          Id of particular product category
+        readOnly: true
+      parentId:
+        type: string
+        description: |
+          This is contain the Id of Immediate parent.
+      categoryName:
+        type: string
+        description: |
+          name of the product category
+      displayName:
+        type: string
+        description: |
+          name of the product which will be diplayed at UI
+      _type:
+        type: string
+        description: |
+          type of the product which will be diplayed at UI
+      subType:
+        type: string
+        description: |
+          Subtype of the product which will be diplayed at UI
       isParentCategory:
         type: boolean
         description: |
