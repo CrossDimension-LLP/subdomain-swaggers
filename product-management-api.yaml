@@ -147,7 +147,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/PatchSubProduct"
+              $ref: "#/definitions/ProductCategory"
       responses:
         200:
           description: |
