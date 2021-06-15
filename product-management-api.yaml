@@ -1,219 +1,309 @@
-swagger: '2.0'
-
-###################################################################
-#                     API Documentation
-###################################################################
-
-
-host: example.com
-basePath : /productManagement/v1
-schemes:
-  - https
-  - http
-consumes:
-  - application/json
-produces:
-  - application/json
-
-paths: 
+openapi: 3.0.1
+info:
+  title: Octopus Product Management
+  license:
+    name: Octopus.org
+  version: v1.0.0-beta
+servers:
+- url: https://example.com/productManagement/v1
+- url: http://example.com/productManagement/v1
+paths:
   /category:
-          
-    post:
+    get:
       tags:
-        - "Category Management"
-      summary: "Create Category"
-      operationId: createCategory
-      description: "Create Category"
-      parameters: 
-        - in: body
-          name: Category Input
-          required: true
-          schema: 
-            $ref: "#/definitions/ProductCategory"
+      - Category Management
+      summary: Get Category
+      description: Create Category
+      operationId: searchCategory
+      parameters:
+      - name: filters
+        in: query
+        description: |
+          List of Ids to be Inserted here.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: isParentCategory
+        in: query
+        schema:
+          type: boolean
+      - name: _type
+        in: query
+        description: |
+          List of types to be Inserted here.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
       responses:
         200:
           description: |
             *OK* - Product Category Will be returned Successfully
-          schema:
-            $ref: "#/definitions/ProductCategory"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductCategory'
         400:
           description: |
             *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: |
             *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-            
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - Category Management
+      summary: Create Category
+      description: Create Category
+      operationId: createCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategory'
+        required: true
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+        400:
+          description: |
+            *Error* - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: |
+            *Error* - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: Category Input
   /category/groups:
     post:
       tags:
-        - "Category Management"
-      summary: "Grouping multiple Categories"
+      - Category Management
+      summary: Grouping multiple Categories
+      description: Create Category
       operationId: groupCategory
-      description: "Create Category"
-      parameters: 
-        - in: body
-          name: Group Inputs 
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/ProductCategory"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductCategory'
+        required: true
       responses:
         200:
           description: |
             *OK* - Product Category Will be returned Successfully
-          schema:
-            $ref: "#/definitions/ProductCategory"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
         400:
           description: |
             *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: |
             *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-            
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: Group Inputs
   /category/{categoryId}:
     get:
       tags:
-        - "Category Management"
-      summary: "Get Category by Id"
+      - Category Management
+      summary: Get Category by Id
+      description: Create Category
       operationId: getCategoryById
-      description: "Create Category"
-      parameters: 
-        - in: path
-          name: categoryId
-          required: true
+      parameters:
+      - name: categoryId
+        in: path
+        required: true
+        schema:
           type: string
-          
       responses:
         200:
           description: |
             *OK* - Product Category Will be returned Successfully
-          schema:
-            $ref: "#/definitions/ProductCategory"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
         400:
           description: |
             *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: |
             *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-            
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - Category Management
+      summary: Delete Category
+      description: Delete Category
+      operationId: deleteCategory
+      parameters:
+      - name: categoryId
+        in: path
+        description: |
+          Id to be dleted here.
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: |
+            *OK* - Product Category Will be returned Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+        400:
+          description: |
+            *Error* - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: |
+            *Error* - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     patch:
       tags:
-        - "Category Management"
-      summary: "Adding Sub category by Patch"
+      - Category Management
+      summary: Adding Sub category by Patch
+      description: Create Category
       operationId: addSubCategory
-      description: "Create Category"
-      parameters: 
-        - in: path
-          name: categoryId
-          required: true
+      parameters:
+      - name: categoryId
+        in: path
+        required: true
+        schema:
           type: string
-          
-        - in: body
-          name: Sub Category Input
-          required: true
-          schema: 
-            $ref: "#/definitions/PatchSubProduct"
-            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchSubProduct'
+        required: true
       responses:
         200:
           description: |
             *OK* - Product Category Will be returned Successfully
-          schema:
-            $ref: "#/definitions/ProductCategory"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
         400:
           description: |
             *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: |
             *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-            
-    delete: 
-      tags:
-        - "Category Management"
-      summary: "Delete Category"
-      operationId: deleteCategory
-      description: "Delete Category"
-      parameters: 
-        - in: path
-          name: categoryId
-          type: string
-          required: true
-          description: |
-            Id to be dleted here.
-      responses:
-        200:
-          description: |
-            *OK* - Product Category Will be returned Successfully
-          schema:
-            $ref: "#/definitions/ProductCategory"
-        400:
-          description: |
-            *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         500:
           description: |
             *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-      
-  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: Sub Category Input
   /product:
     get:
       tags:
-        - "Product Management"
-      summary: "List of Products"
+      - Product Management
+      summary: List of Products
+      description: Produces List of Products
       operationId: searchProduct
-      description: "Produces List of Products"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
       parameters:
-        - in: query
-          name: filters
+      - name: filters
+        in: query
+        style: form
+        explode: false
+        schema:
           type: array
           items:
             type: string
@@ -221,250 +311,247 @@ paths:
         200:
           description: |
             *OK* - List of Products Will be returned Successfully
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Product"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
         400:
           description: |
             *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: |
             *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       tags:
-        - "Product Management"
-      summary: "Create New Product"
-      description: "Produces List of Products"
+      - Product Management
+      summary: Create New Product
+      description: Produces List of Products
       operationId: createProduct
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: body
-          name: Product Input
-          required: true
-          schema:
-            $ref: "#/definitions/ProductInput"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+        required: true
       responses:
         200:
           description: |
             *OK* - List of Products Will be returned Successfully
-          schema:
-            $ref: "#/definitions/Product"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
         400:
           description: |
             *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         404:
           description: |
             *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-
-  
-definitions:
-  Product:
-    type: object
-    properties:
-      id:
-        type: string
-        description : |
-          Id of Particular Product
-      name:
-        type: string
-        description: |
-          Name of the Product
-      displayName:
-        type: string
-        description: |
-          Display Name of the Product
-      productType:
-        type: string
-        description: |
-          Type of the particular product
-      productSource:
-        $ref: "#/definitions/ProductSource"
-      productCategory:
-        $ref: "#/definitions/ProductCategoryRef"
-  
-  ProductSource:
-    type: object
-    properties:
-      id:
-        type: string
-        description: |
-          Id of particular product source
-      name:
-        type: string
-        description: |
-          name of the product source
-      sourceType:
-        type: string
-        description: |
-          source type of the product
-      domain:
-        type: string
-        description: |
-          domain of the product
-      subdomain:
-        type: string
-        description: |
-          sub-domain of the product
-  
-  ProductCategoryRef:
-    type: object
-    properties:
-      id:
-        type: string
-        description: |
-          Id of particular product category
-      parentId:
-        type: string
-        description: |
-          This is contain the Id of Immediate parent.
-      categoryName:
-        type: string
-        description: |
-          name of the product category
-      displayName:
-        type: string
-        description: |
-          name of the product which will be diplayed at UI
-      _type:
-        type: string
-        description: |
-          type of the product which will be diplayed at UI
-
-  ProductCategory:
-    type: object
-    required: [name, _type, subType, parentId, isParentCategory, categoryName]
-    properties:
-      id:
-        type: string
-        description: |
-          Id of particular product category
-      parentId:
-        type: string
-        description: |
-          This is contain the Id of Immediate parent.
-      categoryName:
-        type: string
-        description: |
-          name of the product category
-      displayName:
-        type: string
-        description: |
-          name of the product which will be diplayed at UI
-      _type:
-        type: string
-        description: |
-          type of the product which will be diplayed at UI
-      subType:
-        type: string
-        description: |
-          Subtype of the product which will be diplayed at UI
-      isParentCategory:
-        type: boolean
-        description: |
-          This is signifies that category is boolean or not
-      description:
-        type: string
-        description: |
-          desc of the product category
-      productSubCategory:
-        type: array
-        items:
-          $ref: "#/definitions/ProductCategory"
-
-  ProductInput:
-    type: object
-    required: [name, productType, productSource, productCategory]
-    properties:
-      id:
-        type: string
-        description : |
-          Id of Particular Product
-      name:
-        type: string
-        description: |
-          Name of the Product
-      productType:
-        type: string
-        description: |
-          Type of the particular product
-      productSource:
-        $ref: "#/definitions/ProductSource"
-      productCategory:
-        $ref: "#/definitions/ProductCategory"
-       
-  PatchElement:
-    type: array
-    items: 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: |
+            *Error* - Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: Product Input
+components:
+  schemas:
+    Product:
+      type: object
       properties:
-        op: 
+        id:
           type: string
           description: |
-            Operation To be performed
-          example: add, remove, replace
-        value: 
+            Id of Particular Product
+        name:
           type: string
           description: |
-            Value To be replaced
-        path: 
+            Name of the Product
+        displayName:
           type: string
           description: |
-            Object Path to be Patched
-            
-  PatchSubProduct:
-    type: array
-    items:
+            Display Name of the Product
+        productType:
+          type: string
+          description: |
+            Type of the particular product
+        productSource:
+          $ref: '#/components/schemas/ProductSource'
+        productCategory:
+          $ref: '#/components/schemas/ProductCategoryRef'
+    ProductSource:
+      type: object
       properties:
-        op: 
+        id:
           type: string
           description: |
-            Operation To be performed
-          example: add, remove, replace
-        value: 
-          $ref: "#/definitions/ProductCategory"
-        path: 
+            Id of particular product source
+        name:
           type: string
           description: |
-            Object Path to be Patched
-            
-  Error:
-    type: object
-    properties:
-      status:
-        type: string
-        description: |
-          Status of the error code
-      message:
-        type: string
-        description: |
-          Error message
-      details:
-        type: string
-        description: |
-          Error Details
-      path:
-        type: string
-        description: |
-          Error Path
-  
+            name of the product source
+        sourceType:
+          type: string
+          description: |
+            source type of the product
+        domain:
+          type: string
+          description: |
+            domain of the product
+        subdomain:
+          type: string
+          description: |
+            sub-domain of the product
+    ProductCategoryRef:
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Id of particular product category
+        parentId:
+          type: string
+          description: |
+            This is contain the Id of Immediate parent.
+        categoryName:
+          type: string
+          description: |
+            name of the product category
+        displayName:
+          type: string
+          description: |
+            name of the product which will be diplayed at UI
+        _type:
+          type: string
+          description: |
+            type of the product which will be diplayed at UI
+    ProductCategory:
+      required:
+      - _type
+      - categoryName
+      - isParentCategory
+      - parentId
+      - subType
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Id of particular product category
+        parentId:
+          type: string
+          description: |
+            This is contain the Id of Immediate parent.
+        categoryName:
+          type: string
+          description: |
+            name of the product category
+        displayName:
+          type: string
+          description: |
+            name of the product which will be diplayed at UI
+        _type:
+          type: string
+          description: |
+            type of the product which will be diplayed at UI
+        subType:
+          type: string
+          description: |
+            Subtype of the product which will be diplayed at UI
+        isParentCategory:
+          type: boolean
+          description: |
+            This is signifies that category is boolean or not
+        description:
+          type: string
+          description: |
+            desc of the product category
+        productSubCategory:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+    ProductInput:
+      required:
+      - name
+      - productCategory
+      - productSource
+      - productType
+      type: object
+      properties:
+        id:
+          type: string
+          description: |
+            Id of Particular Product
+        name:
+          type: string
+          description: |
+            Name of the Product
+        productType:
+          type: string
+          description: |
+            Type of the particular product
+        productSource:
+          $ref: '#/components/schemas/ProductSource'
+        productCategory:
+          $ref: '#/components/schemas/ProductCategory'
+    PatchSubProduct:
+      type: array
+      items:
+        type: object
+        properties:
+          op:
+            type: string
+            description: |
+              Operation To be performed
+            example: add, remove, replace
+          value:
+            $ref: '#/components/schemas/ProductCategory'
+          path:
+            type: string
+            description: |
+              Object Path to be Patched
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          description: |
+            Status of the error code
+        message:
+          type: string
+          description: |
+            Error message
+        details:
+          type: string
+          description: |
+            Error Details
+        path:
+          type: string
+          description: |
+            Error Path
