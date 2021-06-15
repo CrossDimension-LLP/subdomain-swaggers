@@ -1,8 +1,1 @@
-swagger: '2.0'
-info:
-  version: v1.0.0-beta
-  title: Octopus Product Management
-  license:
-    name: Octopus.org
-host: example.com
-basePath: /productManagement/v1
+
