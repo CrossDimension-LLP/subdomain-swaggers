@@ -131,7 +131,7 @@ paths:
             *Error* - Internal Server error
           schema:
             $ref: '#/definitions/Error'
-  '/category/{categoryId}':
+  /category/{categoryId}:
     get:
       tags:
         - Category Management
