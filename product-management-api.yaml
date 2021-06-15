@@ -5,7 +5,7 @@ swagger: '2.0'
 ###################################################################
 
 info:
-  version: v1.0-beta
+  version: v1.0.0-beta
   title: Octopus Product Management
   license:
     name: Octopus.org
@@ -27,7 +27,7 @@ paths:
       tags:
         - "Category Management"
       summary: "Get Category"
-      operationId: searchCategory
+      operation: searchCategory
       description: "Create Category"
       parameters: 
         - in: query
@@ -340,7 +340,6 @@ definitions:
         type: string
         description : |
           Id of Particular Product
-        readOnly: true
       name:
         type: string
         description: |
@@ -365,7 +364,6 @@ definitions:
         type: string
         description: |
           Id of particular product source
-        readOnly: true
       name:
         type: string
         description: |
@@ -390,7 +388,6 @@ definitions:
         type: string
         description: |
           Id of particular product category
-        readOnly: true
       parentId:
         type: string
         description: |
@@ -416,7 +413,6 @@ definitions:
         type: string
         description: |
           Id of particular product category
-        readOnly: true
       parentId:
         type: string
         description: |
@@ -458,7 +454,6 @@ definitions:
         type: string
         description : |
           Id of Particular Product
-        readOnly: true
       name:
         type: string
         description: |

@@ -194,7 +194,6 @@ definitions:
         type: string
         description : |
           Id of Particular Customer
-        readOnly: true
       firstName:
         type: string
         description: |
@@ -231,7 +230,6 @@ definitions:
     properties:
       id: 
         type: string
-        readOnly: true
       _type: 
         type: string
         description: |
