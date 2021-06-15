@@ -33,7 +33,7 @@ paths:
           name: isParentCategory
           type: boolean
         - in: query
-          name: _type
+          name: type
           type: array
           items:
             type: string
