@@ -17,53 +17,6 @@ produces:
 
 paths: 
   /category:
-    get:
-      tags:
-        - "Category Management"
-      summary: "Get Category"
-      operationId: searchCategory
-      description: "Create Category"
-      parameters: 
-        - in: query
-          name: filters
-          type: array
-          items:
-            type: string
-          description: |
-            List of Ids to be Inserted here.
-        - in: query
-          name: isParentCategory
-          type: boolean
-        - in: query
-          name: _type
-          type: array
-          items:
-            type: string
-          description: |
-            List of types to be Inserted here.
-      responses:
-        200:
-          description: |
-            *OK* - Product Category Will be returned Successfully
-          schema:
-            type: array
-            items: 
-              $ref: "#/definitions/ProductCategory"
-        400:
-          description: |
-            *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
           
     post:
       tags:
