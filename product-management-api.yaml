@@ -6,10 +6,3 @@ info:
     name: Octopus.org
 host: example.com
 basePath: /productManagement/v1
-schemes:
-  - https
-  - http
-consumes:
-  - application/json
-produces:
-  - application/json
