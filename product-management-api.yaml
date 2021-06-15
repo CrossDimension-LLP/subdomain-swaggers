@@ -27,7 +27,7 @@ paths:
       tags:
         - "Category Management"
       summary: "Get Category"
-      operation: searchCategory
+      operationId: searchCategory
       description: "Create Category"
       parameters: 
         - in: query
