@@ -1,0 +1,455 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "v1.0-beta",
+    "title": "Octopus Customer Management",
+    "license": {
+      "name": "Octopus"
+    }
+  },
+  "host": "example.com",
+  "basePath": "/customerManagement/v1",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/customer": {
+      "get": {
+        "operationId": "searchCustomer",
+        "tags": [
+          "Customer Management"
+        ],
+        "summary": "List of Customers",
+        "description": "Produces List of Customers",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - List of Customer Will be returned Successfully\n",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Customer"
+              }
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Customer Management"
+        ],
+        "summary": "Customer Registration",
+        "description": "Creates New entry for the customer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Customer Input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - List of Admin Users Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/customer/{customerId}": {
+      "get": {
+        "operationId": "getCustomerById",
+        "tags": [
+          "Customer Management"
+        ],
+        "summary": "Specific Customer",
+        "description": "Produces List of Customers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "type": "string",
+            "description": "\"customer Id\"\n"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Specific Customer Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateCustomer",
+        "tags": [
+          "Customer Management"
+        ],
+        "summary": "Specific Customer Updation",
+        "description": "Produces List of Customers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "type": "string",
+            "description": "\"customer Id\"\n"
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": false,
+            "type": "string",
+            "description": "\"customer Id\"\n"
+          },
+          {
+            "in": "body",
+            "name": "Patch Element",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchElement"
+            },
+            "description": "\"customer patch element\"\n"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Specific Customer Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "419": {
+            "description": "*Error* - Conflict\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteCustomer",
+        "tags": [
+          "Customer Management"
+        ],
+        "summary": "Specific Customer Deletion",
+        "description": "delete Specific Customer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customerId",
+            "required": true,
+            "type": "string",
+            "description": "\"customer Id\"\n"
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": false,
+            "type": "string",
+            "description": "\"customer Id\"\n"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Specific Customer Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "419": {
+            "description": "*Error* - Conflict\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Customer": {
+      "type": "object",
+      "required": [
+        "_type",
+        "firstName",
+        "postal_address",
+        "billing_address"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of Particular Customer\n"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of Particular Customer\n"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of Particular Customer\n"
+        },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of Particular Customer\n"
+        },
+        "_type": {
+          "type": "string",
+          "description": "Type of Particular Customer\n"
+        },
+        "postal_address": {
+          "$ref": "#/definitions/CustomerPostalAdress"
+        },
+        "billing_address": {
+          "$ref": "#/definitions/CustomerPostalAdress"
+        },
+        "contact_details": {
+          "$ref": "#/definitions/ContactMedium"
+        },
+        "financialAccount": {
+          "$ref": "#/definitions/FinancialAccountRef"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "FinancialAccountRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "_type": {
+          "type": "string",
+          "description": "Type of the account belongs to the Customer\n"
+        },
+        "status": {
+          "type": "string",
+          "description": "status of FA will tell active or suspended\n"
+        }
+      }
+    },
+    "CustomerPostalAdress": {
+      "type": "object",
+      "required": [
+        "city",
+        "zipcode",
+        "state",
+        "country"
+      ],
+      "properties": {
+        "area": {
+          "type": "string",
+          "description": "Area of Postal adress\n"
+        },
+        "street": {
+          "type": "string",
+          "description": "street of Postal adress\n"
+        },
+        "city": {
+          "type": "string",
+          "description": "city of Postal adress\n"
+        },
+        "state": {
+          "type": "string",
+          "description": "State of Postal adress\n"
+        },
+        "zipcode": {
+          "type": "string",
+          "description": "zipcode of Postal adress\n"
+        },
+        "country": {
+          "type": "string",
+          "description": "country of Postal adress\n"
+        }
+      }
+    },
+    "ContactMedium": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email id of Particular Customer\n"
+        },
+        "mobile": {
+          "type": "string",
+          "description": "mobile of Particular Customer\n"
+        },
+        "fax": {
+          "type": "string",
+          "description": "fax of Particular Customer\n"
+        },
+        "alternate_number": {
+          "type": "string",
+          "description": "mobile of Particular Customer\n"
+        }
+      }
+    },
+    "PatchElement": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "Operation To be performed\n",
+            "example": "add, remove, replace"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value To be replaced\n"
+          },
+          "path": {
+            "type": "string",
+            "description": "Object Path to be Patched\n"
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of the error code\n"
+        },
+        "message": {
+          "type": "string",
+          "description": "Error message\n"
+        },
+        "details": {
+          "type": "string",
+          "description": "Error Details\n"
+        },
+        "path": {
+          "type": "string",
+          "description": "Error Path\n"
+        }
+      }
+    }
+  }
+}
