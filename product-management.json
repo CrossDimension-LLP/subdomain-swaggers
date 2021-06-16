@@ -1,0 +1,619 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Octopus Product Management"
+  },
+  "host": "example.com",
+  "basePath": "/productManagement/v1",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/category": {
+      "get": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Get Category",
+        "operationId": "searchCategory",
+        "description": "Create Category",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of Ids to be Inserted here.\n"
+          },
+          {
+            "in": "query",
+            "name": "isParentCategory",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of types to be Inserted here.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Product Category Will be returned Successfully\n",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductCategory"
+              }
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Create Category",
+        "operationId": "createCategory",
+        "description": "Create Category",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Category Input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Product Category Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/category/groups": {
+      "post": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Grouping multiple Categories",
+        "operationId": "groupCategory",
+        "description": "Create Category",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Group Inputs",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductCategory"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Product Category Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/category/{categoryId}": {
+      "get": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Get Category by Id",
+        "operationId": "getCategoryById",
+        "description": "Create Category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Product Category Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Adding Sub category by Patch",
+        "operationId": "addSubCategory",
+        "description": "Create Category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Sub Category Input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchSubProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Product Category Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Category Management"
+        ],
+        "summary": "Delete Category",
+        "operationId": "deleteCategory",
+        "description": "Delete Category",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "type": "string",
+            "required": true,
+            "description": "Id to be dleted here.\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - Product Category Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/ProductCategory"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/product": {
+      "get": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "List of Products",
+        "operationId": "searchProduct",
+        "description": "Produces List of Products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - List of Products Will be returned Successfully\n",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product Management"
+        ],
+        "summary": "Create New Product",
+        "description": "Produces List of Products",
+        "operationId": "createProduct",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Product Input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "*OK* - List of Products Will be returned Successfully\n",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "*Error* - Bad Request\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "*Error* - Not Found\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "*Error* - Internal Server error\n",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of Particular Product\n"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the Product\n"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display Name of the Product\n"
+        },
+        "productType": {
+          "type": "string",
+          "description": "Type of the particular product\n"
+        },
+        "productSource": {
+          "$ref": "#/definitions/ProductSource"
+        },
+        "productCategory": {
+          "$ref": "#/definitions/ProductCategoryRef"
+        }
+      }
+    },
+    "ProductSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of particular product source\n"
+        },
+        "name": {
+          "type": "string",
+          "description": "name of the product source\n"
+        },
+        "sourceType": {
+          "type": "string",
+          "description": "source type of the product\n"
+        },
+        "domain": {
+          "type": "string",
+          "description": "domain of the product\n"
+        },
+        "subdomain": {
+          "type": "string",
+          "description": "sub-domain of the product\n"
+        }
+      }
+    },
+    "ProductCategoryRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of particular product category\n"
+        },
+        "parentId": {
+          "type": "string",
+          "description": "This is contain the Id of Immediate parent.\n"
+        },
+        "categoryName": {
+          "type": "string",
+          "description": "name of the product category\n"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "name of the product which will be diplayed at UI\n"
+        },
+        "_type": {
+          "type": "string",
+          "description": "type of the product which will be diplayed at UI\n"
+        }
+      }
+    },
+    "ProductCategory": {
+      "type": "object",
+      "required": [
+        "name",
+        "_type",
+        "subType",
+        "parentId",
+        "isParentCategory",
+        "categoryName"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of particular product category\n"
+        },
+        "parentId": {
+          "type": "string",
+          "description": "This is contain the Id of Immediate parent.\n"
+        },
+        "categoryName": {
+          "type": "string",
+          "description": "name of the product category\n"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "name of the product which will be diplayed at UI\n"
+        },
+        "_type": {
+          "type": "string",
+          "description": "type of the product which will be diplayed at UI\n"
+        },
+        "subType": {
+          "type": "string",
+          "description": "Subtype of the product which will be diplayed at UI\n"
+        },
+        "isParentCategory": {
+          "type": "boolean",
+          "description": "This is signifies that category is boolean or not\n"
+        },
+        "description": {
+          "type": "string",
+          "description": "desc of the product category\n"
+        },
+        "productSubCategory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductCategory"
+          }
+        }
+      }
+    },
+    "ProductInput": {
+      "type": "object",
+      "required": [
+        "name",
+        "productType",
+        "productSource",
+        "productCategory"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of Particular Product\n"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the Product\n"
+        },
+        "productType": {
+          "type": "string",
+          "description": "Type of the particular product\n"
+        },
+        "productSource": {
+          "$ref": "#/definitions/ProductSource"
+        },
+        "productCategory": {
+          "$ref": "#/definitions/ProductCategory"
+        }
+      }
+    },
+    "PatchSubProduct": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "Operation To be performed\n",
+            "example": "add, remove, replace"
+          },
+          "value": {
+            "$ref": "#/definitions/ProductCategory"
+          },
+          "path": {
+            "type": "string",
+            "description": "Object Path to be Patched\n"
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of the error code\n"
+        },
+        "message": {
+          "type": "string",
+          "description": "Error message\n"
+        },
+        "details": {
+          "type": "string",
+          "description": "Error Details\n"
+        },
+        "path": {
+          "type": "string",
+          "description": "Error Path\n"
+        }
+      }
+    }
+  }
+}
