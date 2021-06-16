@@ -1,7 +1,4 @@
 swagger: '2.0'
-info:
-  version: v1.0-beta
-  title: Octopus Product Management
 host: example.com
 basePath: /productManagement/v1
 schemes:
