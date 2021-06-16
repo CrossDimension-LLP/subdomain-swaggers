@@ -1,8 +1,7 @@
+swagger: '2.0'
 info:
-  version: v1.0.0-beta
+  version: v1.0-beta
   title: Octopus Product Management
-  license:
-    name: Octopus.org
 host: example.com
 basePath: /productManagement/v1
 schemes:
@@ -39,24 +38,24 @@ paths:
           description: |
             List of types to be Inserted here.
       responses:
-        '200':
+        200:
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
             type: array
             items:
               $ref: '#/definitions/ProductCategory'
-        '400':
+        400:
           description: |
             *Error* - Bad Request
           schema:
             $ref: '#/definitions/Error'
-        '404':
+        404:
           description: |
             *Error* - Not Found
           schema:
             $ref: '#/definitions/Error'
-        '500':
+        500:
           description: |
             *Error* - Internal Server error
           schema:
@@ -451,23 +450,7 @@ definitions:
         $ref: '#/definitions/ProductSource'
       productCategory:
         $ref: '#/definitions/ProductCategory'
-  PatchElement:
-    type: array
-    items:
-      properties:
-        op:
-          type: string
-          description: |
-            Operation To be performed
-          example: 'add, remove, replace'
-        value:
-          type: string
-          description: |
-            Value To be replaced
-        path:
-          type: string
-          description: |
-            Object Path to be Patched
+        
   PatchSubProduct:
     type: array
     items:
