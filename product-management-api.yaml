@@ -1,18 +1,10 @@
-swagger: '2.0'
-
-###################################################################
-#                     API Documentation
-###################################################################
-
 info:
   version: v1.0.0-beta
   title: Octopus Product Management
   license:
     name: Octopus.org
-
-
 host: example.com
-basePath : /productManagement/v1
+basePath: /productManagement/v1
 schemes:
   - https
   - http
@@ -20,16 +12,15 @@ consumes:
   - application/json
 produces:
   - application/json
-
-paths: 
+paths:
   /category:
     get:
       tags:
-        - "Category Management"
-      summary: "Get Category"
+        - Category Management
+      summary: Get Category
       operationId: searchCategory
-      description: "Create Category"
-      parameters: 
+      description: Create Category
+      parameters:
         - in: query
           name: filters
           type: array
@@ -41,189 +32,181 @@ paths:
           name: isParentCategory
           type: boolean
         - in: query
-          name: _type
+          name: type
           type: array
           items:
             type: string
           description: |
             List of types to be Inserted here.
       responses:
-        200:
+        '200':
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
             type: array
-            items: 
-              $ref: "#/definitions/ProductCategory"
-        400:
+            items:
+              $ref: '#/definitions/ProductCategory'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-          
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
     post:
       tags:
-        - "Category Management"
-      summary: "Create Category"
+        - Category Management
+      summary: Create Category
       operationId: createCategory
-      description: "Create Category"
-      parameters: 
+      description: Create Category
+      parameters:
         - in: body
           name: Category Input
           required: true
-          schema: 
-            $ref: "#/definitions/ProductCategory"
+          schema:
+            $ref: '#/definitions/ProductCategory'
       responses:
-        200:
+        '200':
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
-            $ref: "#/definitions/ProductCategory"
-        400:
+            $ref: '#/definitions/ProductCategory'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-            
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
   /category/groups:
     post:
       tags:
-        - "Category Management"
-      summary: "Grouping multiple Categories"
+        - Category Management
+      summary: Grouping multiple Categories
       operationId: groupCategory
-      description: "Create Category"
-      parameters: 
+      description: Create Category
+      parameters:
         - in: body
-          name: Group Inputs 
+          name: Group Inputs
           required: true
           schema:
             type: array
             items:
-              $ref: "#/definitions/ProductCategory"
+              $ref: '#/definitions/ProductCategory'
       responses:
-        200:
+        '200':
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
-            $ref: "#/definitions/ProductCategory"
-        400:
+            $ref: '#/definitions/ProductCategory'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-            
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
   /category/{categoryId}:
     get:
       tags:
-        - "Category Management"
-      summary: "Get Category by Id"
+        - Category Management
+      summary: Get Category by Id
       operationId: getCategoryById
-      description: "Create Category"
-      parameters: 
+      description: Create Category
+      parameters:
         - in: path
           name: categoryId
           required: true
           type: string
-          
       responses:
-        200:
+        '200':
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
-            $ref: "#/definitions/ProductCategory"
-        400:
+            $ref: '#/definitions/ProductCategory'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-            
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
     patch:
       tags:
-        - "Category Management"
-      summary: "Adding Sub category by Patch"
+        - Category Management
+      summary: Adding Sub category by Patch
       operationId: addSubCategory
-      description: "Create Category"
-      parameters: 
+      description: Create Category
+      parameters:
         - in: path
           name: categoryId
           required: true
           type: string
-          
         - in: body
           name: Sub Category Input
           required: true
-          schema: 
-            $ref: "#/definitions/PatchSubProduct"
-            
+          schema:
+            $ref: '#/definitions/PatchSubProduct'
       responses:
-        200:
+        '200':
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
-            $ref: "#/definitions/ProductCategory"
-        400:
+            $ref: '#/definitions/ProductCategory'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-            
-    delete: 
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
       tags:
-        - "Category Management"
-      summary: "Delete Category"
+        - Category Management
+      summary: Delete Category
       operationId: deleteCategory
-      description: "Delete Category"
-      parameters: 
+      description: Delete Category
+      parameters:
         - in: path
           name: categoryId
           type: string
@@ -231,39 +214,37 @@ paths:
           description: |
             Id to be dleted here.
       responses:
-        200:
+        '200':
           description: |
             *OK* - Product Category Will be returned Successfully
           schema:
-            $ref: "#/definitions/ProductCategory"
-        400:
+            $ref: '#/definitions/ProductCategory'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-      
-  
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
   /product:
     get:
       tags:
-        - "Product Management"
-      summary: "List of Products"
+        - Product Management
+      summary: List of Products
       operationId: searchProduct
-      description: "Produces List of Products"
+      description: Produces List of Products
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
         - in: query
           name: filters
@@ -271,74 +252,72 @@ paths:
           items:
             type: string
       responses:
-        200:
+        '200':
           description: |
             *OK* - List of Products Will be returned Successfully
           schema:
-            type: "array"
+            type: array
             items:
-              $ref: "#/definitions/Product"
-        400:
+              $ref: '#/definitions/Product'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
     post:
       tags:
-        - "Product Management"
-      summary: "Create New Product"
-      description: "Produces List of Products"
+        - Product Management
+      summary: Create New Product
+      description: Produces List of Products
       operationId: createProduct
       consumes:
-        - "application/json"
+        - application/json
       produces:
-        - "application/json"
+        - application/json
       parameters:
         - in: body
           name: Product Input
           required: true
           schema:
-            $ref: "#/definitions/ProductInput"
+            $ref: '#/definitions/ProductInput'
       responses:
-        200:
+        '200':
           description: |
             *OK* - List of Products Will be returned Successfully
           schema:
-            $ref: "#/definitions/Product"
-        400:
+            $ref: '#/definitions/Product'
+        '400':
           description: |
             *Error* - Bad Request
           schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
+            $ref: '#/definitions/Error'
+        '404':
           description: |
             *Error* - Not Found
           schema:
-            $ref: "#/definitions/Error"
-
-  
+            $ref: '#/definitions/Error'
+        '500':
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   Product:
     type: object
     properties:
       id:
         type: string
-        description : |
+        description: |
           Id of Particular Product
       name:
         type: string
@@ -353,10 +332,9 @@ definitions:
         description: |
           Type of the particular product
       productSource:
-        $ref: "#/definitions/ProductSource"
+        $ref: '#/definitions/ProductSource'
       productCategory:
-        $ref: "#/definitions/ProductCategoryRef"
-  
+        $ref: '#/definitions/ProductCategoryRef'
   ProductSource:
     type: object
     properties:
@@ -380,7 +358,6 @@ definitions:
         type: string
         description: |
           sub-domain of the product
-  
   ProductCategoryRef:
     type: object
     properties:
@@ -404,10 +381,15 @@ definitions:
         type: string
         description: |
           type of the product which will be diplayed at UI
-
   ProductCategory:
     type: object
-    required: [name, _type, subType, parentId, isParentCategory, categoryName]
+    required:
+      - name
+      - _type
+      - subType
+      - parentId
+      - isParentCategory
+      - categoryName
     properties:
       id:
         type: string
@@ -444,15 +426,18 @@ definitions:
       productSubCategory:
         type: array
         items:
-          $ref: "#/definitions/ProductCategory"
-
+          $ref: '#/definitions/ProductCategory'
   ProductInput:
     type: object
-    required: [name, productType, productSource, productCategory]
+    required:
+      - name
+      - productType
+      - productSource
+      - productCategory
     properties:
       id:
         type: string
-        description : |
+        description: |
           Id of Particular Product
       name:
         type: string
@@ -463,44 +448,41 @@ definitions:
         description: |
           Type of the particular product
       productSource:
-        $ref: "#/definitions/ProductSource"
+        $ref: '#/definitions/ProductSource'
       productCategory:
-        $ref: "#/definitions/ProductCategory"
-       
+        $ref: '#/definitions/ProductCategory'
   PatchElement:
     type: array
-    items: 
+    items:
       properties:
-        op: 
+        op:
           type: string
           description: |
             Operation To be performed
-          example: add, remove, replace
-        value: 
+          example: 'add, remove, replace'
+        value:
           type: string
           description: |
             Value To be replaced
-        path: 
+        path:
           type: string
           description: |
             Object Path to be Patched
-            
   PatchSubProduct:
     type: array
     items:
       properties:
-        op: 
+        op:
           type: string
           description: |
             Operation To be performed
-          example: add, remove, replace
-        value: 
-          $ref: "#/definitions/ProductCategory"
-        path: 
+          example: 'add, remove, replace'
+        value:
+          $ref: '#/definitions/ProductCategory'
+        path:
           type: string
           description: |
             Object Path to be Patched
-            
   Error:
     type: object
     properties:
@@ -520,4 +502,3 @@ definitions:
         type: string
         description: |
           Error Path
-  
