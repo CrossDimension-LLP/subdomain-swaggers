@@ -22,11 +22,11 @@ produces:
   - application/json
 
 paths:
-  /patient:
+  /patientInformation:
     get:
       operationId: searchPatient
       tags:
-        - "Patient Management"
+        - "Patient Information Management"
       summary: "List of Patients"
       description: "Produces List of Patients"
       consumes:
@@ -64,7 +64,7 @@ paths:
             $ref: "#/definitions/Error"
     post:
       tags:
-        - "Patient Management"
+        - "Patient Information Management"
       summary: "Patient Registration"
       description: "Creates New entry for the Patient"
       consumes:
@@ -99,11 +99,11 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /Patient/{PatientId}:
+  /patientInformation/{PatientId}:
     get:
       operationId: getPatientById
       tags:
-        - "Patient Management"
+        - "Patient Information Management"
       summary: "Specific Patient"
       description: "Produces List of Patients"
       parameters:
@@ -137,7 +137,7 @@ paths:
     patch:
       operationId: updatePatient
       tags:
-        - "Patient Management"
+        - "Patient Information Management"
       summary: "Specific Patient Updation"
       description: "Produces List of Patients"
       parameters:
@@ -189,7 +189,7 @@ paths:
     delete:
       operationId: deletePatient
       tags:
-        - "Patient Management"
+        - "Patient Information Management"
       summary: "Specific Patient Deletion"
       description: "delete Specific Patient"
       parameters:
@@ -230,7 +230,45 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
-
+  
+  /patientBooking:
+    post:
+      operationId: addBooking
+      tags:
+        - "Patient Booking Management"
+      summary: "Create a Booking for Patient"
+      description: "Add Bookings for Patient"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Booking Input
+          required: true
+          schema:
+            $ref: "#/definitions/BookingInput"
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
   Patient:
@@ -261,10 +299,6 @@ definitions:
         $ref: "#/definitions/ContactMedium"
       emergencyContactDetails:
         $ref: "#/definitions/ContactMedium"
-      registrationTime:
-        type: string
-        description: |
-          Time of patient registration
       sex:
         type: string
         description: |
@@ -273,37 +307,131 @@ definitions:
         type: string
         description: |
           DOB of patient
-      reasonForRegistration:
-        type: string
-        description: |
-          Reason for patient registration
-      hospitalId:
-        type: string
-        description: |
-          Id of hospital where patient is getting register for consultation or admission
       status:
         type: string
-      registrationDoneBy:
+      accountActivationDate:
         type: string
         description: |
-          Patient Registration is done either by self(S) or hospital representative(HoR)
-      hospitalRepresentativeId:
+          First Registration of Account opening
+      latestAcitivityDate:
         type: string
         description: |
-          Provide customer ID of hospital representative if patient registered by HoR
+          Latest Activity Date
+      medicalHistory:
+        type: string
+  
+  BookingDetails:
+    type: object
+    properties:
+      patientId:
+        type: string
+        description: |
+          "Patient ID for which booking is being generated"
+      registrationTime:
+        type: string
+        description: |
+          "Time when booking is processing"
+      bookingReason:
+        type: string
+        description: |
+         "For which use booking is being made"
+      bookingSlot:
+        type: string
+        description: |
+          "Slot for which booking is being made"
+      bookingStatus:
+        type: string
+        description: |
+          "Status of booking , Initial status new
+      bookingInfo:
+        $ref: "#/definitions/BookingInfoRef"
+      bookingType:
+        type: string
+        description: |
+         "Patient Registration is done either by self(S) or hospital representative(HoR)"
+      bookingAgentName:
+        type: string
+        description: |
+         "If by HoR then agent name should be there"
       paymentStatus:
         type: string
         description: |
-          Provide payment status here
+         "Payemnt Status of Booking"
       paymentMode:
         type: string
         description: |
-          Provide payment mode online/offline
+          "Payment Mode should be mentioned"
       paymentTransactionId:
         type: string
         description: |
-          Online Payment transaction id
-
+          "Case of Online transaction Id should be checked"
+      
+  BookingInput:
+    type: object
+    required: [bookingType,patientId,registrationTime]
+    properties:
+      patientId:
+        type: string
+        description: |
+          "Patient ID for which booking is being generated"
+      registrationTime:
+        type: string
+        description: |
+          "Time when booking is processing"
+      bookingSlot:
+        type: string
+        description: |
+          "Slot for which booking is being made"
+      bookingStatus:
+        type: string
+        description: |
+          "Status of booking , Initial status new
+      bookingInfo:
+        $ref: "#/definitions/BookingInfoRef"
+      bookingReason:
+        type: string
+        description: |
+         "For which use booking is being made"
+      bookingType:
+        type: string
+        description: |
+         "Patient Registration is done either by self(S) or hospital representative(HoR)"
+      bookingAgentName:
+        type: string
+        description: |
+         "If by HoR then agent name should be there"
+    
+      
+  BookingInfoRef:
+    type: object
+    properties: 
+      bookingCenterId:
+        type: string
+        description: |
+          "On Which Hospital / Diagnostic Center Booking is being selected"
+      bookingCenterName:
+        type: string
+        description: |
+          "On Which Hospital / Diagnostic Center Booking is being selected"
+      bookingForIndividual:
+        $ref: "#/definitions/BookingIndividualRef"
+      
+  BookingIndividualRef:
+    type: object
+    properties:
+      individualId:
+        type: string
+        description: |
+          "Doctor or Diagnostic agent id"
+      individualName:
+        type: string
+        description: |
+          "Doctor or Diagnostic agent Name"
+      contactDetails: 
+        $ref: "#/definitions/ContactMedium"
+      averageRating:
+        type: string
+        
   PostalAdress:
     type: object
     required: [city, zipcode, state, country]
@@ -344,10 +472,6 @@ definitions:
         type: string
         description: |
           mobile of Particular Patient
-      fax:
-        type: string
-        description: |
-          fax of Particular Patient
       alternate_number:
         type: string
         description: |
