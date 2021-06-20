@@ -4,14 +4,7 @@ swagger: '2.0'
 #                     API Documentation                           #
 ###################################################################
 
-info:
-  version: v1.0-beta
-  title: Octopus Customer Management
-  license:
-    name: Octopus
-
-
-host: example.com
+host: octopus.com
 basePath : /customerManagement/v1
 schemes:
   - https
@@ -233,7 +226,7 @@ paths:
 definitions:
   Customer:
     type: object
-    required: [_type, firstName, postal_address, billing_address]
+    required: [firstName]
     properties:
       id:
         type: string
@@ -265,6 +258,24 @@ definitions:
         $ref: "#/definitions/FinancialAccountRef"
       status:
         type: string
+      service-accounts:
+        $ref: "#/definitions/ServiceAccountsRef"
+  
+  ServiceAccountsRef:
+    type: object
+    properties:
+      octomed:
+        $ref: "#/definitions/PatientAccountsRef"
+  
+  PatientAccountsRef:
+    type: object
+    properties:
+      isOctoMedCustomer:
+        type: boolean
+      patientIds:
+        type: array
+        items:
+          type: string
     
   FinancialAccountRef:
     type: object
@@ -365,3 +376,4 @@ definitions:
         type: string
         description: |
           Error Path
+
