@@ -4,13 +4,6 @@ swagger: '2.0'
 #                     API Documentation                           #
 ###################################################################
 
-info:
-  version: v1.0-beta
-  title: Octopus Patient Management
-  license:
-    name: Octopus
-
-
 host: example.com
 basePath : /patientManagement/v1
 schemes:
@@ -99,7 +92,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /patientInformation/{PatientId}:
+  /patientInformation/{patientId}:
     get:
       operationId: getPatientById
       tags:
@@ -108,7 +101,7 @@ paths:
       description: "Produces List of Patients"
       parameters:
         - in: path
-          name: PatientId
+          name: patientId
           required: true
           type: string
           description: |
@@ -142,7 +135,7 @@ paths:
       description: "Produces List of Patients"
       parameters:
         - in: path
-          name: PatientId
+          name: patientId
           required: true
           type: string
           description: |
@@ -194,7 +187,7 @@ paths:
       description: "delete Specific Patient"
       parameters:
         - in: path
-          name: PatientId
+          name: patientId
           required: true
           type: string
           description: |
@@ -269,7 +262,171 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-
+    
+    get:
+      operationId: getAllBookings
+      tags: 
+        - "Patient Booking Management"
+      summary: "List of Patients"
+      description: "Produces List of Patients"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /patientBooking/{bookingId}:
+    get:
+      operationId: getBookingById
+      tags: 
+        - "Patient Booking Management"
+      summary: "List of Patients"
+      description: "Produces List of Patients"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: bookingId
+          required: true
+          type: string
+          description: |
+            "Booking Id"
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    delete:
+      operationId: deleteBookingById
+      tags: 
+        - "Patient Booking Management"
+      summary: "List of Patients"
+      description: "Produces List of Patients"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: bookingId
+          required: true
+          type: string
+          description: |
+            "Booking Id"
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /patientBooking/info/{patientId}:
+    get:
+      operationId: getBookingForPatient
+      tags:
+        - "Patient Booking Management"
+      summary: "List of Patients"
+      description: "Produces List of Patients"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: patientId
+          required: true
+          type: string
+          description: |
+            "Patient Id"
+        - in: query
+          name: bookingId
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+      
 definitions:
   Patient:
     type: object
@@ -309,6 +466,8 @@ definitions:
           DOB of patient
       status:
         type: string
+        description: |
+          Patient Status after creation date
       accountActivationDate:
         type: string
         description: |
@@ -319,10 +478,18 @@ definitions:
           Latest Activity Date
       medicalHistory:
         type: string
+      bookingIdList:
+        type: array
+        items:
+          type: string
   
   BookingDetails:
     type: object
     properties:
+      id: 
+        type: string
+        description: | 
+          Id of a Particular Booking
       patientId:
         type: string
         description: |
@@ -368,7 +535,7 @@ definitions:
       
   BookingInput:
     type: object
-    required: [bookingType,patientId,registrationTime]
+    required: [bookingType, patientId, bookingStatus, registrationTime]
     properties:
       patientId:
         type: string
@@ -401,7 +568,6 @@ definitions:
         description: |
          "If by HoR then agent name should be there"
     
-      
   BookingInfoRef:
     type: object
     properties: 
@@ -431,6 +597,12 @@ definitions:
         $ref: "#/definitions/ContactMedium"
       averageRating:
         type: string
+        description: |
+          Rating given by the existing customers
+      fee:
+        type: string
+        description: |
+          particular fee deatils for that individual
         
   PostalAdress:
     type: object
@@ -494,6 +666,7 @@ definitions:
           type: string
           description: |
             Object Path to be Patched
+            
   Error:
     type: object
     properties:
