@@ -133,7 +133,7 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-     
+
     patch:
       operationId: updatePatient
       tags:
@@ -185,7 +185,7 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
-            
+
     delete:
       operationId: deletePatient
       tags:
@@ -230,12 +230,12 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
-      
+
 
 definitions:
   Patient:
     type: object
-    required: [firstName, postalAddress, billingAddress, registrationTime, contactDetails, emergencyContactDetails, sex, dateOfBirth, reasonForRegistration, hospitalDetails]
+    required: [firstName, postalAddress, billingAddress, registrationTime, contactDetails, emergencyContactDetails, sex, dateOfBirth, reasonForRegistration, hospitalDetails, paymentStatus]
     properties:
       id:
         type: string
@@ -291,7 +291,19 @@ definitions:
         type: string
         description: |
           Provide customer ID of hospital representative if patient registered by HoR
-    
+      paymentStatus:
+        type: string
+        description: |
+          Provide payment status here
+      paymentMode:
+        type: string
+        description: |
+          Provide payment mode online/offline
+      paymentTransactionId:
+        type: string
+        description: |
+          Online Payment transaction id
+
   PostalAdress:
     type: object
     required: [city, zipcode, state, country]
@@ -320,7 +332,7 @@ definitions:
         type: string
         description: |
           country of Postal adress
-          
+
   ContactMedium:
     type: object
     properties:
@@ -340,21 +352,21 @@ definitions:
         type: string
         description: |
           mobile of Particular Patient
-          
+
   PatchElement:
     type: array
-    items: 
+    items:
       properties:
-        op: 
+        op:
           type: string
           description: |
             Operation To be performed
           example: add, remove, replace
-        value: 
+        value:
           type: string
           description: |
             Value To be replaced
-        path: 
+        path:
           type: string
           description: |
             Object Path to be Patched
