@@ -267,12 +267,52 @@ paths:
       operationId: getAllBookings
       tags: 
         - "Patient Booking Management"
-      summary: "List of Patients"
+      summary: "List of All bookings"
       description: "Produces List of Patients"
       consumes:
         - "application/json"
       produces:
         - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      operationId: deleteBookingById
+      tags: 
+        - "Patient Booking Management"
+      summary: "Deleted Patient Details"
+      description: "Produces List of Patients"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: bookingId
+          type: array
+          items:
+            type: string
       responses:
         200:
           description: |
@@ -303,7 +343,7 @@ paths:
       tags: 
         - "Patient Booking Management"
       summary: "List of Patients"
-      description: "Produces List of Patients"
+      description: "Produces Specific Booking"
       consumes:
         - "application/json"
       produces:
@@ -339,46 +379,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
             
-    delete:
-      operationId: deleteBookingById
-      tags: 
-        - "Patient Booking Management"
-      summary: "List of Patients"
-      description: "Produces List of Patients"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: path
-          name: bookingId
-          required: true
-          type: string
-          description: |
-            "Booking Id"
-      responses:
-        200:
-          description: |
-            *OK* - Bookking Details Will be returned Successfully
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/BookingDetails"
-        400:
-          description: |
-            *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
+    
             
   /patientBooking/info/{patientId}:
     get:
@@ -461,21 +462,15 @@ definitions:
         description: |
           Patient gender
       dateOfBirth:
-        type: string
-        description: |
-          DOB of patient
+        $ref: "#/definitions/DateFormatRef"
       status:
         type: string
         description: |
           Patient Status after creation date
       accountActivationDate:
-        type: string
-        description: |
-          First Registration of Account opening
+        $ref: "#/definitions/DateFormatRef"
       latestAcitivityDate:
-        type: string
-        description: |
-          Latest Activity Date
+        $ref: "#/definitions/DateFormatRef"
       medicalHistory:
         type: string
       bookingIdList:
@@ -502,10 +497,14 @@ definitions:
         type: string
         description: |
          "For which use booking is being made"
+      registrationDate:
+        $ref: "#/definitions/DateFormatRef"
       bookingSlot:
         type: string
         description: |
           "Slot for which booking is being made"
+      bookingDate:
+        $ref: "#/definitions/DateFormatRef"
       bookingStatus:
         type: string
         description: |
@@ -535,8 +534,16 @@ definitions:
       
   BookingInput:
     type: object
-    required: [bookingType, patientId, bookingStatus, registrationTime]
+    required: [bookingType, isBookingOPD, isBookingDiagnostics, patientId, registrationDate, bookingDate, bookingStatus, registrationTime, bookingSlot, bookingReason, bookingInfo]
     properties:
+      isBookingOPD:
+        type: boolean
+        description: |
+          Is booking for OPD management
+      isBookingDiagnostics:
+        type: boolean
+        description: |
+          Is booking for Diagnostics
       patientId:
         type: string
         description: |
@@ -545,10 +552,14 @@ definitions:
         type: string
         description: |
           "Time when booking is processing"
+      registrationDate:
+        $ref: "#/definitions/DateFormatRef"
       bookingSlot:
         type: string
         description: |
           "Slot for which booking is being made"
+      bookingDate:
+        $ref: "#/definitions/DateFormatRef"
       bookingStatus:
         type: string
         description: |
@@ -570,6 +581,7 @@ definitions:
     
   BookingInfoRef:
     type: object
+    required: [bookingCenterId, bookingCenterName]
     properties: 
       bookingCenterId:
         type: string
@@ -632,7 +644,17 @@ definitions:
         type: string
         description: |
           country of Postal adress
-
+          
+  DateFormatRef:
+    type: object
+    properties:
+      year:
+        type: string
+      month:
+        type: string
+      day:
+        type: string
+        
   ContactMedium:
     type: object
     properties:
