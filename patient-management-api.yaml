@@ -3,7 +3,6 @@ swagger: '2.0'
 ###################################################################
 #                     API Documentation                           #
 ###################################################################
-
 host: example.com
 basePath : /patientManagement/v1
 schemes:
@@ -479,58 +478,22 @@ definitions:
           type: string
   
   BookingDetails:
-    type: object
-    properties:
-      id: 
-        type: string
-        description: | 
-          Id of a Particular Booking
-      patientId:
-        type: string
-        description: |
-          "Patient ID for which booking is being generated"
-      registrationTime:
-        type: string
-        description: |
-          "Time when booking is processing"
-      bookingReason:
-        type: string
-        description: |
-         "For which use booking is being made"
-      registrationDate:
-        $ref: "#/definitions/DateFormatRef"
-      bookingSlot:
-        type: string
-        description: |
-          "Slot for which booking is being made"
-      bookingDate:
-        $ref: "#/definitions/DateFormatRef"
-      bookingStatus:
-        type: string
-        description: |
-          "Status of booking , Initial status new
-      bookingInfo:
-        $ref: "#/definitions/BookingInfoRef"
-      bookingType:
-        type: string
-        description: |
-         "Patient Registration is done either by self(S) or hospital representative(HoR)"
-      bookingAgentName:
-        type: string
-        description: |
-         "If by HoR then agent name should be there"
-      paymentStatus:
-        type: string
-        description: |
-         "Payemnt Status of Booking"
-      paymentMode:
-        type: string
-        description: |
-          "Payment Mode should be mentioned"
-      paymentTransactionId:
-        type: string
-        description: |
-          "Case of Online transaction Id should be checked"
+    allOf:
+      - $ref: "#/definitions/BookingInput"
+      - type: object
+        properties:
+          paymentStatus:
+            type: string
+            description: |
+             "Payemnt Status of Booking"
+          paymentMode:
+            type: string
+            description: |
+              "Payment Mode should be mentioned"
+          paymentTransactionId:
+            type: string
+            description: |
+              "Case of Online transaction Id should be checked"
       
   BookingInput:
     type: object
