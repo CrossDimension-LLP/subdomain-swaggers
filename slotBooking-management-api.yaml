@@ -1,0 +1,398 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation                           #
+###################################################################
+host: octopus.com
+basePath : /slotBookingManagement/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /slotBooking:
+    get:
+      operationId: serachSlotBooking
+      tags:
+        - "Slot Booking Management"
+      summary: "List of Booked Slots"
+      description: "Produces List of Booked Slots"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Slots Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/SlotBooking'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+        - "Slot Booking Management"
+      summary: "First booking Insertion for a slot"
+      description: "Creates New entry for the slot booking"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: SlotBooking Input
+          required: true
+          schema:
+            $ref: "#/definitions/SlotBooking"
+      responses:
+        200:
+          description: |
+            *OK* - List of Admin Users Will be returned Successfully
+          schema:
+            $ref: '#/definitions/SlotBooking'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+  /slotBooking/{slotBooingId}:
+    get:
+      operationId: getSlotBookingById
+      tags:
+        - "Slot Booking Management"
+      summary: "Specific Booked slot"
+      description: "Produces List of booked slots"
+      parameters:
+        - in: path
+          name: slotBooingId
+          required: true
+          type: string
+          description: |
+            "booking date"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/SlotBooking'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      operationId: addPatientToSlot
+      tags:
+        - "Slot Booking Management"
+      summary: "Patient addition to a Specific slot"
+      description: "Produces List of Patients"
+      parameters:
+        - in: path
+          name: slotBooingId
+          required: true
+          type: string
+          description: |
+            "booking date"
+        - in: header
+          name: If-Match
+          required: false
+          type: string
+          description: |
+            "Slot Booking Id"
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "customer patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Booking Will be returned Successfully
+          schema:
+            $ref: '#/definitions/SlotBooking'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deleteSlotBooking
+      tags:
+        - "Slot Booking Management"
+      summary: "Specific Booked slot Deletion"
+      description: "delete Specific slot booking"
+      parameters:
+        - in: path
+          name: slotBooingId
+          required: true
+          type: string
+          description: |
+            "booking date"
+        - in: header
+          name: If-Match
+          required: false
+          type: string
+          description: |
+            "slotBooking Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Booking Will be returned Successfully
+          schema:
+            $ref: '#/definitions/SlotBooking'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+
+definitions:
+  SlotBooking:
+    type: object
+    required: [id, doctorId, patients]
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Slot booking
+      doctorId:
+        type: string
+        description: |
+          Id of doctor of a particular slot
+      departmentId:
+        type: string
+        description: |
+          department for which the slot is being booked
+      patients:
+        type: array
+        items:
+          $ref: "#/definitions/Patient"
+      bookingDate:
+        $ref: "#/definitions/DateFormatRef"
+      bookingSlotBracket:
+        type: string
+        description: |
+          start and end time of the slot
+      availableSlot:
+        type: integer
+
+  Patient:
+    type: object
+    required: [firstName, postalAddress, billingAddress, registrationTime, contactDetails, emergencyContactDetails, sex, dateOfBirth, reasonForRegistration, hospitalDetails, paymentStatus]
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Patient
+      firstName:
+        type: string
+        description: |
+          First name of Particular Patient
+      lastName:
+        type: string
+        description: |
+          Last name of Particular Patient
+      fullName:
+        type: string
+        description: |
+          Full name of Particular Patient
+      postalAddress:
+        $ref: "#/definitions/PostalAdress"
+      billingAddress:
+        $ref: "#/definitions/PostalAdress"
+      contactDetails:
+        $ref: "#/definitions/ContactMedium"
+      emergencyContactDetails:
+        $ref: "#/definitions/ContactMedium"
+      sex:
+        type: string
+        description: |
+          Patient gender
+      dateOfBirth:
+        $ref: "#/definitions/DateFormatRef"
+      status:
+        type: string
+        description: |
+          Patient Status after creation date
+      accountActivationDate:
+        $ref: "#/definitions/DateFormatRef"
+      latestAcitivityDate:
+        $ref: "#/definitions/DateFormatRef"
+      medicalHistory:
+        type: string
+      bookingIdList:
+        type: array
+        items:
+          type: string
+
+  DateFormatRef:
+    type: object
+    properties:
+      year:
+        type: string
+      month:
+        type: string
+      day:
+        type: string
+
+  PostalAdress:
+    type: object
+    required: [city, zipcode, state, country]
+    properties:
+      area:
+        type: string
+        description: |
+          Area of Postal adress
+      street:
+        type: string
+        description: |
+          street of Postal adress
+      city:
+        type: string
+        description: |
+          city of Postal adress
+      state:
+        type: string
+        description: |
+          State of Postal adress
+      zipcode:
+        type: string
+        description: |
+          zipcode of Postal adress
+      country:
+        type: string
+        description: |
+          country of Postal adress
+
+  ContactMedium:
+    type: object
+    properties:
+      email:
+        type: string
+        description: |
+          Email id of Particular Customer
+      mobile:
+        type: string
+        description: |
+          mobile of Particular Customer
+      fax:
+        type: string
+        description: |
+          fax of Particular Customer
+      alternate_number:
+        type: string
+        description: |
+          mobile of Particular Customer
+
+  PatchElement:
+    type: array
+    items:
+      properties:
+        op:
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value:
+          $ref: "#/definitions/Patient"
+        path:
+          type: string
+          description: |
+            Object Path to be Patched
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
+
