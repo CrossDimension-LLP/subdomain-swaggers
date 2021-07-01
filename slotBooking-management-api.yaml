@@ -250,7 +250,9 @@ definitions:
         type: string
         description: |
           start and end time of the slot
-      availableSlot:
+      currentAvailableSlot:
+        type: integer
+      totalAvailableSlot:
         type: integer
 
   Patient:
