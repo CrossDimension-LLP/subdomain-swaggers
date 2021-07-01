@@ -16,7 +16,7 @@ produces:
 paths:
   /group:
     get:
-      operationId: getGroup
+      operationId: searchGroup
       tags:
         - "Hospital/Diagnostics Group Management"
       summary: "List of Groups"
@@ -55,7 +55,121 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     
+    post:
+      operationId: createGroup
+      tags:
+        - "Hospital/Diagnostics Group Management"
+      summary: "Create a Group"
+      description: "Produces A Group"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Group Input
+          required: true
+          schema:
+            $ref: "#/definitions/Group"
+      responses:
+        200:
+          description: |
+            *OK* - A group info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Group"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
+    patch:
+      operationId: updateGroup
+      tags:
+        - "Hospital/Diagnostics Group Management"
+      summary: "Update A Group"
+      description: "A Group is updated"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: groupId
+          type: string
+      responses:
+        200:
+          description: |
+            *OK* - A group Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Group"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
     
+    delete:
+      operationId: deleteGroup
+      tags:
+        - "Hospital/Diagnostics Group Management"
+      summary: "Delete of Groups"
+      description: "A Group wil deleted Successfully"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: groupIds
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - A List of deleted groups Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Group"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
     
     
 definitions:
