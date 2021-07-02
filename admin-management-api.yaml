@@ -36,7 +36,7 @@ paths:
           description: |
             *OK* - List of groups Will be returned Successfully
           schema:
-            type: "array"
+            type: array
             items:
               $ref: "#/definitions/Group"
         400:
@@ -108,6 +108,12 @@ paths:
           required: true
           name: groupId
           type: string
+          
+        - in: body
+          required: true
+          name: patchElement
+          schema:
+            $ref: "#/definitions/PatchElement"
       responses:
         200:
           description: |
@@ -129,7 +135,7 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-    
+      
     delete:
       operationId: deleteGroup
       tags:
@@ -171,8 +177,619 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     
+  /standalone:
+    post:
+      operationId: createStandAlone
+      tags:
+        - "Hospital/Diagnostics StandAlone Management"
+      summary: "Create a Stand Alone"
+      description: "Produces A StandaloneCenter"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Center_Input
+          required: true
+          schema:
+            $ref: "#/definitions/StandaloneCenterModel"
+      responses:
+        200:
+          description: |
+            *OK* - A Stand Alone Center info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/StandaloneCenterModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
     
+    get:
+      operationId: getStandAlone
+      tags:
+        - "Hospital/Diagnostics StandAlone Management"
+      summary: "Get Stand Alone centers"
+      description: "Produces A StandaloneCenter"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: standAloneIds
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - Stand Alone Models info Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/StandaloneCenterModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    patch:
+      operationId: updateStandAlone
+      tags:
+        - "Hospital/Diagnostics StandAlone Management"
+      summary: "Update Stand Alone center"
+      description: "Produces A StandaloneCenter"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: standAloneId
+          type: string
+            
+        - in: body
+          required: true
+          name: patchElement
+          schema:
+            $ref: "#/definitions/PatchElement"
+  
+      responses:
+        200:
+          description: |
+            *OK* - Stand Alone Models info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/StandaloneCenterModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    delete:
+      operationId: deleteStandAlone
+      tags:
+        - "Hospital/Diagnostics StandAlone Management"
+      summary: "Delete Stand Alone centers"
+      description: "Produces A List of StandaloneCenter Response"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: standAloneIds
+          type: array
+          items: 
+            type: string
+            
+      responses:
+        200:
+          description: |
+            *OK* - Stand Alone Models info Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/StandaloneCenterModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+  /opdManagement:
+    get:
+      operationId: searchOPD
+      tags:
+        - "OPD Management"
+      summary: "List of OPDs"
+      description: "Produces List of OPD Departments"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: opdIds
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of groups Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OPDModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    post:
+      operationId: createOPD
+      tags:
+        - "OPD Management"
+      summary: "Create an OPD"
+      description: "Produces An OPD"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: OPDInput
+          required: true
+          schema:
+            $ref: "#/definitions/OPDModel"
+      responses:
+        200:
+          description: |
+            *OK* - An OPD info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/OPDModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    patch:
+      operationId: updateIndividual
+      tags:
+        - "OPD Management"
+      summary: "Update OPD"
+      description: "Update An OPD"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: opdId
+          type: string
+            
+        - in: body
+          required: true
+          name: patchElement
+          schema:
+            $ref: "#/definitions/PatchElement"
+  
+      responses:
+        200:
+          description: |
+            *OK* - OPD info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/OPDModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    delete:
+      operationId: deleteOPD
+      tags:
+        - "OPD Management"
+      summary: "Delete OPD"
+      description: "Produces A List of OPD Response"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: opdIds
+          type: array
+          items: 
+            type: string
+            
+      responses:
+        200:
+          description: |
+            *OK* - List of OPDs info Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OPDModel"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /individual:
+    get:
+      operationId: searchIndividual
+      tags:
+        - "Interaction Individual Management"
+      summary: "List of Individuals"
+      description: "Produces List of Individual"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: individualIds
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of groups Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/IndividualRef"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    post:
+      operationId: createIndividual
+      tags:
+        - "Interaction Individual Management"
+      summary: "Create an Individual"
+      description: "Produces An Individual"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: IndividualInput
+          required: true
+          schema:
+            $ref: "#/definitions/IndividualRef"
+      responses:
+        200:
+          description: |
+            *OK* - An Individual info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/IndividualRef"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    patch:
+      operationId: updateIndividual
+      tags:
+        - "Interaction Individual Management"
+      summary: "Update Individual"
+      description: "Update An Individual"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: individualId
+          type: string
+            
+        - in: body
+          required: true
+          name: patchElement
+          schema:
+            $ref: "#/definitions/PatchElement"
+  
+      responses:
+        200:
+          description: |
+            *OK* - Individual info Will be returned Successfully
+          schema:
+            $ref: "#/definitions/IndividualRef"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+      
+    delete:
+      operationId: deleteIndividual
+      tags:
+        - "Interaction Individual Management"
+      summary: "Delete Indiviudal"
+      description: "Produces A List of Individual Response"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: individualIds
+          type: array
+          items: 
+            type: string
+            
+      responses:
+        200:
+          description: |
+            *OK* - List of Individuals info Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/IndividualRef"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+      
 definitions:
+  OPDModel:
+    type: object
+    properties:
+      id: 
+        type: string
+        description: |
+          ID of OPD Departments
+      centerId:
+        type: string
+        description: |
+          ID of Centers where Departments attach to
+      opdName:
+        type: string
+        description: |
+          Name of OPD Departments
+      opdDescription:
+        type: string
+        description: |
+          Description of OPD Departments
+      subdomains:
+        type: array
+        items:
+          type: string
+          description: |
+            sub divisions of OPD
+      opdContact:
+        $ref: "#/definitions/ContactMedium"
+  
+  IndividualRef:
+    type: object
+    required: [opdId, role, email, firstName]
+    properties:
+      id: 
+        type: string
+        description: |
+          ID of Individual Person
+      opdId:
+        type: string
+        description: |
+          ID of Attached OPD centers
+      role:
+        type: string
+        description: |
+          Role of Individual Person
+      email: 
+        type: string
+        description: |
+          Email of Individual Person
+      accessKey:
+        type: string
+        description: |
+          Access Key of Individual Person
+      namePrefix:
+        type: string
+        description: |
+          Name of Individual Person
+        example: ["Mr", "Mrs", "Dr"]
+      firstName:
+        type: string
+        description: |
+          First name of Individual Person
+      lastName:
+        type: string
+        description: |
+          Last name of Individual Person
+      fullName:
+        type: string
+        description: |
+          Full name of Individual Person
+      designation:
+        type: string
+        description: |
+          Designation of Person
+      degrees:
+        type: array
+        items: 
+          type: string
+          description: |
+            In case of Doctors
+          example: [Ms, Mphil, PGDMS]
+      contactNumber: 
+        type: string
+      alternateNumber:
+        type: string
+      slotDetails: 
+        $ref: "#/definitions/SlotDetails"
+     
+  SlotCapacity:
+    type: object
+    properties: 
+      timing:
+        type: string
+        description: |
+          Slot Timing for visiting
+      capacity:
+        type: integer
+        description: |
+          Capacity to check in a single slot
+      
+  SlotDetails:
+    type: object
+    required: [timing]
+    properties: 
+      dayofWeek: 
+        type: string
+        description: | 
+           Slot Week day
+      slots: 
+        type: array
+        items:
+          $ref: "#/definitions/SlotCapacity"
+      frequencyType:
+        type: string
+        description: | 
+          Frequency of Visiting the Chamber
+        example: [WEEKLY, MOTHLY, QUARTERLY, DAILY]
+        
   Group:
     type: object
     properties:
