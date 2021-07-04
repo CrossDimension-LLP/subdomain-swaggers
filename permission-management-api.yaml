@@ -1,0 +1,72 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation                           #
+###################################################################
+host: octopus.com
+basePath : /permission/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+  
+  
+definitions:
+  UserRole:
+    type: object
+    properties:
+      id: 
+        type: string
+        description: | 
+          Id for the specific Role
+      roleName:
+        type: string
+        description: |
+          Name of the specific Role
+      roleType:
+        type: string
+        description: |
+         Role Type of the User
+      allowed_actions:
+        $ref: "#/definitions/PossibleActions"
+          
+  PossibleActions:
+    type: array
+    items:
+      properties: 
+        path: 
+          type: string
+          description: |
+            Path will be prefixed by a "/" 
+        visibility: 
+          type: boolean
+          description: |
+            Its for visibility
+        description:
+          type : string
+          description: |
+            Related information about the component
+            
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path 

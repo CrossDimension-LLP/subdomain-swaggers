@@ -422,7 +422,7 @@ paths:
             $ref: "#/definitions/Error"
             
     patch:
-      operationId: updateIndividual
+      operationId: updateOPD
       tags:
         - "OPD Management"
       summary: "Update OPD"
@@ -795,6 +795,10 @@ definitions:
     properties:
       id:
         type: string
+      groupName: 
+        type: string
+        description: |
+          Name of the Group 
       parentId:
         type: string
         description: |
