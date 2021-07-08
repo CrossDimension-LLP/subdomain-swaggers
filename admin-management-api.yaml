@@ -765,9 +765,9 @@ definitions:
   StatusRef:
     type: string
     enum:
-    - active
-    - unavialable
-    - inactive
+    - ACTIVE
+    - UNAVAILABLE
+    - INACTIVE
     
   SlotCapacity:
     type: object
