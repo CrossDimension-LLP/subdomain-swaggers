@@ -484,11 +484,11 @@ definitions:
   StatusRef:
     type: string
     enum:
-    - Active
-    - InProgress
-    - Confirmed
-    - Cancelled
-    - Freezed
+    - ACTIVE
+    - INPROGRESS
+    - CONFIRMED
+    - CANCELLED
+    - FREEZED
   
   PaymentStatusRef:
     type: string
@@ -497,7 +497,7 @@ definitions:
     - FAILED
     - NOT_PAID
     
-  PaymentModeref:
+  PaymentModeRef:
     type: string
     enum:
     - ONLINE
@@ -511,7 +511,7 @@ definitions:
           paymentStatus:
             $ref: "#/definitions/PaymentStatusRef"
           paymentMode:
-            $ref: "#/definitions/PaymentModeref"
+            $ref: "#/definitions/PaymentModeRef"
           paymentTransactionId:
             type: string
             description: |

@@ -13,8 +13,84 @@ consumes:
 produces:
   - application/json
   
-  
-  
+paths:
+  /permissions:
+    post:
+      operationId: createRole
+      tags:
+        - "Permission Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Create user Role"
+      parameters:
+        - in: body
+          name: roleInput
+          required: true
+          schema:
+            $ref: "#/definitions/UserRole"
+      responses:
+        200:
+          description: |
+            *OK* - User Role Will be returned Successfully
+          schema:
+            $ref: "#/definitions/UserRole"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"    
+ 
+  /permissions/{roleId}:
+    get:
+      operationId: getRole
+      tags:
+        - "Permission Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Create user Role"
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          type: string
+          description: |
+            "Role Id"
+      responses:
+        200:
+          description: |
+            *OK* - ID specific User Role Will be returned Successfully
+          schema:
+            $ref: "#/definitions/UserRole"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+ 
 definitions:
   UserRole:
     type: object
@@ -28,9 +104,7 @@ definitions:
         description: |
           Name of the specific Role
       roleType:
-        type: string
-        description: |
-         Role Type of the User
+        $ref: "#/definitions/RoleTypeRef"
       allowed_actions:
         $ref: "#/definitions/PossibleActions"
           
@@ -50,6 +124,13 @@ definitions:
           type : string
           description: |
             Related information about the component
+            
+  RoleTypeRef:
+    type: string
+    enum:
+    - ADMIN_MANAGEMENT
+    - AUTOMATED
+    - CUSTOMIZED
             
   Error:
     type: object
