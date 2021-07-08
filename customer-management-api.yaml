@@ -248,9 +248,7 @@ definitions:
         description: |
           Full name of Particular Customer
       _type:
-        type: string
-        description: |
-          Type of Particular Customer
+        $ref: "#/definitions/CustomerTypeRef"
       postal_address:
         $ref: "#/definitions/CustomerPostalAdress"
       billing_address:
@@ -260,10 +258,38 @@ definitions:
       financialAccount:
         $ref: "#/definitions/FinancialAccountRef"
       status:
-        type: string
+        $ref: "#/definitions/CustomerStatusRef"
       service-accounts:
         $ref: "#/definitions/ServiceAccountsRef"
   
+  CustomerTypeRef: 
+    type: string
+    enum:
+    - Retail
+    - Prime_Retail
+    - Retail_Management
+    - Business_Customer
+    - Guest
+    - Visitor
+  
+  CustomerStatusRef: 
+    type: string
+    enum:
+    - Active
+    - Pending_Confirmation
+    - Invalid
+    - Temporarily-Unavailable
+    
+  FinancialAccountStatusRef: 
+    type: string
+    enum:
+    - REGULAR
+    - PENDING
+    - INVALID
+    - OUTSTANDING
+    - LOAN
+    
+    
   ServiceAccountsRef:
     type: object
     properties:
@@ -279,6 +305,12 @@ definitions:
         type: array
         items:
           type: string
+          
+  FinancialAccountTypeRef:
+    type: string
+    enum:
+    - CUSTOMER
+    - BUSINESS
     
   FinancialAccountRef:
     type: object
@@ -286,13 +318,9 @@ definitions:
       id: 
         type: string
       _type: 
-        type: string
-        description: |
-          Type of the account belongs to the Customer
+        $ref: "#/definitions/FinancialAccountTypeRef"
       status:
-        type: string
-        description: |
-          status of FA will tell active or suspended
+        $ref: "#/definitions/FinancialAccountStatusRef"
           
   CustomerPostalAdress:
     type: object

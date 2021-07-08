@@ -457,15 +457,11 @@ definitions:
       emergencyContactDetails:
         $ref: "#/definitions/ContactMedium"
       sex:
-        type: string
-        description: |
-          Patient gender
+        $ref: "#/definitions/SexRef"
       dateOfBirth:
         $ref: "#/definitions/DateFormatRef"
       status:
-        type: string
-        description: |
-          Patient Status after creation date
+        $ref: "#/definitions/StatusRef"
       accountActivationDate:
         $ref: "#/definitions/DateFormatRef"
       latestAcitivityDate:
@@ -476,24 +472,50 @@ definitions:
         type: array
         items:
           type: string
+          
+  SexRef:
+    type: string
+    enum:
+    - MALE
+    - FEMALE
+    - TRANSGENDER
+    - UNDISCLOSED
+    
+  StatusRef:
+    type: string
+    enum:
+    - Active
+    - InProgress
+    - Confirmed
+    - Cancelled
+    - Freezed
   
+  PaymentStatusRef:
+    type: string
+    enum: 
+    - SUCCESSFUL
+    - FAILED
+    - NOT_PAID
+    
+  PaymentModeref:
+    type: string
+    enum:
+    - ONLINE
+    - MANUAL
+    
   BookingDetails:
     allOf:
       - $ref: "#/definitions/BookingInput"
       - type: object
         properties:
           paymentStatus:
-            type: string
-            description: |
-             "Payemnt Status of Booking"
+            $ref: "#/definitions/PaymentStatusRef"
           paymentMode:
-            type: string
-            description: |
-              "Payment Mode should be mentioned"
+            $ref: "#/definitions/PaymentModeref"
           paymentTransactionId:
             type: string
             description: |
-              "Case of Online transaction Id should be checked"
+              Case of Online transaction Id should be checked
       
   BookingInput:
     type: object
@@ -524,9 +546,7 @@ definitions:
       bookingDate:
         $ref: "#/definitions/DateFormatRef"
       bookingStatus:
-        type: string
-        description: |
-          "Status of booking , Initial status new
+        $ref: "#/definitions/StatusRef"
       bookingInfo:
         $ref: "#/definitions/BookingInfoRef"
       bookingReason:

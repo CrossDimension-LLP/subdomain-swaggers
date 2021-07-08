@@ -759,7 +759,16 @@ definitions:
         type: string
       slotDetails: 
         $ref: "#/definitions/SlotDetails"
-     
+      status:
+        $ref: "#/definitions/StatusRef"
+        
+  StatusRef:
+    type: string
+    enum:
+    - active
+    - unavialable
+    - inactive
+    
   SlotCapacity:
     type: object
     properties: 
@@ -785,11 +794,17 @@ definitions:
         items:
           $ref: "#/definitions/SlotCapacity"
       frequencyType:
-        type: string
-        description: | 
-          Frequency of Visiting the Chamber
-        example: [WEEKLY, MOTHLY, QUARTERLY, DAILY]
+        $ref: "#/definitions/FrequencyTypeRef"
         
+  FrequencyTypeRef:
+    type: string
+    enum:
+    - WEEKLY
+    - MONTHLY
+    - QUARTERLY
+    - DAILY
+    - YEARLY
+    
   Group:
     type: object
     properties:
