@@ -700,6 +700,18 @@ definitions:
             sub divisions of OPD
       opdContact:
         $ref: "#/definitions/ContactMedium"
+      state:
+        type: string
+        description: | 
+          State where the OPD is present
+      city:
+        type: string
+        description: | 
+          Name of the city where OPD present
+      country:
+        type: string
+        description: |
+          Country for the OPD model
   
   IndividualRef:
     type: object
@@ -818,14 +830,6 @@ definitions:
         type: string
         description: |
           Parent ID  of the Hospital
-      rootId:
-        type: string
-        description: |
-          Root ID  of the Group Under Which this Hospital is Grouped
-      primaryId:
-        type: string
-        description: |
-          Priamry ID  of the Group Under Which this Hospital is Grouped
       state:
         type: string
         description: |
@@ -844,6 +848,10 @@ definitions:
         $ref: "#/definitions/PostalAdress"
       contactAddress: 
         $ref: "#/definitions/PostalAdress"
+      subGroups:
+        type: array
+        items:
+          $ref: "#/definitions/StandaloneCenterModel"
         
   
   PostalAdress:
@@ -899,7 +907,7 @@ definitions:
             Operation To be performed
           example: add, remove, replace
         value: 
-          type: string
+          type: object
           description: |
             Value To be replaced
         path: 
