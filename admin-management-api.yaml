@@ -729,6 +729,10 @@ definitions:
         type: string
         description: |
           Role of Individual Person
+      permissionId:
+      	type: string
+      	description: | 
+      	  Id for the permission for which you will get All the related access
       email: 
         type: string
         description: |

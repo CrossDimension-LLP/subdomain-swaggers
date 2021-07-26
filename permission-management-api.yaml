@@ -91,7 +91,143 @@ paths:
           schema:
             $ref: "#/definitions/Error"
  
+  /profile:
+    post:
+      operationId: createProfile
+      tags:
+        - "Profile Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Create user Profile"
+      parameters:
+        - in: body
+          name: profileInput
+          required: true
+          schema:
+            $ref: "#/definitions/Profile"
+      responses:
+        200:
+          description: |
+            *OK* - User Profile Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Profile"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"    
+            
+    get:
+      operationId: getProfile
+      tags:
+        - "Profile Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Get user Profile"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - User Profile Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Profile"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"            
+            
+    patch:
+      operationId: modifyProfile
+      tags:
+        - "Profile Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Modify user Profile"
+      parameters:
+        - in: query
+          required: true
+          name: profileId
+          type: string
+            
+        - in: body
+          required: true
+          name: patchElement
+          schema:
+            $ref: "#/definitions/PatchElement"
+      responses:
+        200:
+          description: |
+            *OK* - User Profile Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Profile"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error" 
+            
 definitions:
+  PatchElement:
+    type: array
+    items: 
+      properties:
+        op: 
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value: 
+          type: string
+          description: |
+            Value To be replaced
+        path: 
+          type: string
+          description: |
+            Object Path to be Patched
   UserRole:
     type: object
     properties:
@@ -106,24 +242,25 @@ definitions:
       roleType:
         $ref: "#/definitions/RoleTypeRef"
       allowed_actions:
-        $ref: "#/definitions/PossibleActions"
+        type: array
+        items:
+          $ref: "#/definitions/PossibleActions"
           
   PossibleActions:
-    type: array
-    items:
-      properties: 
-        path: 
-          type: string
-          description: |
-            Path will be prefixed by a "/" 
-        visibility: 
-          type: boolean
-          description: |
-            Its for visibility
-        description:
-          type : string
-          description: |
-            Related information about the component
+    type: object
+    properties: 
+      path: 
+        type: string
+        description: |
+          Path will be prefixed by a "/" 
+      visibility: 
+        type: boolean
+        description: |
+          Its for visibility
+      description:
+        type : string
+        description: |
+          Related information about the component
             
   RoleTypeRef:
     type: string
@@ -131,6 +268,46 @@ definitions:
     - ADMIN_MANAGEMENT
     - AUTOMATED
     - CUSTOMIZED
+  
+  Profile:
+    type: object
+    properties:
+      id: 
+        type: string
+        description: |
+          Id autogenrated
+      username: 
+        type: string
+        description: |
+          Username for Login purpose
+      firstName:
+        type: string
+        description: | 
+          First name for the profile
+      lastName: 
+        type: string
+        description: |
+          Last name for he profile
+      fullname:
+        type: string
+        description: | 
+          Full name for the Profile
+      access_token:
+        type: string
+        description: | 
+          Access_Token for the profile
+      email: 
+        type: string
+        description: | 
+          Email for the Future Access for the profile
+      mobile:
+        type: string
+        description: |
+          As the contact Information for the Profile
+      centreId:
+        type: string
+        description: | 
+          Attached Center Id with which he/she is joined
             
   Error:
     type: object
