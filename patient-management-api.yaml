@@ -430,12 +430,16 @@ paths:
 definitions:
   Patient:
     type: object
-    required: [firstName, postalAddress, billingAddress, registrationTime, contactDetails, emergencyContactDetails, sex, dateOfBirth, reasonForRegistration, hospitalDetails, paymentStatus]
+    required: [firstName, aadharId, sex, dateOfBirth, contactDetails]
     properties:
       id:
         type: string
         description : |
           Id of Particular Patient
+      aadharId:
+        type: string
+        description: |
+          Aadhar Id Number
       firstName:
         type: string
         description: |
@@ -448,10 +452,10 @@ definitions:
         type: string
         description: |
           Full name of Particular Patient
-      postalAddress:
-        $ref: "#/definitions/PostalAdress"
-      billingAddress:
-        $ref: "#/definitions/PostalAdress"
+      age:
+        type: string
+        description: |
+          Age of the Patient
       contactDetails:
         $ref: "#/definitions/ContactMedium"
       emergencyContactDetails:
@@ -462,16 +466,8 @@ definitions:
         $ref: "#/definitions/DateFormatRef"
       status:
         $ref: "#/definitions/StatusRef"
-      accountActivationDate:
-        $ref: "#/definitions/DateFormatRef"
-      latestAcitivityDate:
-        $ref: "#/definitions/DateFormatRef"
       medicalHistory:
         type: string
-      bookingIdList:
-        type: array
-        items:
-          type: string
           
   SexRef:
     type: string
