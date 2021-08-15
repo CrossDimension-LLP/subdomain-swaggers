@@ -31,6 +31,10 @@ paths:
           type: array
           items:
             type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
       responses:
         200:
           description: |
@@ -223,11 +227,11 @@ paths:
           schema:
             $ref: "#/definitions/Error"
   
-  /patientBooking:
+  /booking:
     post:
       operationId: addBooking
       tags:
-        - "Patient Booking Management"
+        - "Booking Management"
       summary: "Create a Booking for Patient"
       description: "Add Bookings for Patient"
       consumes:
@@ -265,7 +269,7 @@ paths:
     get:
       operationId: getAllBookings
       tags: 
-        - "Patient Booking Management"
+        - "Booking Management"
       summary: "List of All bookings"
       description: "Produces List of Patients"
       consumes:
@@ -295,11 +299,12 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+            
     delete:
       operationId: deleteBookingById
       tags: 
-        - "Patient Booking Management"
-      summary: "Deleted Patient Details"
+        - "Booking Management"
+      summary: "Deleted Booking Details"
       description: "Produces List of Patients"
       consumes:
         - "application/json"
@@ -336,11 +341,11 @@ paths:
           schema:
             $ref: "#/definitions/Error"
             
-  /patientBooking/{bookingId}:
+  /booking/{bookingId}:
     get:
       operationId: getBookingById
       tags: 
-        - "Patient Booking Management"
+        - "Booking Management"
       summary: "List of Patients"
       description: "Produces Specific Booking"
       consumes:
@@ -359,9 +364,7 @@ paths:
           description: |
             *OK* - Bookking Details Will be returned Successfully
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/BookingDetails"
+            $ref: "#/definitions/BookingDetails"
         400:
           description: |
             *Error* - Bad Request
@@ -379,53 +382,6 @@ paths:
             $ref: "#/definitions/Error"
             
     
-            
-  /patientBooking/info/{patientId}:
-    get:
-      operationId: getBookingForPatient
-      tags:
-        - "Patient Booking Management"
-      summary: "List of Patients"
-      description: "Produces List of Patients"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: path
-          name: patientId
-          required: true
-          type: string
-          description: |
-            "Patient Id"
-        - in: query
-          name: bookingId
-          type: array
-          items:
-            type: string
-      responses:
-        200:
-          description: |
-            *OK* - Bookking Details Will be returned Successfully
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/BookingDetails"
-        400:
-          description: |
-            *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
       
 definitions:
   Patient:
@@ -522,7 +478,7 @@ definitions:
       
   BookingInput:
     type: object
-    required: [bookingType, isBookingOPD, isBookingDiagnostics, patientId, registrationDate, bookingDate, bookingStatus, registrationTime, bookingSlot, bookingReason, bookingInfo]
+    required: [bookingType, patientId, bookingDate, bookingStatus, bookingInfo]
     properties:
       patientId:
         type: string
