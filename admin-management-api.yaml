@@ -712,10 +712,24 @@ definitions:
         type: string
         description: |
           Country for the OPD model
-  
+      attachedIndividuals:
+        type: array
+        items:
+          $ref: "#/definitions/AttachedIndividualRef"
+        
+  AttachedIndividualRef:
+    type: object
+    properties:
+      individualType:
+        type: string
+        description: |
+          Attched person type whether they are doctors or not
+      individual:
+        $ref: "#/definitions/IndividualRef"
+
   IndividualRef:
     type: object
-    required: [opdId, role, email, firstName]
+    required: [role, email, firstName]
     properties:
       id: 
         type: string
@@ -730,9 +744,9 @@ definitions:
         description: |
           Role of Individual Person
       permissionId:
-      	type: string
-      	description: | 
-      	  Id for the permission for which you will get All the related access
+        type: string
+        description: | 
+          Id for the permission for which you will get All the related access
       email: 
         type: string
         description: |
@@ -911,7 +925,7 @@ definitions:
             Operation To be performed
           example: add, remove, replace
         value: 
-          type: object
+          type: string
           description: |
             Value To be replaced
         path: 

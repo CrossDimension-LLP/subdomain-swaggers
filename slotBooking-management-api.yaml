@@ -257,12 +257,16 @@ definitions:
 
   Patient:
     type: object
-    required: [firstName, postalAddress, billingAddress, registrationTime, contactDetails, emergencyContactDetails, sex, dateOfBirth, reasonForRegistration, hospitalDetails, paymentStatus]
+    required: [firstName, aadharId, sex, dateOfBirth, contactDetails]
     properties:
       id:
         type: string
         description : |
           Id of Particular Patient
+      aadharId:
+        type: string
+        description: |
+          Aadhar Id Number
       firstName:
         type: string
         description: |
@@ -275,34 +279,28 @@ definitions:
         type: string
         description: |
           Full name of Particular Patient
-      postalAddress:
-        $ref: "#/definitions/PostalAdress"
-      billingAddress:
-        $ref: "#/definitions/PostalAdress"
+      age:
+        type: string
+        description: |
+          Age of the Patient
       contactDetails:
         $ref: "#/definitions/ContactMedium"
       emergencyContactDetails:
         $ref: "#/definitions/ContactMedium"
       sex:
-        type: string
-        description: |
-          Patient gender
+        $ref: "#/definitions/SexRef"
       dateOfBirth:
-        $ref: "#/definitions/DateFormatRef"
-      status:
-        type: string
-        description: |
-          Patient Status after creation date
-      accountActivationDate:
-        $ref: "#/definitions/DateFormatRef"
-      latestAcitivityDate:
         $ref: "#/definitions/DateFormatRef"
       medicalHistory:
         type: string
-      bookingIdList:
-        type: array
-        items:
-          type: string
+      octoHealthId:
+        type: string
+        description: |
+          Octo health Card id number for future reference
+      currentStatus:
+        type: string
+        description: |
+          For operational Case current position of the patient in the Hospital
 
   DateFormatRef:
     type: object
@@ -313,35 +311,13 @@ definitions:
         type: string
       day:
         type: string
-
-  PostalAdress:
-    type: object
-    required: [city, zipcode, state, country]
-    properties:
-      area:
-        type: string
-        description: |
-          Area of Postal adress
-      street:
-        type: string
-        description: |
-          street of Postal adress
-      city:
-        type: string
-        description: |
-          city of Postal adress
-      state:
-        type: string
-        description: |
-          State of Postal adress
-      zipcode:
-        type: string
-        description: |
-          zipcode of Postal adress
-      country:
-        type: string
-        description: |
-          country of Postal adress
+  SexRef:
+    type: string
+    enum:
+    - MALE
+    - FEMALE
+    - TRANSGENDER
+    - UNDISCLOSED
 
   ContactMedium:
     type: object

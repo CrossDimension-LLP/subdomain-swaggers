@@ -464,11 +464,16 @@ definitions:
         $ref: "#/definitions/SexRef"
       dateOfBirth:
         $ref: "#/definitions/DateFormatRef"
-      status:
-        $ref: "#/definitions/StatusRef"
       medicalHistory:
         type: string
-          
+      octoHealthId:
+        type: string
+        description: |
+          Octo health Card id number for future reference
+      currentStatus:
+        type: string
+        description: |
+          For operational Case current position of the patient in the Hospital
   SexRef:
     type: string
     enum:
@@ -504,6 +509,8 @@ definitions:
       - $ref: "#/definitions/BookingInput"
       - type: object
         properties:
+          patientDetails:
+            $ref: "#/definitions/Patient"
           paymentStatus:
             $ref: "#/definitions/PaymentStatusRef"
           paymentMode:
@@ -517,46 +524,18 @@ definitions:
     type: object
     required: [bookingType, isBookingOPD, isBookingDiagnostics, patientId, registrationDate, bookingDate, bookingStatus, registrationTime, bookingSlot, bookingReason, bookingInfo]
     properties:
-      isBookingOPD:
-        type: boolean
-        description: |
-          Is booking for OPD management
-      isBookingDiagnostics:
-        type: boolean
-        description: |
-          Is booking for Diagnostics
       patientId:
         type: string
         description: |
           "Patient ID for which booking is being generated"
-      registrationTime:
-        type: string
-        description: |
-          "Time when booking is processing"
-      registrationDate:
-        $ref: "#/definitions/DateFormatRef"
-      bookingSlot:
-        type: string
-        description: |
-          "Slot for which booking is being made"
       bookingDate:
         $ref: "#/definitions/DateFormatRef"
       bookingStatus:
         $ref: "#/definitions/StatusRef"
       bookingInfo:
         $ref: "#/definitions/BookingInfoRef"
-      bookingReason:
-        type: string
-        description: |
-         "For which use booking is being made"
       bookingType:
-        type: string
-        description: |
-         "Patient Registration is done either by self(S) or hospital representative(HoR)"
-      bookingAgentName:
-        type: string
-        description: |
-         "If by HoR then agent name should be there"
+        $ref: "#/definitions/BookingTypeRef"
     
   BookingInfoRef:
     type: object
@@ -572,7 +551,21 @@ definitions:
           "On Which Hospital / Diagnostic Center Booking is being selected"
       bookingForIndividual:
         $ref: "#/definitions/BookingIndividualRef"
-      
+      bookingSlot:
+        $ref: "#/definitions/SlotDetails"
+  
+  SlotDetails:
+    type: object
+    properties:
+      dayOfWeek:
+        type: string
+        description: |
+          on which week day booking is made for
+      timing:
+        type: string 
+        description: |
+         On Which timing the slot is booked for
+        
   BookingIndividualRef:
     type: object
     properties:
@@ -586,43 +579,17 @@ definitions:
           "Doctor or Diagnostic agent Name"
       contactDetails: 
         $ref: "#/definitions/ContactMedium"
-      averageRating:
-        type: string
-        description: |
-          Rating given by the existing customers
       fee:
         type: string
         description: |
           particular fee deatils for that individual
-        
-  PostalAdress:
-    type: object
-    required: [city, zipcode, state, country]
-    properties:
-      area:
-        type: string
-        description: |
-          Area of Postal adress
-      street:
-        type: string
-        description: |
-          street of Postal adress
-      city:
-        type: string
-        description: |
-          city of Postal adress
-      state:
-        type: string
-        description: |
-          State of Postal adress
-      zipcode:
-        type: string
-        description: |
-          zipcode of Postal adress
-      country:
-        type: string
-        description: |
-          country of Postal adress
+  
+  BookingTypeRef:
+    type: string
+    enum:
+    - OPD
+    - PATHOLOGY
+    - OPERATIONAL
           
   DateFormatRef:
     type: object
@@ -633,9 +600,14 @@ definitions:
         type: string
       day:
         type: string
+      time: 
+        type: string
+        description: |
+          "HH:MM:SS format"
         
   ContactMedium:
     type: object
+    required: [mobile ]
     properties:
       email:
         type: string
