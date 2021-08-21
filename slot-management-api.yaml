@@ -1,0 +1,232 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation                           #
+###################################################################
+host: octopus.com
+basePath : /slotManagement/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /slot:
+    get:
+      operationId: getAllSlots
+      tags:
+        - "Slot Management"
+      summary: "List of Slots available"
+      description: "Produces List of Slots available"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Slots Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/Slot'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      tags:
+        - "Slot Management"
+      summary: "First slot Insertion for a doctor"
+      description: "Creates New entry for a slot of a doctor"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Slot Input
+          required: true
+          schema:
+            $ref: "#/definitions/Slot"
+      responses:
+        200:
+          description: |
+            *OK* - Inserted Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Slot'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+  /slot/{slotDesc}:
+    get:
+      operationId: getSlotByDesc
+      tags:
+        - "Slot Management"
+      summary: "Specific slot"
+      description: "Produces slot"
+      parameters:
+        - in: path
+          name: slotDesc
+          required: true
+          type: string
+          description: |
+            "slot by id or date"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Slot'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+			
+  
+
+
+definitions:
+  Slot:
+    type: object
+    required: [id, doctorId, departmentId]
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Slot 
+      individualId:
+        type: string
+        description: |
+          Id of hospital/standalone of a particular doctor
+      doctorId:
+        type: string
+        description: |
+          Id of doctor of a particular slot
+      departmentId:
+        type: string
+        description: |
+          department for which the slot is being created
+      slotCreationWindowLength:
+        type: string
+        description: |
+          for how many days admin wants to create the slots for specified doctor
+      slotCreationDate:
+        $ref: "#/definitions/DateFormatRef"
+      slotDetails:
+        $ref: "#/definitions/SlotDetails"
+
+  SlotDetails:
+    type: object
+    required: [dayOfWeek, slotStartTime, slotEndTime, slotCapacity]
+    properties:
+      dayOfWeek:
+        type: string
+        description : |
+          day of week of the slot
+      slotStartTime:
+        type: string
+        description: |
+          start time of the slot
+      slotEndTime:
+        type: string
+        description: |
+          end time of the slot
+      slotBracket:
+        type: string
+        description: |
+          total time for which doctor will be available for the day
+      slotCapacity:
+        type: string
+        description: |
+          patient capacity of the slot
+      
+
+  DateFormatRef:
+    type: object
+    properties:
+      year:
+        type: string
+      month:
+        type: string
+      day:
+        type: string
+
+  PatchElement:
+    type: array
+    items:
+      properties:
+        op:
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value:
+          $ref: "#/definitions/Slot"
+        path:
+          type: string
+          description: |
+            Object Path to be Patched
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
+
