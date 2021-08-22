@@ -125,7 +125,102 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-			
+    patch:
+      operationId: updateSlotBySlotDesc
+      tags:
+        - "Slot Management"
+      summary: "Updation of a slot"
+      description: "Produces Slot"
+      parameters:
+        - in: path
+          name: slotDesc
+          required: true
+          type: string
+          description: |
+            "slot date"
+        - in: header
+          name: If-Match
+          required: false
+          type: string
+          description: |
+            "Slot Id"
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "customer patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Booking Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Slot'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deleteSlot
+      tags:
+        - "Slot Management"
+      summary: "Specific slot Deletion"
+      description: "delete Specific slot "
+      parameters:
+        - in: path
+          name: slotDesc
+          required: true
+          type: string
+          description: |
+            "slot date"
+        - in: header
+          name: If-Match
+          required: false
+          type: string
+          description: |
+            "slot Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Booking Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Slot'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
   
 
 
