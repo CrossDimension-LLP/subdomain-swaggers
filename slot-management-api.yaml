@@ -96,7 +96,7 @@ paths:
             $ref: "#/definitions/Error"
 
  
-			
+      
   
 
 
@@ -156,6 +156,8 @@ definitions:
         type: string
         description: |
           patient capacity of the slot
+      slotDate:
+        $ref: "#/definitions/DateFormatRef"
       
 
   DateFormatRef:
