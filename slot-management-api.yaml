@@ -95,8 +95,96 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+    patch:
+      operationId: updateSlot
+      tags:
+        - "Slot Management"
+      summary: "Slot Updation by filter"
+      description: "Produces List of Slots"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Slot patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific SLot Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Slot"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deletePatient
+      tags:
+        - "Slot Management"
+      summary: "Slot Deletion by filter"
+      description: "delete Slot"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Will be returned Successfully
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
  
-      
   
 
 
@@ -158,6 +246,10 @@ definitions:
           patient capacity of the slot
       slotDate:
         $ref: "#/definitions/DateFormatRef"
+      slotFrequency:
+        type: string
+        description: |
+          frequency of slot
       
 
   DateFormatRef:
