@@ -191,7 +191,7 @@ paths:
 definitions:
   Slot:
     type: object
-    required: [id, doctorId, departmentId]
+    required: [id, doctorId, departmentId, slotDetails]
     properties:
       id:
         type: string
@@ -214,9 +214,13 @@ definitions:
         description: |
           for how many days admin wants to create the slots for specified doctor
       slotCreationDate:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          slot creation date
       slotStartDate:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          slot starting date
       slotDetails:
         $ref: "#/definitions/SlotDetails"
 
@@ -245,22 +249,14 @@ definitions:
         description: |
           patient capacity of the slot
       slotDate:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          slot date
       slotFrequency:
         type: string
         description: |
           frequency of slot
       
-
-  DateFormatRef:
-    type: object
-    properties:
-      year:
-        type: string
-      month:
-        type: string
-      day:
-        type: string
 
   PatchElement:
     type: array
