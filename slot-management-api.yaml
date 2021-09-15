@@ -40,9 +40,7 @@ paths:
           description: |
             *OK* - List of Slots Will be returned Successfully
           schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Slot'
+            $ref: '#/definitions/Success'
         400:
           description: |
             *Error* - Bad Request
@@ -78,7 +76,7 @@ paths:
           description: |
             *OK* - Inserted Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/Slot'
+            $ref: '#/definitions/Success'
         400:
           description: |
             *Error* - Bad Request
@@ -127,7 +125,7 @@ paths:
           description: |
             *OK* - Specific SLot Will be returned Successfully
           schema:
-            $ref: "#/definitions/Slot"
+            $ref: '#/definitions/Success'
         500:
           description: |
             *Error* - Internal Server error
@@ -168,6 +166,8 @@ paths:
         200:
           description: |
             *OK* - Specific Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
         500:
           description: |
             *Error* - Internal Server error
@@ -183,9 +183,6 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
-
- 
-  
 
 
 definitions:
@@ -273,6 +270,27 @@ definitions:
           type: string
           description: |
             Object Path to be Patched
+  
+  Success:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          200 ok
+      message:
+        type: string
+        description: |
+          Success message
+      insertedSlotCount:
+        type: number
+        description: |
+          Number of total inserted slots
+      path:
+        type: string
+        description: |
+          Path to get the slots
+  
   Error:
     type: object
     properties:
