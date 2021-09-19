@@ -485,10 +485,15 @@ definitions:
     - MANUAL
     
   BookingDetails:
+    required: [id]
     allOf:
       - $ref: "#/definitions/BookingInput"
       - type: object
         properties:
+          id:
+            type: string
+            description: |
+              Booking Id to be genrated for Bookingdetails to save
           patientDetails:
             $ref: "#/definitions/Patient"
           paymentStatus:
