@@ -16,7 +16,7 @@ produces:
 paths:
   /slot:
     get:
-      operationId: getAllSlots
+      operationId: getSlots
       tags:
         - "Slot Management"
       summary: "List of Slots available"
@@ -57,6 +57,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      operationId: saveSlot
       tags:
         - "Slot Management"
       summary: "First slot Insertion for a doctor"
@@ -143,7 +144,7 @@ paths:
             $ref: "#/definitions/Error"
 
     delete:
-      operationId: deletePatient
+      operationId: deleteSlots
       tags:
         - "Slot Management"
       summary: "Slot Deletion by filter"
