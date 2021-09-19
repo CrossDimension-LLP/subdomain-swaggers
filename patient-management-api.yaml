@@ -197,7 +197,7 @@ paths:
       operationId: getPatientById
       tags:
         - "Patient Information Management"
-      summary: "Specific Patient"
+      summary: "Specific Patient  ---------  Not in business"
       description: "Produces List of Patients"
       parameters:
         - in: path
