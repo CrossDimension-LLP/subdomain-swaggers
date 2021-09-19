@@ -59,6 +59,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      operationId: createPatientDirectory
       tags:
         - "Patient Information Management"
       summary: "Patient Registration"
@@ -96,14 +97,14 @@ paths:
             $ref: "#/definitions/Error"
             
     patch:
-      operationId: updatePatient
+      operationId: updatePatientDetails
       tags:
         - "Patient Information Management"
       summary: "Specific Patient Updation"
       description: "Produces Updated Patient Information"
       parameters:
         - in: query
-          name: filters
+          name: patientId
           required: true
           type: string
           description: |
@@ -148,7 +149,7 @@ paths:
             $ref: "#/definitions/Error"
             
     delete:
-      operationId: deletePatient
+      operationId: deletePatientDetails
       tags:
         - "Patient Information Management"
       summary: "Specific Patient Deletion"
@@ -233,7 +234,7 @@ paths:
   
   /booking:
     post:
-      operationId: addBooking
+      operationId: createBooking
       tags:
         - "Booking Management"
       summary: "Create a Booking for Patient"
@@ -311,7 +312,7 @@ paths:
             $ref: "#/definitions/Error"
             
     delete:
-      operationId: deleteBooking
+      operationId: deleteBookings
       tags: 
         - "Booking Management"
       summary: "Deleted Booking Details"
@@ -352,7 +353,7 @@ paths:
             $ref: "#/definitions/Error"
             
     patch:
-      operationId: updateBooking
+      operationId: updateBookingDetails
       tags: 
         - "Booking Management"
       summary: "Update Booking Details"
@@ -368,14 +369,25 @@ paths:
           type: array
           items:
             type: string
+        - in: header
+          name: If-Match
+          required: false
+          type: string
+          description: |
+            Etag"
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Booking patch element"
       responses:
         200:
           description: |
             *OK* - Bookking Details Will be returned Successfully
           schema:
-            type: array
-            items:
-              $ref: "#/definitions/BookingDetails"
+            $ref: "#/definitions/BookingDetails"
         400:
           description: |
             *Error* - Bad Request
