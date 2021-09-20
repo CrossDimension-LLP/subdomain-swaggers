@@ -485,7 +485,7 @@ definitions:
     - MANUAL
     
   BookingDetails:
-    required: [id]
+    required: [id, bookingProcessStatus]
     allOf:
       - $ref: "#/definitions/BookingInput"
       - type: object
