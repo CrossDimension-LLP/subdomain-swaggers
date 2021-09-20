@@ -494,6 +494,10 @@ definitions:
             type: string
             description: |
               Booking Id to be genrated for Bookingdetails to save
+          bookingStatus:
+            $ref: "#/definitions/BookingStatusRef"
+          bookingProcessStatus:
+            $ref: "#/definitions/StatusRef"
           patientDetails:
             $ref: "#/definitions/Patient"
           paymentStatus:
@@ -515,8 +519,6 @@ definitions:
           "Patient ID for which booking is being generated"
       bookingDate:
         type: string
-      bookingStatus:
-        $ref: "#/definitions/StatusRef"
       bookingInfo:
         $ref: "#/definitions/BookingInfoRef"
       bookingType:
@@ -581,6 +583,14 @@ definitions:
     - OPD
     - PATHOLOGY
     - OPERATIONAL
+    
+  BookingStatusRef:
+    type: string
+    enum:
+    - ACTIVE
+    - CLOSED
+    - RECURRING
+    - FREEZED
         
   ContactMedium:
     type: object
@@ -594,7 +604,7 @@ definitions:
         type: string
         description: |
           mobile of Particular Patient
-      alternate_number:
+      alternatNumber:
         type: string
         description: |
           mobile of Particular Patient
