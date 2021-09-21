@@ -16,7 +16,7 @@ produces:
 paths:
   /slotBooking:
     get:
-      operationId: getSlotBooking
+      operationId: getSlotBookings
       tags:
         - "Slot Booking Management"
       summary: "List of slots booked by user"
@@ -144,7 +144,7 @@ paths:
             $ref: "#/definitions/Error"
 
     delete:
-      operationId: deleteSlotBooking
+      operationId: deleteSlotBookings
       tags:
         - "Slot Booking Management"
       summary: "Booked Slot Deletion by filter"
