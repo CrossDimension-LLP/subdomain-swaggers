@@ -219,6 +219,10 @@ definitions:
         type: string
         description: |
           slot starting date
+      availableSlot:
+        type: string
+        description: |
+          available slot after booking starts
       slotDetails:
         $ref: "#/definitions/SlotDetails"
 
