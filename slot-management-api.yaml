@@ -220,7 +220,7 @@ definitions:
         description: |
           slot starting date
       availableSlot:
-        type: string
+        type: integer
         description: |
           available slot after booking starts
       slotDetails:
