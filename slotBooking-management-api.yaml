@@ -215,10 +215,6 @@ definitions:
         type: string
         description: |
           start and end time of the slot
-      currentAvailableSlot:
-        type: integer
-      totalAvailableSlot:
-        type: integer
 
   Patient:
     type: object
