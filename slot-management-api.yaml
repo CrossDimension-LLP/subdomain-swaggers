@@ -315,3 +315,16 @@ definitions:
         type: string
         description: |
           Error Path
+
+  SlotCountMessage:
+    type: object
+    properties:
+      slotId:
+        type: string
+        description: |
+          id of slot/slot booking
+      opType:
+        type: string
+        enum:
+          - INCREMENTAL
+          - DECREMENTAL
