@@ -347,5 +347,18 @@ definitions:
         type: string
         description: |
           Path to get the slots
+          
+  SlotCountMessage:
+    type: object
+    properties:
+      slotId:
+        type: string
+        description: |
+          id of slot/slot booking
+      opType:
+        type: string
+        enum:
+          - INCREMENTAL
+          - DECREMENTAL
   
   
