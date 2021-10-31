@@ -14,7 +14,7 @@ produces:
   - application/json
 
 paths:
-  /patientInformation:
+  /patientInfo:
     get:
       operationId: searchPatient
       tags:
@@ -59,6 +59,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      operationId: createPatientDirectory
       tags:
         - "Patient Information Management"
       summary: "Patient Registration"
@@ -94,50 +95,15 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-
-  /patientInformation/{patientId}:
-    get:
-      operationId: getPatientById
-      tags:
-        - "Patient Information Management"
-      summary: "Specific Patient"
-      description: "Produces List of Patients"
-      parameters:
-        - in: path
-          name: patientId
-          required: true
-          type: string
-          description: |
-            "Patient Id"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: |
-            *OK* - Specific Patient Will be returned Successfully
-          schema:
-            $ref: "#/definitions/Patient"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-
+            
     patch:
-      operationId: updatePatient
+      operationId: updatePatientDetails
       tags:
         - "Patient Information Management"
       summary: "Specific Patient Updation"
-      description: "Produces List of Patients"
+      description: "Produces Updated Patient Information"
       parameters:
-        - in: path
+        - in: query
           name: patientId
           required: true
           type: string
@@ -181,16 +147,16 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
-
+            
     delete:
-      operationId: deletePatient
+      operationId: deletePatientDetails
       tags:
         - "Patient Information Management"
       summary: "Specific Patient Deletion"
       description: "delete Specific Patient"
       parameters:
-        - in: path
-          name: patientId
+        - in: query
+          name: filters
           required: true
           type: string
           description: |
@@ -226,10 +192,49 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
+
+  /patientInfo/{patientId}:
+    get:
+      operationId: getPatientById
+      tags:
+        - "Patient Information Management"
+      summary: "Specific Patient  ---------  Not in business"
+      description: "Produces List of Patients"
+      parameters:
+        - in: path
+          name: patientId
+          required: true
+          type: string
+          description: |
+            "Patient Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Patient Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Patient"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+ 
+
+  
   
   /booking:
     post:
-      operationId: addBooking
+      operationId: createBooking
       tags:
         - "Booking Management"
       summary: "Create a Booking for Patient"
@@ -267,53 +272,18 @@ paths:
             $ref: "#/definitions/Error"
     
     get:
-      operationId: getAllBookings
+      operationId: searchBookings
       tags: 
         - "Booking Management"
-      summary: "List of All bookings"
-      description: "Produces List of Patients"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: |
-            *OK* - Bookking Details Will be returned Successfully
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/BookingDetails"
-        400:
-          description: |
-            *Error* - Bad Request
-          schema:
-            $ref: "#/definitions/Error"
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
-            
-    delete:
-      operationId: deleteBookingById
-      tags: 
-        - "Booking Management"
-      summary: "Deleted Booking Details"
-      description: "Produces List of Patients"
+      summary: "List of bookings"
+      description: "Produces List of Bookings"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
         - in: query
-          required: true
-          name: bookingId
+          name: filters
           type: array
           items:
             type: string
@@ -341,24 +311,77 @@ paths:
           schema:
             $ref: "#/definitions/Error"
             
-  /booking/{bookingId}:
-    get:
-      operationId: getBookingById
+    delete:
+      operationId: deleteBookings
       tags: 
         - "Booking Management"
-      summary: "List of Patients"
-      description: "Produces Specific Booking"
+      summary: "Deleted Booking Details"
+      description: "Produces Deleted Bookings"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-        - in: path
-          name: bookingId
+        - in: query
           required: true
+          name: filters
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - Bookking Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BookingDetails"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    patch:
+      operationId: updateBookingDetails
+      tags: 
+        - "Booking Management"
+      summary: "Update Booking Details"
+      description: "Produces List of Patients"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          required: true
+          name: bookingId
+          type: array
+          items:
+            type: string
+        - in: header
+          name: If-Match
+          required: false
           type: string
           description: |
-            "Booking Id"
+            Etag"
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Booking patch element"
       responses:
         200:
           description: |
@@ -380,6 +403,7 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+  
             
     
       
@@ -419,7 +443,7 @@ definitions:
       sex:
         $ref: "#/definitions/SexRef"
       dateOfBirth:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
       medicalHistory:
         type: string
       octoHealthId:
@@ -441,7 +465,7 @@ definitions:
   StatusRef:
     type: string
     enum:
-    - ACTIVE
+    - COMPLETED
     - INPROGRESS
     - CONFIRMED
     - CANCELLED
@@ -461,10 +485,19 @@ definitions:
     - MANUAL
     
   BookingDetails:
+    required: [id, bookingProcessStatus]
     allOf:
       - $ref: "#/definitions/BookingInput"
       - type: object
         properties:
+          id:
+            type: string
+            description: |
+              Booking Id to be genrated for Bookingdetails to save
+          bookingStatus:
+            $ref: "#/definitions/BookingStatusRef"
+          bookingProcessStatus:
+            $ref: "#/definitions/StatusRef"
           patientDetails:
             $ref: "#/definitions/Patient"
           paymentStatus:
@@ -485,9 +518,7 @@ definitions:
         description: |
           "Patient ID for which booking is being generated"
       bookingDate:
-        $ref: "#/definitions/DateFormatRef"
-      bookingStatus:
-        $ref: "#/definitions/StatusRef"
+        type: string
       bookingInfo:
         $ref: "#/definitions/BookingInfoRef"
       bookingType:
@@ -521,6 +552,10 @@ definitions:
         type: string 
         description: |
          On Which timing the slot is booked for
+      slotDate:
+        type: string
+        description: |
+         On Which Slot date Booking has been made
         
   BookingIndividualRef:
     type: object
@@ -533,8 +568,10 @@ definitions:
         type: string
         description: |
           "Doctor or Diagnostic agent Name"
-      contactDetails: 
-        $ref: "#/definitions/ContactMedium"
+      opdName:
+        type: string
+        description: | 
+          On Which OPD the booking has been made
       fee:
         type: string
         description: |
@@ -546,20 +583,14 @@ definitions:
     - OPD
     - PATHOLOGY
     - OPERATIONAL
-          
-  DateFormatRef:
-    type: object
-    properties:
-      year:
-        type: string
-      month:
-        type: string
-      day:
-        type: string
-      time: 
-        type: string
-        description: |
-          "HH:MM:SS format"
+    
+  BookingStatusRef:
+    type: string
+    enum:
+    - ACTIVE
+    - CLOSED
+    - RECURRING
+    - FREEZED
         
   ContactMedium:
     type: object
@@ -573,11 +604,11 @@ definitions:
         type: string
         description: |
           mobile of Particular Patient
-      alternate_number:
+      alternatNumber:
         type: string
         description: |
           mobile of Particular Patient
-
+          
   PatchElement:
     type: array
     items:
@@ -595,6 +626,8 @@ definitions:
           type: string
           description: |
             Object Path to be Patched
+            
+  
             
   Error:
     type: object

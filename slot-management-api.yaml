@@ -16,7 +16,7 @@ produces:
 paths:
   /slot:
     get:
-      operationId: getAllSlots
+      operationId: getSlots
       tags:
         - "Slot Management"
       summary: "List of Slots available"
@@ -40,9 +40,7 @@ paths:
           description: |
             *OK* - List of Slots Will be returned Successfully
           schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/Slot'
+            $ref: '#/definitions/Success'
         400:
           description: |
             *Error* - Bad Request
@@ -59,6 +57,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      operationId: saveSlot
       tags:
         - "Slot Management"
       summary: "First slot Insertion for a doctor"
@@ -78,7 +77,7 @@ paths:
           description: |
             *OK* - Inserted Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/Slot'
+            $ref: '#/definitions/Success'
         400:
           description: |
             *Error* - Bad Request
@@ -95,15 +94,102 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
- 
-			
-  
+    patch:
+      operationId: updateSlot
+      tags:
+        - "Slot Management"
+      summary: "Slot Updation by filter"
+      description: "Produces List of Slots"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Slot patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific SLot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deleteSlots
+      tags:
+        - "Slot Management"
+      summary: "Slot Deletion by filter"
+      description: "delete Slot"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
 
 
 definitions:
   Slot:
     type: object
-    required: [id, doctorId, departmentId]
+    required: [id, doctorId, departmentId, slotDetails]
     properties:
       id:
         type: string
@@ -126,9 +212,17 @@ definitions:
         description: |
           for how many days admin wants to create the slots for specified doctor
       slotCreationDate:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          slot creation date
       slotStartDate:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          slot starting date
+      availableSlot:
+        type: integer
+        description: |
+          available slot after booking starts
       slotDetails:
         $ref: "#/definitions/SlotDetails"
 
@@ -156,17 +250,15 @@ definitions:
         type: string
         description: |
           patient capacity of the slot
+      slotDate:
+        type: string
+        description: |
+          slot date
+      slotFrequency:
+        type: string
+        description: |
+          frequency of slot
       
-
-  DateFormatRef:
-    type: object
-    properties:
-      year:
-        type: string
-      month:
-        type: string
-      day:
-        type: string
 
   PatchElement:
     type: array
@@ -183,6 +275,27 @@ definitions:
           type: string
           description: |
             Object Path to be Patched
+  
+  Success:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          200 ok
+      message:
+        type: string
+        description: |
+          Success message
+      insertedSlotCount:
+        type: number
+        description: |
+          Number of total inserted slots
+      path:
+        type: string
+        description: |
+          Path to get the slots
+  
   Error:
     type: object
     properties:
@@ -202,3 +315,16 @@ definitions:
         type: string
         description: |
           Error Path
+
+  SlotCountMessage:
+    type: object
+    properties:
+      slotId:
+        type: string
+        description: |
+          id of slot/slot booking
+      opType:
+        type: string
+        enum:
+          - INCREMENTAL
+          - DECREMENTAL

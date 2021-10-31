@@ -16,11 +16,11 @@ produces:
 paths:
   /slotBooking:
     get:
-      operationId: serachSlotBooking
+      operationId: getSlotBookings
       tags:
         - "Slot Booking Management"
-      summary: "List of Booked Slots"
-      description: "Produces List of Booked Slots"
+      summary: "List of slots booked by user"
+      description: "List of slots booked by user"
       consumes:
         - "application/json"
       produces:
@@ -29,16 +29,18 @@ paths:
         - in: query
           name: filters
           type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
           items:
             type: string
       responses:
         200:
           description: |
-            *OK* - List of Slots Will be returned Successfully
+            *OK* - List of slots booked by user Will be returned Successfully
           schema:
-            type: "array"
-            items:
-              $ref: '#/definitions/SlotBooking'
+            $ref: '#/definitions/Success'
         400:
           description: |
             *Error* - Bad Request
@@ -55,26 +57,27 @@ paths:
           schema:
             $ref: "#/definitions/Error"
     post:
+      operationId: saveSlotBooking
       tags:
         - "Slot Booking Management"
-      summary: "First booking Insertion for a slot"
-      description: "Creates New entry for the slot booking"
+      summary: "Booked slot with patient details will get saved"
+      description: "Creates New entry for a booked slot"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
         - in: body
-          name: SlotBooking Input
+          name: Slot Booking Input
           required: true
           schema:
             $ref: "#/definitions/SlotBooking"
       responses:
         200:
           description: |
-            *OK* - List of Admin Users Will be returned Successfully
+            *OK* - Inserted Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/SlotBooking'
+            $ref: '#/definitions/Success'
         400:
           description: |
             *Error* - Bad Request
@@ -91,66 +94,29 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /slotBooking/{slotBooingId}:
-    get:
-      operationId: getSlotBookingById
-      tags:
-        - "Slot Booking Management"
-      summary: "Specific Booked slot"
-      description: "Produces List of booked slots"
-      parameters:
-        - in: path
-          name: slotBooingId
-          required: true
-          type: string
-          description: |
-            "booking date"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: |
-            *OK* - Specific Slot Will be returned Successfully
-          schema:
-            $ref: '#/definitions/SlotBooking'
-        500:
-          description: |
-            *Error* - Internal Server error
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: |
-            *Error* - Not Found
-          schema:
-            $ref: "#/definitions/Error"
     patch:
-      operationId: addPatientToSlot
+      operationId: updateSlotBooking
       tags:
         - "Slot Booking Management"
-      summary: "Patient addition to a Specific slot"
-      description: "Produces List of Patients"
+      summary: "Booked Slot Updation by filter"
+      description: "Produces List of Booked Slots"
       parameters:
-        - in: path
-          name: slotBooingId
-          required: true
-          type: string
+        - in: query
+          name: filters
+          type: array
           description: |
-            "booking date"
-        - in: header
-          name: If-Match
-          required: false
-          type: string
-          description: |
-            "Slot Booking Id"
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
         - in: body
           name: Patch Element
           required: true
           schema:
             $ref: "#/definitions/PatchElement"
           description: |
-            "customer patch element"
+            "Slot Booking patch element"
       consumes:
         - "application/json"
       produces:
@@ -158,9 +124,9 @@ paths:
       responses:
         200:
           description: |
-            *OK* - Specific Slot Booking Will be returned Successfully
+            *OK* - Specific booked SLot Will be returned Successfully
           schema:
-            $ref: '#/definitions/SlotBooking'
+            $ref: '#/definitions/Success'
         500:
           description: |
             *Error* - Internal Server error
@@ -178,24 +144,21 @@ paths:
             $ref: "#/definitions/Error"
 
     delete:
-      operationId: deleteSlotBooking
+      operationId: deleteSlotBookings
       tags:
         - "Slot Booking Management"
-      summary: "Specific Booked slot Deletion"
-      description: "delete Specific slot booking"
+      summary: "Booked Slot Deletion by filter"
+      description: "delete Slot Booking"
       parameters:
-        - in: path
-          name: slotBooingId
-          required: true
-          type: string
+        - in: query
+          name: filters
+          type: array
           description: |
-            "booking date"
-        - in: header
-          name: If-Match
-          required: false
-          type: string
-          description: |
-            "slotBooking Id"
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
       consumes:
         - "application/json"
       produces:
@@ -203,9 +166,9 @@ paths:
       responses:
         200:
           description: |
-            *OK* - Specific Slot Booking Will be returned Successfully
+            *OK* - Specific Booked Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/SlotBooking'
+            $ref: '#/definitions/Success'
         500:
           description: |
             *Error* - Internal Server error
@@ -245,15 +208,13 @@ definitions:
         items:
           $ref: "#/definitions/Patient"
       bookingDate:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          date of birth
       bookingSlotBracket:
         type: string
         description: |
           start and end time of the slot
-      currentAvailableSlot:
-        type: integer
-      totalAvailableSlot:
-        type: integer
 
   Patient:
     type: object
@@ -290,7 +251,9 @@ definitions:
       sex:
         $ref: "#/definitions/SexRef"
       dateOfBirth:
-        $ref: "#/definitions/DateFormatRef"
+        type: string
+        description: |
+          date of birth
       medicalHistory:
         type: string
       octoHealthId:
@@ -302,15 +265,6 @@ definitions:
         description: |
           For operational Case current position of the patient in the Hospital
 
-  DateFormatRef:
-    type: object
-    properties:
-      year:
-        type: string
-      month:
-        type: string
-      day:
-        type: string
   SexRef:
     type: string
     enum:
@@ -373,4 +327,38 @@ definitions:
         type: string
         description: |
           Error Path
-
+  
+  Success:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          200 ok
+      message:
+        type: string
+        description: |
+          Success message
+      insertedSlotCount:
+        type: number
+        description: |
+          Number of total inserted slots
+      path:
+        type: string
+        description: |
+          Path to get the slots
+          
+  SlotCountMessage:
+    type: object
+    properties:
+      slotId:
+        type: string
+        description: |
+          id of slot/slot booking
+      opType:
+        type: string
+        enum:
+          - INCREMENTAL
+          - DECREMENTAL
+  
+  
