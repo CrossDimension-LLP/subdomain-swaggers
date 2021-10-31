@@ -1,0 +1,57 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation                           #
+###################################################################
+host: octopus.com
+info: 
+  version: V1.0-alpha
+  title: Billing Management REST API Documentation
+basePath : /billing/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+  
+definitions:
+  BillingAccountRef:
+    type: object
+    properties:
+      id:
+        type: string
+        description: |  
+          Id of a billing Account 
+      customerId: 
+        type: string
+        description: |
+          Customer Id for which the billing account is attached
+      financialAccounts:
+        type: array
+        items:
+          $ref: '#/definitions/FinancialAccount'
+  
+  FinancialAccount:
+    type: object
+    properties:
+      id:
+        type: string
+        description: |  
+          Id of a financial account 
+      accountType:
+        $ref: '#/definitions/FinancialAccountTypeRef'
+        
+        
+  FinancialAccountTypeRef:
+    type: string
+    enum:
+    - COD
+    - GPay
+    - PhonePay
+    - NetBanking
+    - Cheque
+    - DD
+    - Others
