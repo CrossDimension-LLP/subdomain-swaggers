@@ -47,7 +47,7 @@ paths:
           description: |
             *OK* - List of Billing Details Will be returned Successfully
           schema:
-            type: "array"
+            type: array
             items:
               $ref: "#/definitions/BillingAccount"
         400:
@@ -104,7 +104,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
   
-  /transactionDetails:
+  /transaction:
     get:
       operationId: searchTransactions
       tags:
@@ -134,6 +134,219 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Transaction"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    post:
+      operationId: makeTransaction
+      tags:
+        - "Payment Transaction Management"
+      summary: "Create Transaction "
+      description: "Produces Transaction Details"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: transactionInput
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        200:
+          description: |
+            *OK* - Transaction Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Transaction"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /invoice:
+    post:
+      operationId: createInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Create Invoice"
+      description: "Produces Invoice"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: invoiceInput
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentInvoiceRef'
+      responses:
+        200:
+          description: |
+            *OK* - Invoice Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    patch:
+      operationId: updateInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Create Invoice"
+      description: "Produces Invoice"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: invoiceId
+          required: true
+          type: string
+          description: |
+            "Invoice Id"
+        - in: body
+          name: patchElement
+          required: true
+          description: |
+            "Patch Body"
+          schema:
+            $ref: '#/definitions/PatchElement'
+      responses:
+        200:
+          description: |
+            *OK* - Invoice Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    get:
+      operationId: searchInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Get Invoice Details"
+      description: "Produces Invoice Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+      responses:
+        200:
+          description: |
+            *OK* - List of Invoice Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    delete:
+      operationId: deleteInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Delete Invoice Details"
+      description: "Produces Invoice Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+      responses:
+        200:
+          description: |
+            *OK* - List of Invoice Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PaymentInvoice"
         400:
           description: |
             *Error* - Bad Request
@@ -301,8 +514,26 @@ definitions:
         type: string
         description: |
           mobile of Particular Invoice recipient
-        
-  PaymentInvoice:
+          
+  PatchElement:
+    type: array
+    items:
+      properties:
+        op:
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value:
+          type: string
+          description: |
+            Value To be replaced
+        path:
+          type: string
+          description: |
+            Object Path to be Patched
+   
+  PaymentInvoiceRef:
     type: object
     properties: 
       id:
@@ -329,22 +560,32 @@ definitions:
         type: string
         description: |
           Customer Name for which Invoice has been generated
-      itemPricing:
+      componentDetails:
         type: array
         items:
-          $ref: '#/definitions/InvoiceComponentRef'
-      itemTotalPricing:
-        type: array
-        items:
-          $ref: '#/definitions/Price'
-      contactMedium:
-        $ref: '#/definitions/ContactMedium'
-      invoicePaidAmount:
-        $ref: '#/definitions/AmountType'
-      invoiceDueAmount:
-        $ref: '#/definitions/AmountType'
-      previousDueAmount:
-        $ref: '#/definitions/AmountType'
+          $ref: '#/definitions/HospitalComponentRef'
+  
+  PaymentInvoice:
+    allOf:
+      - $ref: '#/definitions/PaymentInvoiceRef'
+      - type: object
+        properties: 
+          itemPricing:
+            type: array
+            items:
+              $ref: '#/definitions/InvoiceComponentRef'
+          itemTotalPricing:
+            type: array
+            items:
+              $ref: '#/definitions/Price'
+          contactMedium:
+            $ref: '#/definitions/ContactMedium'
+          invoicePaidAmount:
+            $ref: '#/definitions/AmountType'
+          invoiceDueAmount:
+            $ref: '#/definitions/AmountType'
+          previousDueAmount:
+            $ref: '#/definitions/AmountType'
    
   PriceTypeRef:
     type: string
