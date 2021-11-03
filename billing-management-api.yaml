@@ -17,8 +17,141 @@ produces:
   - application/json
   
   
+paths:
+  /billingAccount:
+    get:
+      operationId: searchBillingAccount
+      tags:
+        - "Billing Account Management"
+      summary: "Get Billing Account Details"
+      description: "Produces Billing Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+           - Id filter should contain Only one Id
+           - With Id filter Other filters should not be supported 
+      responses:
+        200:
+          description: |
+            *OK* - List of Billing Details Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BillingAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
+  /searchAccount:
+    get:
+      operationId: getCustomerBillingAccount
+      tags:
+        - "Billing Account Management"
+      summary: "Get Billing Account of a customer"
+      description: "Produces Billing Details of A customer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: customerId
+          required: true
+          type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Billing Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/BillingAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
+  /transactionDetails:
+    get:
+      operationId: searchTransactions
+      tags:
+        - "Payment Transaction Management"
+      summary: "Get Transaction Details"
+      description: "Produces Transaction Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by " , "
+      responses:
+        200:
+          description: |
+            *OK* - List of Transaction Details Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transaction"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
 definitions:
-  BillingAccountRef:
+  BillingAccount:
     type: object
     properties:
       id:
@@ -33,6 +166,22 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/FinancialAccount'
+      currentInvoice:
+        type: string
+        description: |
+          Current open Invoice
+      recentCompletedInvoices:
+        type: array
+        items:
+          type: string
+          description: |
+            We will manage last 10 invoices ids here
+      outStandingAmount:
+        $ref: '#/definitions/AmountType'
+      outStandingInvoiceId:
+        type: string
+        description: |
+          If invoice amount is due then Out Standing Invoice Id
   
   FinancialAccount:
     type: object
@@ -40,12 +189,187 @@ definitions:
       id:
         type: string
         description: |  
-          Id of a financial account 
+          Id of a financial account
+      billingAccountId:
+        type: string
+        description: |
+          This financial account related to which billing Account
       accountType:
-        $ref: '#/definitions/FinancialAccountTypeRef'
+        $ref: '#/definitions/TransactionalTypeRef'
+      transactionIds:
+        type: array
+        items: 
+          type: string
+  
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: |  
+          Id of a Transaction
+      customerId:
+        type: string
+        description: |  
+          Id of a Transaction
+      transactionDate:
+        type: string
+        description: |
+          On which date transaction Happened
+      transactionInitiatorBank:
+        type: string
+        description: | 
+          Initiator Bank
+      transactionalRecipientBank:
+        type: string
+        description: | 
+          Recipient Bank
+      transactionalRemark:
+        type: string
+        description: | 
+          Transactional Remark
+      transactionalAmount:
+        $ref: '#/definitions/AmountType'
+      transactionalCharge:
+        $ref: '#/definitions/AmountType'
+      transactionalPercentage:
+        type: string
+        description: |
+          How much percentage of a amount is operational change
+      otherCharges:
+        $ref: '#/definitions/AmountType'
+      totalAmount:
+        $ref: '#/definitions/AmountType'
+    
+  Price:
+    type: object
+    properties:
+      priceType:
+        $ref: '#/definitions/PriceTypeRef'
+      originalPrice:
+        $ref: '#/definitions/AmountType'
+      taxAmount:
+        $ref: '#/definitions/AmountType'
+      taxIncludedPrice:
+        $ref: '#/definitions/AmountType'
         
+  InvoiceComponentRef:
+    type: object
+    properties:
+      componentDetails:
+        $ref: '#/definitions/HospitalComponentRef'
+      quantity:
+        type: string
+        description: |
+          On basis of this quantity Price calculation will happen
+      componentTotalPrice:
+        type: array
+        items:
+          $ref: '#/definitions/Price'
         
-  FinancialAccountTypeRef:
+  HospitalComponentRef:
+    type: object
+    properties: 
+      componentName: 
+        type: string
+        description: |
+          Name of the component
+      componentCategoryId:
+        type: string
+        description: |
+          Component category id
+      componentCategoryName:
+        type: string
+        description: |
+          Component category NAME
+      componentPrice:
+        $ref: '#/definitions/Price'
+        
+  ContactMedium:
+    type: object
+    required: [mobile ]
+    properties:
+      email:
+        type: string
+        description: |
+          Email id of Particular Invoice recipient
+      mobile:
+        type: string
+        description: |
+          mobile of Particular Invoice recipient
+      alternatNumber:
+        type: string
+        description: |
+          mobile of Particular Invoice recipient
+        
+  PaymentInvoice:
+    type: object
+    properties: 
+      id:
+        type: string
+        description: |
+          ID for the Invoice
+      gstNumber:
+        type: string
+        description: |
+          GST number for the Company
+      invoiceGenerationDate:
+        type: string
+        description: |
+          Date on which invoice has been generated
+      invoiceCreatorName:
+        type: string
+        description: |
+          In which Hospital or Diagnostic center invoice has been generated
+      customerId:
+        type: string
+        description: |
+          Customer ID for which Invoice has been generated
+      customerName:
+        type: string
+        description: |
+          Customer Name for which Invoice has been generated
+      itemPricing:
+        type: array
+        items:
+          $ref: '#/definitions/InvoiceComponentRef'
+      itemTotalPricing:
+        type: array
+        items:
+          $ref: '#/definitions/Price'
+      contactMedium:
+        $ref: '#/definitions/ContactMedium'
+      invoicePaidAmount:
+        $ref: '#/definitions/AmountType'
+      invoiceDueAmount:
+        $ref: '#/definitions/AmountType'
+      previousDueAmount:
+        $ref: '#/definitions/AmountType'
+   
+  PriceTypeRef:
+    type: string
+    enum:
+    - ONE_TIME
+    - IMMEDIATE_PAY
+    - RECURRING
+  
+  AmountType:
+    type: object
+    properties:
+      unit:
+        $ref: '#/definitions/UnitTypeRef'
+      value:
+        type: string
+  
+  UnitTypeRef:
+    type: string
+    enum: 
+    - INR
+    - AUD
+    - USD
+    - EURO
+        
+  TransactionalTypeRef:
     type: string
     enum:
     - COD
@@ -55,3 +379,23 @@ definitions:
     - Cheque
     - DD
     - Others
+    
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
