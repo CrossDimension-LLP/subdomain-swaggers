@@ -1,0 +1,530 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation                           #
+###################################################################
+host: octosolutions.in
+basePath : /opdManagement/v1
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /doctor:
+    get:
+      operationId: getDoctors
+      tags:
+        - "Doctor Management"
+      summary: "List of Doctors available"
+      description: "Produces List of Doctors available"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Doctors Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      operationId: saveDoctor
+      tags:
+        - "Doctor Management"
+      summary: "Insertion of doctor"
+      description: "Creates New entry of a doctor"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Doctor Input
+          required: true
+          schema:
+            $ref: "#/definitions/Doctor"
+      responses:
+        200:
+          description: |
+            *OK* - Inserted Doctor Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+    patch:
+      operationId: updateDoctor
+      tags:
+        - "Doctor Management"
+      summary: "Doctor Updation by filter"
+      description: "Produces List of Doctors"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Doctor patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Doctor Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deleteDoctors
+      tags:
+        - "Doctor Management"
+      summary: "Doctor Deletion by filter"
+      description: "delete Doctor"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Doctor Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /department:
+    get:
+      operationId: getDepartment
+      tags:
+        - "Department Management"
+      summary: "List of Departments available"
+      description: "Produces List of Departments available"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of OPDs Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      operationId: saveDepartment
+      tags:
+        - "Department Management"
+      summary: "Insertion of Department"
+      description: "Creates New entry of a Department"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Department Input
+          required: true
+          schema:
+            $ref: "#/definitions/Department"
+      responses:
+        200:
+          description: |
+            *OK* - Inserted Department Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+    patch:
+      operationId: updateDepartment
+      tags:
+        - "Department Management"
+      summary: "Department Updation by filter"
+      description: "Produces List of Departments"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Department patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Department Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deleteDepartment
+      tags:
+        - "Department Management"
+      summary: "Department Deletion by filter"
+      description: "delete Department"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Department Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Success'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+
+definitions:
+  Doctor:
+    type: object
+    required: [id, doctorRegistrationId, digiDoctorId, departmentId, departmentType]
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Doctor 
+      firstName:
+        type: string
+        description: |
+          first name of a doctor
+      lastName:
+        type: string
+        description: |
+          last name of a doctor
+      fullName:
+        type: string
+        description: |
+          full name of doctor
+      doctorRegistrationId:
+        type: string
+        description: |
+          govt registration id of a doctor
+      digiDoctorId:
+        type: string
+        description: |
+          digi doctor id
+      departmentId:
+        type: string
+        description: |
+          department id
+      hospitalId:
+        type: string
+        description: |
+          hospital id
+      qualification:
+        type: string
+        description: |
+          highest qualification of a doctor
+      joiningDate:
+        type: string
+        description: |
+          date of joining in the hospital
+      designation:
+        type: string
+        description: |
+          designation of a doctor in the hospital
+      dateOfBirth:
+        type: string
+        description: |
+          date of birth of a doctor(for analytics purpose)
+      gender:
+        type: string
+        description: |
+          gender of a doctor
+      departmentType:
+        $ref: '#/definitions/DepartmentType'
+      
+
+
+  Department:
+    type: object
+    required: [id, name]
+    properties:
+      id: 
+        type: string
+        description: | 
+          id of the department
+      name:
+        type: string
+        description: |
+          name of the department
+      hospitalId:
+        type: string
+        description: |
+          hospital id
+      pocDetails:
+        type: string
+        description: |
+          Phone number with the POCs details
+      departmentStartingDate:
+        type: string
+        description: |
+          date of start functioning day of a department to get clear analysis of that department
+
+
+  Hospital:
+    type: object
+    required: [id, name]
+    properties:
+      id: 
+        type: string
+        description: | 
+          id of the hospital
+      name:
+        type: string
+        description: |
+          name of the hospital
+      address:
+        type: string
+        description: |
+          address of the hospital
+      phoneNumber:
+        type: string
+        description : |
+          hospital's phone number
+
+  PatchElement:
+    type: array
+    items:
+      properties:
+        op:
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value:
+          type: string
+        path:
+          type: string
+          description: |
+            Object Path to be Patched
+  
+  Success:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          200 ok
+      message:
+        type: string
+        description: |
+          Success message
+      insertedSlotCount:
+        type: number
+        description: |
+          Number of total inserted slots
+      path:
+        type: string
+        description: |
+          Path to get the slots
+  
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
+
+  DepartmentType:
+        type: string
+        enum:
+          - OPD
+          - IPD
+          - BOTH
