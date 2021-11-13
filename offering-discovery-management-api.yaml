@@ -1,0 +1,738 @@
+swagger: '2.0'
+
+###################################################################
+#                     API Documentation                           #
+###################################################################
+host: octopus.com
+info: 
+  version: V1.0-alpha
+  title: Offering Discovery REST API Documentation
+basePath : /discovery/v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+  
+paths:
+  /billingAccount:
+    get:
+      operationId: searchBillingAccount
+      tags:
+        - "Billing Account Management"
+      summary: "Get Billing Account Details"
+      description: "Produces Billing Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+           
+        - in: query
+          name: offset
+          type: string
+          
+        - in: query
+          name: limit
+          type: string
+          
+        - in: query
+          name: sort
+          type: string
+          description: |
+            - If ASC then simple attribute name
+            - If DESC then prepend a "minus" sign with attribute name
+      responses:
+        200:
+          description: |
+            *OK* - List of Billing Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BillingAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      operationId: createBillingAccount
+      tags:
+        - "Billing Account Management"
+      summary: "Produce Billing Account Details"
+      description: "Produces Billing Details"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: billingAccountPayload
+          required: true
+          schema: 
+            $ref: '#/definitions/BillingAccount'
+      responses:
+        200:
+          description: |
+            *OK* - Billing Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/BillingAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      operationId: updateBillingAccount
+      tags:
+        - "Billing Account Management"
+      summary: "Update Billing Account"
+      description: "Produces Billing Account"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: billingAccountId
+          required: true
+          type: string
+          description: |
+            "Billing Account Id"
+        - in: body
+          name: patchElement
+          required: true
+          description: |
+            "Patch Body"
+          schema:
+            $ref: '#/definitions/PatchElement'
+      responses:
+        200:
+          description: |
+            *OK* - Financial Account Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/BillingAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
+  /searchAccount:
+    get:
+      operationId: getCustomerBillingAccount
+      tags:
+        - "Billing Account Management"
+      summary: "Get Billing Account of a customer"
+      description: "Produces Billing Details of A customer"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: customerId
+          required: true
+          type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Billing Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/BillingAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /financialAccount:
+    post:
+      operationId: createFinancialAccount
+      tags:
+        - "Financial Account Management"
+      summary: "Produce Financial Account Details"
+      description: "Produces Financial Details"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: financialAccountPayload
+          required: true
+          schema: 
+            $ref: '#/definitions/FinancialAccount'
+      responses:
+        200:
+          description: |
+            *OK* - Billing Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/FinancialAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    get:
+      operationId: getFinancialAccount
+      tags:
+        - "Financial Account Management"
+      summary: "Get Financial Account Details"
+      description: "Produces Financial Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+      responses:
+        200:
+          description: |
+            *OK* - List of Billing Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/FinancialAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    patch:
+      operationId: updateFinancialAccount
+      tags:
+        - "Financial Account Management"
+      summary: "Update Financial Account"
+      description: "Produces Financial Account"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: financialAccountId
+          required: true
+          type: string
+          description: |
+            "Financial Account Id"
+        - in: body
+          name: patchElement
+          required: true
+          description: |
+            "Patch Body"
+          schema:
+            $ref: '#/definitions/PatchElement'
+      responses:
+        200:
+          description: |
+            *OK* - Financial Account Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/FinancialAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
+  /transaction:
+    get:
+      operationId: searchTransactions
+      tags:
+        - "Transaction Management"
+      summary: "Get Transaction Details"
+      description: "Produces Transaction Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by " , "
+           
+        - in: query
+          name: offset
+          type: string
+          
+        - in: query
+          name: limit
+          type: string
+          
+        - in: query
+          name: sort
+          type: string
+          description: |
+            - If ASC then simple attribute name
+            - If DESC then prepend a "minus" sign with attribute name
+      responses:
+        200:
+          description: |
+            *OK* - List of Transaction Details Will be returned Successfully
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transaction"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    post:
+      operationId: makeTransaction
+      tags:
+        - "Transaction Management"
+      summary: "Create Transaction "
+      description: "Produces Transaction Details"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: transactionInput
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      responses:
+        200:
+          description: |
+            *OK* - Transaction Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/Transaction"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /invoice:
+    post:
+      operationId: createInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Create Invoice"
+      description: "Produces Invoice"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: invoiceInput
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentInvoiceRef'
+      responses:
+        200:
+          description: |
+            *OK* - Invoice Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    patch:
+      operationId: updateInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Update Invoice"
+      description: "Produces Invoice"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: invoiceId
+          required: true
+          type: string
+          description: |
+            "Invoice Id"
+        - in: body
+          name: patchElement
+          required: true
+          description: |
+            "Patch Body"
+          schema:
+            $ref: '#/definitions/PatchElement'
+      responses:
+        200:
+          description: |
+            *OK* - Invoice Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    get:
+      operationId: searchInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Get Invoice Details"
+      description: "Produces Invoice Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+      responses:
+        200:
+          description: |
+            *OK* - List of Invoice Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    delete:
+      operationId: deleteInvoice
+      tags:
+        - "Invoice Management"
+      summary: "Delete Invoice Details"
+      description: "Produces Invoice Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          type: array
+          items:
+            type: string
+          description: |
+           - Different filters Should be Separated by ;
+           - key and value should be separated by =
+           - multiple values in a same filter should be separated by ,
+      responses:
+        200:
+          description: |
+            *OK* - List of Invoice Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PaymentInvoice"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /history:
+    get:
+      operationId: getTransactionHistory
+      tags:
+        - "Billing History Management"
+      summary: "Get Transaction Details"
+      description: "Produces Transaction Details List"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: customerId
+          type: string
+          
+        - in: query
+          name: financialAccountId
+          type: array
+          items:
+            type: string
+        
+        - in: query
+          name: offset
+          type: string
+          
+        - in: query
+          name: limit
+          type: string
+          
+        - in: query
+          name: sort
+          type: string
+          description: |
+            - If ASC then simple attribute name
+            - If DESC then prepend a "minus" sign with attribute name
+            
+      responses:
+        200:
+          description: |
+            *OK* - List of Transaction Details Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Transaction"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+  
+definitions:
+  Price:
+    type: object
+    properties:
+      priceType:
+        $ref: '#/definitions/PriceTypeRef'
+      originalPrice:
+        $ref: '#/definitions/AmountType'
+      taxAmount:
+        $ref: '#/definitions/AmountType'
+      taxIncludedPrice:
+        $ref: '#/definitions/AmountType'
+        
+          
+  PatchElement:
+    type: array
+    items:
+      properties:
+        op:
+          type: string
+          description: |
+            Operation To be performed
+          example: add, remove, replace
+        value:
+          type: string
+          description: |
+            Value To be replaced
+        path:
+          type: string
+          description: |
+            Object Path to be Patched
+   
+   
+  PriceTypeRef:
+    type: string
+    enum:
+    - ONE_TIME
+    - IMMEDIATE_PAY
+    - RECURRING
+  
+  AmountType:
+    type: object
+    properties:
+      unit:
+        $ref: '#/definitions/UnitTypeRef'
+      value:
+        type: string
+  
+  UnitTypeRef:
+    type: string
+    enum: 
+    - INR
+    - AUD
+    - USD
+    - EURO
+    
+  Error:
+    type: object
+    properties:
+      status:
+        type: string
+        description: |
+          Status of the error code
+      message:
+        type: string
+        description: |
+          Error message
+      details:
+        type: string
+        description: |
+          Error Details
+      path:
+        type: string
+        description: |
+          Error Path
