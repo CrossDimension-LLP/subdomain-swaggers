@@ -661,6 +661,47 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+            
+  /calculatePrice:
+    post:
+      operationId: calculatePrice
+      tags:
+        - "Invoice Management"
+      summary: "Produce Pricing Details"
+      description: "Produces Pricing Details"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: invoiceComponent
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InvoiceComponentRef'
+      responses:
+        200:
+          description: |
+            *OK* - Billing Details Will be returned Successfully
+          schema:
+            $ref: "#/definitions/FinancialAccount"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
   
 definitions:
   BillingAccount:
@@ -712,6 +753,13 @@ definitions:
     - SETTLED
     - UNSETTLED
     - INACTIVE
+    
+  DeductionTypeRef:
+    type: string
+    enum:
+    - REFUND
+    - COMMERCIAL
+    - OTHERS
   
   FinancialAccount:
     type: object
@@ -792,7 +840,17 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Price'
+      componentType:
+        $ref: '#/definitions/ComponentTypeRef'
         
+  ComponentTypeRef:
+    type: string
+    enum:
+    - ADD
+    - REMOVE
+    - PROMOTIONAL
+    - DISCOUNTED
+    
   HospitalComponentRef:
     type: object
     properties: 
@@ -881,7 +939,21 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/HospitalComponentRef'
-  
+      deductionElement:
+        type: array
+        items:
+          $ref: '#/definitions/DeductionComponentRef'
+      
+  DeductionComponentRef:
+    type: object
+    properties: 
+      name:
+        type: string
+      remarks:
+        type: string
+      deductionAmount:
+        $ref: '#/definitions/AmountType'
+        
   PaymentInvoice:
     allOf:
       - $ref: '#/definitions/PaymentInvoiceRef'

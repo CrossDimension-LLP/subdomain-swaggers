@@ -74,6 +74,14 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/Patient"
+            
+        - in: query
+          name: mask
+          required: true
+          type: string
+          description: |
+            OPD, IPD, General
+            
       responses:
         200:
           description: |
@@ -424,6 +432,10 @@ definitions:
         type: string
         description: |
           First name of Particular Patient
+      middleName:
+        type: string
+        description: |
+          Middle name of Particular Patient
       lastName:
         type: string
         description: |
