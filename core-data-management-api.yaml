@@ -541,6 +541,10 @@ definitions:
         type: string
         description: |
           first name of a doctor
+      middleName:
+        type: string
+        description: |
+          Middle name of a doctor
       lastName:
         type: string
         description: |
@@ -582,14 +586,17 @@ definitions:
         description: |
           date of birth of a doctor(for analytics purpose)
       gender:
-        type: string
-        description: |
-          gender of a doctor
+        $ref: '#/definitions/GenderRef'
       departmentType:
         $ref: '#/definitions/DepartmentType'
       
 
-
+  GenderRef:
+    type: string
+    enum:
+    - MALE
+    - FEMALE
+    
   Department:
     type: object
     required: [id, name]
@@ -650,7 +657,7 @@ definitions:
         description: |
           id of the doctor
       patient:
-        $ref: '#/definitions/Patient'
+        $ref: '#/definitions/PatientRef'
       departmentId:
         type: string
         description: |
@@ -664,7 +671,7 @@ definitions:
         description: |
           if patient is referred by any other doctor
       patientType:
-        $ref: "#/definitions/PatientType"
+        $ref: "#/definitions/PatientRefType"
       medicalHistory:
         type: string
         description: |
@@ -694,7 +701,9 @@ definitions:
         items:
           $ref: '#/definitions/MedicineDetails'
       prescribedLabTest:
-        type: string
+        type: array
+        items: 
+          type: string
         description: |
           list of lab test(s) to be done
       adviceGiven:
@@ -754,7 +763,7 @@ definitions:
           - IPD
           - BOTH
   
-  Patient:
+  PatientRef:
     type: object
     properties:
       fullName:
@@ -790,9 +799,11 @@ definitions:
         description: |
           duration for taking the medicine
       shift:
-        $ref: '#/definitions/MedicineShift'
+        type: array
+        items:
+          $ref: '#/definitions/MedicineShift'
 
-  PatientType:
+  PatientRefType:
         type: string
         enum:
           - OP
