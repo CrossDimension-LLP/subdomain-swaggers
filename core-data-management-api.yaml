@@ -4,7 +4,7 @@ swagger: '2.0'
 #                     API Documentation                           #
 ###################################################################
 host: octosolutions.in
-basePath : /opdManagement/v1
+basePath : /coreDataManagement/v1
 schemes:
   - https
   - http
@@ -40,7 +40,7 @@ paths:
           description: |
             *OK* - List of Doctors Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Doctor'
         400:
           description: |
             *Error* - Bad Request
@@ -77,7 +77,7 @@ paths:
           description: |
             *OK* - Inserted Doctor Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Doctor'
         400:
           description: |
             *Error* - Bad Request
@@ -126,7 +126,7 @@ paths:
           description: |
             *OK* - Specific Doctor Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Doctor'
         500:
           description: |
             *Error* - Internal Server error
@@ -168,7 +168,7 @@ paths:
           description: |
             *OK* - Specific Doctor Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Doctor'
         500:
           description: |
             *Error* - Internal Server error
@@ -211,7 +211,7 @@ paths:
           description: |
             *OK* - List of OPDs Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Department'
         400:
           description: |
             *Error* - Bad Request
@@ -248,7 +248,7 @@ paths:
           description: |
             *OK* - Inserted Department Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Department'
         400:
           description: |
             *Error* - Bad Request
@@ -297,7 +297,7 @@ paths:
           description: |
             *OK* - Specific Department Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Department'
         500:
           description: |
             *Error* - Internal Server error
@@ -339,7 +339,178 @@ paths:
           description: |
             *OK* - Specific Department Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/Department'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+  
+  /prescription:
+    get:
+      operationId: getPrescriptions
+      tags:
+        - "Prescription Management"
+      summary: "List of Prescriptions available"
+      description: "Produces List of Prescriptions available"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Prescriptions Will be returned Prescriptionfully
+          schema:
+            $ref: '#/definitions/Prescription'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      operationId: savePrescription
+      tags:
+        - "Prescription Management"
+      summary: "Insertion of prescription"
+      description: "Creates New entry of a prescription"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Prescription Input
+          required: true
+          schema:
+            $ref: "#/definitions/Prescription"
+      responses:
+        200:
+          description: |
+            *OK* - Inserted Prescription Will be returned Prescriptionfully
+          schema:
+            $ref: '#/definitions/Prescription'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+
+    patch:
+      operationId: updatePrescription
+      tags:
+        - "Prescription Management"
+      summary: "Prescription Updation by filter"
+      description: "Produces List of Prescriptions"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Prescription patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Prescription Will be returned Prescriptionfully
+          schema:
+            $ref: '#/definitions/Prescription'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+    delete:
+      operationId: deletePrescriptions
+      tags:
+        - "Prescription Management"
+      summary: "Prescription Deletion by filter"
+      description: "delete Prescription"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Prescription Will be returned Prescriptionfully
+          schema:
+            $ref: '#/definitions/Prescription'
         500:
           description: |
             *Error* - Internal Server error
@@ -465,6 +636,80 @@ definitions:
         type: string
         description : |
           hospital's phone number
+  
+  Prescription:
+    type: object
+    required: [id, doctorId, patientId, patientType]
+    properties:
+      id:
+        type: string
+        description : |
+          Id of Particular Prescription 
+      doctorId:
+        type: string
+        description: |
+          id of the doctor
+      patient:
+        $ref: '#/definitions/Patient'
+      departmentId:
+        type: string
+        description: |
+          id of the doctor's department(though it might not be needed)
+      hospitalId:
+        type: string
+        description: |
+          id of the hospital(though it might not be needed)
+      referredBy:
+        type: string
+        description: |
+          if patient is referred by any other doctor
+      patientType:
+        $ref: "#/definitions/PatientType"
+      medicalHistory:
+        type: string
+        description: |
+          detailed medical history of the patient
+      diseaseSymptoms:
+        type: string
+        description: |
+          details about the disease and the symptoms
+      clinicalFindings:
+        type: string
+        description: |
+          clinical findings from the lab report, if provided
+      diagnosis:
+        type: string
+        description: |
+          diagnosis of the disease
+      notes:
+        type: string
+        description: |
+          small notes while prescribing
+      conductedProcedure:
+        type: string
+        description: |
+          procedure followed while diagnosing the patient, if possible
+      medicines:
+        type: array
+        items:
+          $ref: '#/definitions/MedicineDetails'
+      prescribedLabTest:
+        type: string
+        description: |
+          list of lab test(s) to be done
+      adviceGiven:
+        type: string
+        description: |
+          any advice given by doctor to the patient to follow
+      followUpDate:
+        type: string
+        description: |
+          follow up date if required
+      prescription:
+        type: string
+        format: byte
+        description: |
+          pdf version of the prescription
 
   PatchElement:
     type: array
@@ -481,26 +726,6 @@ definitions:
           type: string
           description: |
             Object Path to be Patched
-  
-  Success:
-    type: object
-    properties:
-      status:
-        type: string
-        description: |
-          200 ok
-      message:
-        type: string
-        description: |
-          Success message
-      insertedSlotCount:
-        type: number
-        description: |
-          Number of total inserted slots
-      path:
-        type: string
-        description: |
-          Path to get the slots
   
   Error:
     type: object
@@ -528,3 +753,59 @@ definitions:
           - OPD
           - IPD
           - BOTH
+  
+  Patient:
+    type: object
+    properties:
+      fullName:
+        type: string
+        description: |
+          name of the patient
+      age:
+        type: string
+        description: |
+          age of the patient
+      address:
+        type: string
+        description: |
+          address of the patient
+      contactNumber:
+        type: string
+        description: |
+          phone number of the patient
+ 
+  MedicineDetails:
+    type: object
+    properties:
+      name:
+        type: string
+        description: |
+          name of the medicine
+      dosage:
+        type: string
+        description: |
+          dosage of the medicine
+      duration:
+        type: string
+        description: |
+          duration for taking the medicine
+      shift:
+        $ref: '#/definitions/MedicineShift'
+
+  PatientType:
+        type: string
+        enum:
+          - OP
+          - IP
+
+  MedicineShift:
+        type: string
+        enum:
+          - MBM
+          - MAM
+          - ABM
+          - AAM
+          - EBM
+          - EAM
+          - NBM
+          - NAM
