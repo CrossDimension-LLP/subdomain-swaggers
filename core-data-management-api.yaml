@@ -541,10 +541,6 @@ definitions:
         type: string
         description: |
           first name of a doctor
-      middleName:
-        type: string
-        description: |
-          Middle name of a doctor
       lastName:
         type: string
         description: |
@@ -586,17 +582,14 @@ definitions:
         description: |
           date of birth of a doctor(for analytics purpose)
       gender:
-        $ref: '#/definitions/GenderRef'
+        type: string
+        description: |
+          gender of a doctor
       departmentType:
         $ref: '#/definitions/DepartmentType'
       
 
-  GenderRef:
-    type: string
-    enum:
-    - MALE
-    - FEMALE
-    
+
   Department:
     type: object
     required: [id, name]
@@ -652,12 +645,16 @@ definitions:
         type: string
         description : |
           Id of Particular Prescription 
+      relatedPrescriptions:
+        type: array
+        items: 
+          $ref: '#/definitions/Prescription'
       doctorId:
         type: string
         description: |
           id of the doctor
       patient:
-        $ref: '#/definitions/PatientRef'
+        $ref: '#/definitions/Patient'
       departmentId:
         type: string
         description: |
@@ -671,7 +668,7 @@ definitions:
         description: |
           if patient is referred by any other doctor
       patientType:
-        $ref: "#/definitions/PatientRefType"
+        $ref: "#/definitions/PatientType"
       medicalHistory:
         type: string
         description: |
@@ -701,9 +698,7 @@ definitions:
         items:
           $ref: '#/definitions/MedicineDetails'
       prescribedLabTest:
-        type: array
-        items: 
-          type: string
+        type: string
         description: |
           list of lab test(s) to be done
       adviceGiven:
@@ -763,7 +758,7 @@ definitions:
           - IPD
           - BOTH
   
-  PatientRef:
+  Patient:
     type: object
     properties:
       fullName:
@@ -799,11 +794,9 @@ definitions:
         description: |
           duration for taking the medicine
       shift:
-        type: array
-        items:
-          $ref: '#/definitions/MedicineShift'
+        $ref: '#/definitions/MedicineShift'
 
-  PatientRefType:
+  PatientType:
         type: string
         enum:
           - OP
