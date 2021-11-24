@@ -224,7 +224,84 @@ paths:
             *Error* - Conflict
           schema:
             $ref: "#/definitions/Error"
+            
+  /otp:
+    post:
+      operationId: createOTP
+      tags:
+        - "Validation Management"
+      summary: "OTP Validation Management"
+      description: "Creates New OTP for the party Mobile login"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: OTP Input
+          required: true
+          schema:
+            $ref: "#/definitions/OtpInput"
+      responses:
+        200:
+          description: |
+            *OK* - OTP VAlidation MEssage will be generate successfully
+          schema:
+            $ref: "#/definitions/OtpValidation"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
       
+  /otp/validate:
+    post:
+      operationId: validateOTP
+      tags:
+        - "Validation Management"
+      summary: "OTP Validation Management"
+      description: "Creates New OTP for the party Mobile login"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: OTP Input
+          required: true
+          schema:
+            $ref: "#/definitions/OtpValidateInput"
+      responses:
+        200:
+          description: |
+            *OK* - OTP VAlidation Message will be generate successfully
+          schema:
+            $ref: "#/definitions/OtpValidateSuccess"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
   PartyIndividual:
@@ -329,7 +406,6 @@ definitions:
     - SALES_AGENT
     - MARKETING_AGENT
     - INFRASTRUCTURE
-    - VISITOR
     
   PatchElement:
     type: array
@@ -348,6 +424,7 @@ definitions:
           type: string
           description: |
             Object Path to be Patched
+            
   Error:
     type: object
     properties:
@@ -367,4 +444,57 @@ definitions:
         type: string
         description: |
           Error Path
+          
+  OtpInput:
+    type: object
+    properties:
+      mobile:
+        type: string
+      email:
+        type: string
+  
+  OtpValidateInput:
+    type: object
+    required: [otpValue]
+    properties:
+      mobile:
+        type: string
+      email:
+        type: string
+      otpValue:
+        type: string
+        
+  OtpValidateSuccess:
+    type: object
+    required: [otpValue]
+    properties:
+      fullName:
+        type: string
+      message:
+        type: string
+          
+  OtpValidation:
+    type: object
+    properties:
+      mediaType:
+        type: string
+        description: |
+          Media Type must be email or Mobile
+      mediaValue:
+        type: string
+        description: |
+          media value must be either email id or phone number
+      otpValue:
+        type: string
+        description: |
+          OTP value for media
+      generationtime:
+        type: string
+        description: | 
+          generation Time for Secret token
+      expiresIn:
+        type: string
+        description: |
+          token expires in
+        
 
