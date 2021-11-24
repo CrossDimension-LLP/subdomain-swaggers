@@ -4,7 +4,7 @@ swagger: '2.0'
 #                     API Documentation                           #
 ###################################################################
 host: octopus.com
-basePath : /customerManagement/v1
+basePath : /partyManagement/v1
 schemes:
   - https
   - http
@@ -14,13 +14,13 @@ produces:
   - application/json
 
 paths:
-  /customer:
+  /party:
     get:
-      operationId: searchCustomer
+      operationId: searchPartyIndividual
       tags:
-        - "Customer Management"
-      summary: "List of Customers"
-      description: "Produces List of Customers"
+        - "Party Individual Management"
+      summary: "List of Party Individuals"
+      description: "Produces List of Party Individuals"
       consumes:
         - "application/json"
       produces:
@@ -34,11 +34,11 @@ paths:
       responses:
         200:
           description: |
-            *OK* - List of Customer Will be returned Successfully
+            *OK* - List of PartyIndividual Will be returned Successfully
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Customer"
+              $ref: "#/definitions/PartyIndividual"
         400:
           description: |
             *Error* - Bad Request
@@ -54,27 +54,29 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+            
     post:
+      operationId: createPartyIndividual
       tags:
-        - "Customer Management"
-      summary: "Customer Registration"
-      description: "Creates New entry for the customer"
+        - "Party Individual Management"
+      summary: "PartyIndividual Registration"
+      description: "Creates New entry for the party"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
         - in: body
-          name: Customer Input
+          name: PartyIndividual Input
           required: true
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: "#/definitions/PartyIndividual"
       responses:
         200:
           description: |
             *OK* - List of Admin Users Will be returned Successfully
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: "#/definitions/PartyIndividual"
         400:
           description: |
             *Error* - Bad Request
@@ -90,20 +92,21 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
-  /customer/{customerId}:
+            
+  /party/{partyId}:
     get:
-      operationId: getCustomerById
+      operationId: getPartyIndividualById
       tags:
-        - "Customer Management"
-      summary: "Specific Customer"
-      description: "Produces List of Customers"
+        - "Party Individual Management"
+      summary: "Specific PartyIndividual"
+      description: "Produces List of PartyIndividuals"
       parameters:
         - in: path
-          name: customerId
+          name: partyId
           required: true
           type: string
           description: |
-            "customer Id"
+            "party Id"
       consumes:
         - "application/json"
       produces:
@@ -111,9 +114,9 @@ paths:
       responses:
         200:
           description: |
-            *OK* - Specific Customer Will be returned Successfully
+            *OK* - Specific PartyIndividual Will be returned Successfully
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: "#/definitions/PartyIndividual"
         500:
           description: |
             *Error* - Internal Server error
@@ -124,32 +127,33 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+            
     patch:
-      operationId: updateCustomer
+      operationId: updatePartyIndividual
       tags:
-        - "Customer Management"
-      summary: "Specific Customer Updation"
-      description: "Produces List of Customers"
+        - "Party Individual Management"
+      summary: "Specific PartyIndividual Updation"
+      description: "Produces List of PartyIndividuals"
       parameters:
         - in: path
-          name: customerId
+          name: partyId
           required: true
           type: string
           description: |
-            "customer Id"
+            "party Id"
         - in: header
           name: If-Match
           required: false
           type: string
           description: |
-            "customer Id"
+            "party Id"
         - in: body
           name: Patch Element
           required: true
           schema:
             $ref: "#/definitions/PatchElement"
           description: |
-            "customer patch element"
+            "party patch element"
       consumes:
         - "application/json"
       produces:
@@ -157,9 +161,9 @@ paths:
       responses:
         200:
           description: |
-            *OK* - Specific Customer Will be returned Successfully
+            *OK* - Specific PartyIndividual Will be returned Successfully
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: "#/definitions/PartyIndividual"
         500:
           description: |
             *Error* - Internal Server error
@@ -177,24 +181,24 @@ paths:
             $ref: "#/definitions/Error"
             
     delete:
-      operationId: deleteCustomer
+      operationId: deletePartyIndividual
       tags:
-        - "Customer Management"
-      summary: "Specific Customer Deletion"
-      description: "delete Specific Customer"
+        - "Party Individual Management"
+      summary: "Specific PartyIndividual Deletion"
+      description: "delete Specific PartyIndividual"
       parameters:
         - in: path
-          name: customerId
+          name: partyId
           required: true
           type: string
           description: |
-            "customer Id"
+            "party Id"
         - in: header
           name: If-Match
           required: false
           type: string
           description: |
-            "customer Id"
+            "party Id"
       consumes:
         - "application/json"
       produces:
@@ -202,9 +206,9 @@ paths:
       responses:
         200:
           description: |
-            *OK* - Specific Customer Will be returned Successfully
+            *OK* - Specific PartyIndividual Will be returned Successfully
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: "#/definitions/PartyIndividual"
         500:
           description: |
             *Error* - Internal Server error
@@ -223,154 +227,110 @@ paths:
       
 
 definitions:
-  Customer:
+  PartyIndividual:
     type: object
-    required: [firstName]
+    required: [firstName, aadharId, username, password]
     properties:
-      role:
-        type: string
-        description: |
-          Customer Specific Role to perform actions
       id:
         type: string
         description : |
-          Id of Particular Customer
+          Id of Particular PartyIndividual
+      aadharId:
+        type: string
+        description : |
+          AAdhar Id of Particular PartyIndividual
+      username:
+        type: string
+        description: |
+          User Name Should be selected for the first time. 
+      password:
+        type: string
+        description: |
+          Salted Password will be slected for the first time.
       firstName:
         type: string
         description: |
-          First name of Particular Customer
+          First name of Particular PartyIndividual
+      middleName:
+        type: string
+        description: |
+          Middle name of Particular PartyIndividual
       lastName:
         type: string
         description: |
-          Last name of Particular Customer
+          Last name of Particular PartyIndividual
       fullName:
         type: string
         description: |
-          Full name of Particular Customer
-      _type:
-        $ref: "#/definitions/CustomerTypeRef"
-      postal_address:
-        $ref: "#/definitions/CustomerPostalAdress"
-      billing_address:
-        $ref: "#/definitions/CustomerPostalAdress"
+          Full name of Particular PartyIndividual
       contact_details:
         $ref: "#/definitions/ContactMedium"
-      financialAccount:
-        $ref: "#/definitions/FinancialAccountRef"
+      billingAccountId:
+        type: string
+        description: |
+          Billing Account will be attached with the Party individual
       status:
-        $ref: "#/definitions/CustomerStatusRef"
-      service-accounts:
-        $ref: "#/definitions/ServiceAccountsRef"
-  
-  CustomerTypeRef: 
-    type: string
-    enum:
-    - Retail
-    - Prime_Retail
-    - Retail_Management
-    - Business_Customer
-    - Guest
-    - Visitor
-  
-  CustomerStatusRef: 
-    type: string
-    enum:
-    - Active
-    - Pending_Confirmation
-    - Invalid
-    - Temporarily-Unavailable
-    
-  FinancialAccountStatusRef: 
-    type: string
-    enum:
-    - REGULAR
-    - PENDING
-    - INVALID
-    - OUTSTANDING
-    - LOAN
-    
-    
-  ServiceAccountsRef:
-    type: object
-    properties:
-      octomed:
-        $ref: "#/definitions/PatientAccountsRef"
-  
-  PatientAccountsRef:
-    type: object
-    properties:
-      isOctoMedCustomer:
-        type: boolean
-      patientIds:
+        $ref: "#/definitions/PartyIndividualStatusRef"
+      relatedParty:
         type: array
         items:
-          type: string
-          
-  FinancialAccountTypeRef:
+          $ref: "#/definitions/RelatedPartyRef"
+  
+  PartyIndividualStatusRef: 
     type: string
     enum:
-    - CUSTOMER
-    - BUSINESS
-    
-  FinancialAccountRef:
+    - ACTIVE
+    - PENDING_CONFIRMATION
+    - UNAVAILABLE
+    - INACTIVE
+ 
+  RelatedPartyRef:
     type: object
     properties:
-      id: 
+      role:
+        $ref: "#/definitions/Roles"
+      relatedPartyId:
         type: string
-      _type: 
-        $ref: "#/definitions/FinancialAccountTypeRef"
-      status:
-        $ref: "#/definitions/FinancialAccountStatusRef"
-          
-  CustomerPostalAdress:
-    type: object
-    required: [city, zipcode, state, country]
-    properties:
-      area:
+      fullName:
         type: string
-        description: |
-          Area of Postal adress
-      street:
-        type: string
-        description: |
-          street of Postal adress
-      city:
-        type: string
-        description: |
-          city of Postal adress
-      state:
-        type: string
-        description: |
-          State of Postal adress
-      zipcode:
-        type: string
-        description: |
-          zipcode of Postal adress
-      country:
-        type: string
-        description: |
-          country of Postal adress
-          
+              
   ContactMedium:
     type: object
     properties:
       email:
         type: string
         description: |
-          Email id of Particular Customer
+          Email id of Particular PartyIndividual
       mobile:
         type: string
         description: |
-          mobile of Particular Customer
+          mobile of Particular PartyIndividual
       fax:
         type: string
         description: |
-          fax of Particular Customer
+          fax of Particular PartyIndividual
       alternate_number:
         type: string
         description: |
-          mobile of Particular Customer
-          
+          mobile of Particular PartyIndividual
+    
+  Roles:
+    type: string
+    enum:
+    - PATIENT
+    - DOCTOR
+    - BOOKING_AGENT
+    - RECEPTION_AGENT
+    - OPD_AGENT
+    - IPD_AGENT
+    - ACCOUNT_AGENT
+    - FINANCIAL_AGENT
+    - ADMIN
+    - SALES_AGENT
+    - MARKETING_AGENT
+    - INFRASTRUCTURE
+    - VISITOR
+    
   PatchElement:
     type: array
     items: 

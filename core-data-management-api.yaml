@@ -531,16 +531,24 @@ paths:
 definitions:
   Doctor:
     type: object
-    required: [id, doctorRegistrationId, digiDoctorId, departmentId, departmentType]
+    required: [id, aadharId, doctorRegistrationId, digiDoctorId, departmentId, sections]
     properties:
       id:
         type: string
         description : |
           Id of Particular Doctor 
+      aadharId:
+        type: string
+        description : |
+          Aadhar Id of Particular Doctor 
       firstName:
         type: string
         description: |
           first name of a doctor
+      middleName:
+        type: string
+        description: |
+          Middle name of a doctor
       lastName:
         type: string
         description: |
@@ -582,13 +590,32 @@ definitions:
         description: |
           date of birth of a doctor(for analytics purpose)
       gender:
+        $ref: '#/definitions/GenderRef'
+      sections:
+        $ref: '#/definitions/DepartmentType'
+      contact:
+        $ref: '#/definitions/ContactMedium'
+        
+        
+  ContactMedium:
+    type: object
+    properties:
+      email:
         type: string
         description: |
-          gender of a doctor
-      departmentType:
-        $ref: '#/definitions/DepartmentType'
-      
-
+          Email id of Particular Customer
+      mobile:
+        type: string
+        description: |
+          mobile of Particular Customer
+      fax:
+        type: string
+        description: |
+          fax of Particular Customer
+      alternate_number:
+        type: string
+        description: |
+          mobile of Particular Customer
 
   Department:
     type: object
@@ -648,7 +675,10 @@ definitions:
       relatedPrescriptions:
         type: array
         items: 
-          $ref: '#/definitions/Prescription'
+          type: string
+          format: byte
+          description: |
+            pdf version of the prescriptions
       doctorId:
         type: string
         description: |
@@ -789,27 +819,39 @@ definitions:
         type: string
         description: |
           dosage of the medicine
+      composition:
+        type: string
+        description: |
+          dosage of the medicine
       duration:
         type: string
         description: |
           duration for taking the medicine
       shift:
-        $ref: '#/definitions/MedicineShift'
+        type: array
+        items:
+          $ref: '#/definitions/MedicineShift'
 
   PatientType:
-        type: string
-        enum:
-          - OP
-          - IP
-
+    type: string
+    enum:
+    - OP
+    - IP
+      
+  GenderRef:
+    type: string
+    enum:
+    - MALE
+    - FEMALE
+  
   MedicineShift:
-        type: string
-        enum:
-          - MBM
-          - MAM
-          - ABM
-          - AAM
-          - EBM
-          - EAM
-          - NBM
-          - NAM
+    type: string
+    enum:
+    - MBM
+    - MAM
+    - ABM
+    - AAM
+    - EBM
+    - EAM
+    - NBM
+    - NAM

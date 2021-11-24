@@ -40,7 +40,9 @@ paths:
           description: |
             *OK* - List of Slots Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            type: array
+            items:
+              $ref: '#/definitions/SlotRef'
         400:
           description: |
             *Error* - Bad Request
@@ -60,7 +62,7 @@ paths:
       operationId: saveSlot
       tags:
         - "Slot Management"
-      summary: "First slot Insertion for a doctor"
+      summary: "Slot Insertion for a Doctor"
       description: "Creates New entry for a slot of a doctor"
       consumes:
         - "application/json"
@@ -71,7 +73,9 @@ paths:
           name: Slot Input
           required: true
           schema:
-            $ref: "#/definitions/Slot"
+            type: array
+            items:
+              $ref: "#/definitions/Slot"
       responses:
         200:
           description: |
@@ -187,18 +191,13 @@ paths:
 
 
 definitions:
-  Slot:
+  SlotRef:
     type: object
-    required: [id, doctorId, departmentId, slotDetails]
     properties:
       id:
         type: string
         description : |
           Id of Particular Slot 
-      individualId:
-        type: string
-        description: |
-          Id of hospital/standalone of a particular doctor
       doctorId:
         type: string
         description: |
@@ -207,25 +206,49 @@ definitions:
         type: string
         description: |
           department for which the slot is being created
-      slotCreationWindowLength:
-        type: string
-        description: |
-          for how many days admin wants to create the slots for specified doctor
-      slotCreationDate:
-        type: string
-        description: |
-          slot creation date
-      slotStartDate:
-        type: string
-        description: |
-          slot starting date
+      slotDetails:
+        $ref: "#/definitions/SlotDetails"
       availableSlot:
         type: integer
         description: |
           available slot after booking starts
-      slotDetails:
-        $ref: "#/definitions/SlotDetails"
+    
+  Slot:
+    required: [id, doctorId, departmentId, slotDetails]
+    allOf:
+      - $ref: "#/definitions/SlotRef"
+      - type: object
+        properties:
+          individualId:
+            type: string
+            description: |
+              Id of hospital/standalone of a particular doctor
+          slotCreationWindowLength:
+            type: string
+            description: |
+              for how many days admin wants to create the slots for specified doctor
+          slotCreationDate:
+            type: string
+            description: |
+              slot creation date
+          slotStartDate:
+            type: string
+            description: |
+              slot starting date
+          slotDetails:
+            $ref: "#/definitions/SlotDetails"
 
+  
+  SlotFrequencyRef:
+    type: string
+    enum:
+    - WEEKLY
+    - DAILY
+    - MONTHLY
+    - YEARLY
+    - BIWEEKLY
+    - BIMONTHLY
+    
   SlotDetails:
     type: object
     required: [dayOfWeek, slotStartTime, slotEndTime, slotCapacity]
@@ -255,9 +278,11 @@ definitions:
         description: |
           slot date
       slotFrequency:
+        $ref: '#/definitions/SlotFrequencyRef'
+      slotGenerateToken:
         type: string
         description: |
-          frequency of slot
+          In a Single generation process the slots will be generated under same id 
       
 
   PatchElement:

@@ -418,7 +418,7 @@ paths:
 definitions:
   Patient:
     type: object
-    required: [firstName, aadharId, sex, dateOfBirth, contactDetails]
+    required: [firstName, aadharId, age, dateOfBirth, contactDetails]
     properties:
       id:
         type: string
@@ -466,6 +466,7 @@ definitions:
         type: string
         description: |
           For operational Case current position of the patient in the Hospital
+        
   SexRef:
     type: string
     enum:
