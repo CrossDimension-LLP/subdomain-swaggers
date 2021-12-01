@@ -14,6 +14,83 @@ produces:
   - application/json
 
 paths:
+  /permissions:
+    post:
+      operationId: createRole
+      tags:
+        - "Permission Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Create user Role"
+      parameters:
+        - in: body
+          name: roleInput
+          required: true
+          schema:
+            $ref: "#/definitions/UserRole"
+      responses:
+        200:
+          description: |
+            *OK* - User Role Will be returned Successfully
+          schema:
+            $ref: "#/definitions/UserRole"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"    
+ 
+  /permissions/{roleId}:
+    get:
+      operationId: getRole
+      tags:
+        - "Permission Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Create user Role"
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          type: string
+          description: |
+            "Role Id"
+      responses:
+        200:
+          description: |
+            *OK* - ID specific User Role Will be returned Successfully
+          schema:
+            $ref: "#/definitions/UserRole"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
   /party:
     get:
       operationId: searchPartyIndividual
@@ -302,6 +379,76 @@ paths:
             *Error* - Not Found
           schema:
             $ref: "#/definitions/Error"
+            
+  /ref/gender:
+    get:
+      operationId: getGenderInformation
+      tags: 
+      - Reference Data Management
+      summary: "Get Gender reference Values"
+      description: "Get reference data related to Gender"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Reference data Related to Gender will be availble.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/GenderRefData"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+      
+  /ref/salutation:
+    get:
+      operationId: getSalutationInformation
+      tags: 
+      - Reference Data Management
+      summary: "Get Salutations Values"
+      description: "Get Salutations Description"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Reference data Related to Gender will be availble.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/SalutationResponse"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
   PartyIndividual:
@@ -497,4 +644,70 @@ definitions:
         description: |
           token expires in
         
-
+  GenderRefData:
+    type: object
+    properties:
+      _type:
+        $ref: '#/definitions/SexRefType'
+      displayValue:
+        type: string
+        
+  SalutationResponse:
+    type: object
+    properties:
+      name:
+        type: string
+      displayValue:
+        type: string
+      referredType:
+        $ref: '#/definitions/SalutationRefType'
+        
+  SalutationRefType:
+    type: string
+    enum:
+    - DR
+    - MR
+    - MRS
+    - MISS
+    
+  SexRefType:
+    type: string
+    enum:
+    - MALE
+    - FEMALE
+    - NOT_DISCLOSED
+    - TRANSGENDER
+  
+  UserRole:
+    type: object
+    properties:
+      id: 
+        type: string
+        description: | 
+          Id for the specific Role
+      roleName:
+        type: string
+        description: |
+          Name of the specific Role
+      roleType:
+        $ref: "#/definitions/Roles"
+      actions:
+        type: array
+        items:
+          $ref: "#/definitions/PossibleActions"
+          
+  PossibleActions:
+    type: object
+    properties: 
+      path: 
+        type: string
+        description: |
+          Path will be prefixed by a "/" 
+      visibility: 
+        type: boolean
+        description: |
+          Its for visibility
+      description:
+        type : string
+        description: |
+          Related information about the component
