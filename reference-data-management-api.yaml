@@ -455,7 +455,7 @@ definitions:
     type: object
     required: [firstName, aadharId, username, password]
     properties:
-      id:
+      _id:
         type: string
         description : |
           Id of Particular PartyIndividual
