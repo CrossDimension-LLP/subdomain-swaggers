@@ -91,6 +91,79 @@ paths:
           schema:
             $ref: "#/definitions/Error"
             
+  /actions:
+    post:
+      operationId: createActions
+      tags:
+        - "Permission Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Create actions with default visibilty true"
+      parameters:
+        - in: body
+          name: actionInput
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PossibleActions"
+      responses:
+        200:
+          description: |
+            *OK* - Created Actions Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PossibleActions"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"  
+    get:
+      operationId: getActions
+      tags:
+        - "Permission Management"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      summary: "Get All actions with default visibilty true"
+      responses:
+        200:
+          description: |
+            *OK* - Get Actions Will be returned Successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/PossibleActions"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"  
   /party:
     get:
       operationId: searchPartyIndividual
@@ -380,6 +453,45 @@ paths:
           schema:
             $ref: "#/definitions/Error"
             
+  /login:
+    post:
+      operationId: login
+      tags:
+        - "Validation Management"
+      summary: "Login Successfuly"
+      description: "To Login Happen"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: loginInput
+          required: true
+          schema:
+            $ref: "#/definitions/LoginInput"
+      responses:
+        200:
+          description: |
+            *OK* - On Successful Login Party individual will be returned successfully
+          schema:
+            $ref: "#/definitions/PartyIndividual"
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
   /ref/gender:
     get:
       operationId: getGenderInformation
@@ -451,6 +563,28 @@ paths:
             $ref: "#/definitions/Error"
 
 definitions:
+  LoginInput:
+    type: object
+    required: [userId, password]
+    properties:
+      userId:
+        type: string
+        description: |
+          User ID must be email or username
+      password:
+        type: string
+        description: |
+          Password for Party individual
+      contactMediumType:
+        $ref: '#/definitions/ContactMediumType'
+        
+  ContactMediumType:
+    type: string
+    enum:
+    - email
+    - username
+    - mobile
+    
   PartyIndividual:
     type: object
     required: [firstName, aadharId, username, password]
