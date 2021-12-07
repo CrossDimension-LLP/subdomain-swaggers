@@ -575,16 +575,15 @@ definitions:
         type: string
         description: |
           Password for Party individual
-      contactMediumType:
-        $ref: '#/definitions/ContactMediumType'
+      validationMedia:
+        $ref: '#/definitions/ValidationMedia'
         
-  ContactMediumType:
+  ValidationMedia:
     type: string
     enum:
-    - email
+    - aadharId
     - username
-    - mobile
-    
+
   PartyIndividual:
     type: object
     required: [firstName, aadharId, username, password]
