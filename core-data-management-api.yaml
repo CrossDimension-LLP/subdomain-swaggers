@@ -40,7 +40,9 @@ paths:
           description: |
             *OK* - List of Doctors Will be returned Successfully
           schema:
-            $ref: '#/definitions/Doctor'
+            type: array
+            items:  
+              $ref: '#/definitions/Doctor'
         400:
           description: |
             *Error* - Bad Request
@@ -126,7 +128,9 @@ paths:
           description: |
             *OK* - Specific Doctor Will be returned Successfully
           schema:
-            $ref: '#/definitions/Doctor'
+            type: array
+            items:  
+              $ref: '#/definitions/Doctor'
         500:
           description: |
             *Error* - Internal Server error
@@ -157,6 +161,91 @@ paths:
             - supported qualifiers [==, >=, !=, <=, =@]
             - ";" will act as filter separator
             - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Doctor Will be returned Successfully
+          schema:
+            type: array
+            items:  
+              $ref: '#/definitions/Doctor'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+  /doctor/{id}:
+    get:
+      operationId: getDoctorById
+      tags:
+        - "Doctor Management"
+      summary: "Doctor By Id"
+      description: "Produces Doctor for the Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            Doctor By Id
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Doctors Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Doctor'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    delete:
+      operationId: deleteDoctorById
+      tags:
+        - "Doctor Management"
+      summary: "Doctor Deletion by Id"
+      description: "delete Doctor by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            delete doctor by id
           items:
             type: string
       consumes:
@@ -211,7 +300,9 @@ paths:
           description: |
             *OK* - List of OPDs Will be returned Successfully
           schema:
-            $ref: '#/definitions/Department'
+            type: array
+            items:  
+              $ref: '#/definitions/Department'
         400:
           description: |
             *Error* - Bad Request
@@ -297,7 +388,9 @@ paths:
           description: |
             *OK* - Specific Department Will be returned Successfully
           schema:
-            $ref: '#/definitions/Department'
+            type: array
+            items:  
+              $ref: '#/definitions/Department'
         500:
           description: |
             *Error* - Internal Server error
@@ -328,6 +421,91 @@ paths:
             - supported qualifiers [==, >=, !=, <=, =@]
             - ";" will act as filter separator
             - "," will act as value separator in a particular filter
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Department Will be returned Successfully
+          schema:
+            type: array
+            items:  
+              $ref: '#/definitions/Department'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+  /department/{id}:
+    get:
+      operationId: getDepartmentById
+      tags:
+        - "Department Management"
+      summary: "Department By Id"
+      description: "Produces Department for the Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            Department By Id
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Departments Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Department'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    delete:
+      operationId: deleteDepartmentById
+      tags:
+        - "Department Management"
+      summary: "Department Deletion by Id"
+      description: "delete Department by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            delete department by id
           items:
             type: string
       consumes:
@@ -382,7 +560,9 @@ paths:
           description: |
             *OK* - List of Prescriptions Will be returned Prescriptionfully
           schema:
-            $ref: '#/definitions/Prescription'
+            type: array
+            items:  
+              $ref: '#/definitions/Prescription'
         400:
           description: |
             *Error* - Bad Request
@@ -468,7 +648,9 @@ paths:
           description: |
             *OK* - Specific Prescription Will be returned Prescriptionfully
           schema:
-            $ref: '#/definitions/Prescription'
+            type: array
+            items:  
+              $ref: '#/definitions/Prescription'
         500:
           description: |
             *Error* - Internal Server error
@@ -509,6 +691,91 @@ paths:
         200:
           description: |
             *OK* - Specific Prescription Will be returned Prescriptionfully
+          schema:
+            type: array
+            items:  
+              $ref: '#/definitions/Prescription'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+
+  /prescription/{id}:
+    get:
+      operationId: getPrescriptionById
+      tags:
+        - "Prescription Management"
+      summary: "Prescription By Id"
+      description: "Produces Prescription for the Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            Prescription By Id
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Prescriptions Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Prescription'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    delete:
+      operationId: deletePrescriptionById
+      tags:
+        - "Prescription Management"
+      summary: "Prescription Deletion by Id"
+      description: "delete Prescription by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            delete prescription by id
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Prescription Will be returned Successfully
           schema:
             $ref: '#/definitions/Prescription'
         500:
