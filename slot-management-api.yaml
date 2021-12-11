@@ -81,7 +81,7 @@ paths:
           description: |
             *OK* - Inserted Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/SlotRef'
         400:
           description: |
             *Error* - Bad Request
@@ -130,7 +130,7 @@ paths:
           description: |
             *OK* - Specific SLot Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            $ref: '#/definitions/SlotRef'
         500:
           description: |
             *Error* - Internal Server error
@@ -172,7 +172,9 @@ paths:
           description: |
             *OK* - Specific Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/Success'
+            type: array
+            items: 
+              $ref: '#/definitions/SlotRef'
         500:
           description: |
             *Error* - Internal Server error
@@ -189,6 +191,88 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /slot/{id}:
+    get:
+      operationId: getSlotById
+      tags:
+        - "Slot Management"
+      summary: "Slot By Id"
+      description: "Produces Slot for the Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            Slot By Id
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Slot'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    delete:
+      operationId: deleteSlotById
+      tags:
+        - "Slot Management"
+      summary: "Slot Deletion by Id"
+      description: "delete Slot by id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: |
+            delete Slot by id
+          items:
+            type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Slot Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Slot'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        419:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
   SlotRef:
