@@ -3,7 +3,7 @@ swagger: '2.0'
 ###################################################################
 #                     API Documentation                           #
 ###################################################################
-host: octopus.com
+host: octosolutions.in
 basePath : /slotManagement/v1
 schemes:
   - https
@@ -42,7 +42,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/SlotRef'
+              $ref: '#/definitions/Slot'
         400:
           description: |
             *Error* - Bad Request
@@ -257,7 +257,7 @@ paths:
           description: |
             *OK* - Specific Slot Will be returned Successfully
           schema:
-            $ref: '#/definitions/Slot'
+            $ref: '#/definitions/SlotRef'
         500:
           description: |
             *Error* - Internal Server error
@@ -321,6 +321,10 @@ definitions:
               slot starting date
           slotDetails:
             $ref: "#/definitions/SlotDetails"
+          parentSlotId:
+            type: string
+            description : |
+              Id of Particular Slot 
 
   
   SlotFrequencyRef:
@@ -385,26 +389,6 @@ definitions:
           description: |
             Object Path to be Patched
   
-  Success:
-    type: object
-    properties:
-      status:
-        type: string
-        description: |
-          200 ok
-      message:
-        type: string
-        description: |
-          Success message
-      insertedSlotCount:
-        type: number
-        description: |
-          Number of total inserted slots
-      path:
-        type: string
-        description: |
-          Path to get the slots
-  
   Error:
     type: object
     properties:
@@ -437,3 +421,19 @@ definitions:
         enum:
           - INCREMENTAL
           - DECREMENTAL
+          
+  LatestSlotDetails:
+    type: object
+    properties:
+      slotId:
+        type: string
+        description: id of slot
+      latestSlotDate:
+        type: string
+        description: |
+          unique latest slot date
+      parentSlotId:
+            type: string
+            description : |
+              Id of Particular Slot 
+        
