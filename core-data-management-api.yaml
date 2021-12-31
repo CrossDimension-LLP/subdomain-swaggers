@@ -191,7 +191,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /doctor/{id}:
+  /doctor/{doctorId}:
     get:
       operationId: getDoctorById
       tags:
@@ -204,13 +204,11 @@ paths:
         - "application/json"
       parameters:
         - in: path
-          name: id
+          name: doctorId
           required: true
           type: string
           description: |
             Doctor By Id
-          items:
-            type: string
       responses:
         200:
           description: |
@@ -241,13 +239,11 @@ paths:
       description: "delete Doctor by id"
       parameters:
         - in: path
-          name: id
+          name: doctorId
           required: true
           type: string
           description: |
             delete doctor by id
-          items:
-            type: string
       consumes:
         - "application/json"
       produces:
@@ -451,7 +447,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /department/{id}:
+  /department/{departmentId}:
     get:
       operationId: getDepartmentById
       tags:
@@ -464,13 +460,11 @@ paths:
         - "application/json"
       parameters:
         - in: path
-          name: id
+          name: departmentId
           required: true
           type: string
           description: |
             Department By Id
-          items:
-            type: string
       responses:
         200:
           description: |
@@ -501,13 +495,11 @@ paths:
       description: "delete Department by id"
       parameters:
         - in: path
-          name: id
+          name: departmentId
           required: true
           type: string
           description: |
             delete department by id
-          items:
-            type: string
       consumes:
         - "application/json"
       produces:
@@ -711,7 +703,7 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
-  /prescription/{id}:
+  /prescription/{prescriptionId}:
     get:
       operationId: getPrescriptionById
       tags:
@@ -724,13 +716,11 @@ paths:
         - "application/json"
       parameters:
         - in: path
-          name: id
+          name: prescriptionId
           required: true
           type: string
           description: |
             Prescription By Id
-          items:
-            type: string
       responses:
         200:
           description: |
@@ -761,13 +751,11 @@ paths:
       description: "delete Prescription by id"
       parameters:
         - in: path
-          name: id
+          name: prescriptionId
           required: true
           type: string
           description: |
             delete prescription by id
-          items:
-            type: string
       consumes:
         - "application/json"
       produces:
@@ -778,6 +766,176 @@ paths:
             *OK* - Specific Prescription Will be returned Successfully
           schema:
             $ref: '#/definitions/Prescription'
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+        409:
+          description: |
+            *Error* - Conflict
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /organization:
+    get:
+      operationId: getOrganization
+      tags:
+        - "Organization Management"
+      summary: "List of Organizations available"
+      description: "Produces List of Departments available"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: filters
+          type: array
+          description: |
+            - supported qualifiers [==, >=, !=, <=, =@]
+            - ";" will act as filter separator
+            - "," will act as value separator in a particular filter
+          items:
+            type: string
+      responses:
+        200:
+          description: |
+            *OK* - List of Organizations Will be returned Successfully
+          schema:
+            type: array
+            items:  
+              $ref: '#/definitions/Organization'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+    post:
+      operationId: saveOrganization
+      tags:
+        - "Organization Management"
+      summary: "Insertion of Organization"
+      description: "Creates New entry of a Organization"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: body
+          name: Organization Input Details
+          required: true
+          schema:
+            $ref: "#/definitions/Organization"
+      responses:
+        200:
+          description: |
+            *OK* - Inserted Prescription Will be returned Prescriptionfully
+          schema:
+            $ref: '#/definitions/Organization'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /organization/{organizationId}:
+    get:
+      operationId: getOrganizationById
+      tags:
+        - "Organization Management"
+      summary: "Organization By Id"
+      description: "Produces Organization for the Id"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: organizationId
+          required: true
+          type: string
+          description: |
+            Organization By Id
+      responses:
+        200:
+          description: |
+            *OK* - Organization Will be returned Successfully
+          schema:
+            $ref: '#/definitions/Organization'
+        400:
+          description: |
+            *Error* - Bad Request
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: |
+            *Error* - Internal Server error
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: |
+            *Error* - Not Found
+          schema:
+            $ref: "#/definitions/Error"
+    
+    patch:
+      operationId: updateOrganization
+      tags:
+        - "Organization Management"
+      summary: "Organization Updation by Patch Payload"
+      description: "Produces List of Prescriptions"
+      parameters:
+        - in: path
+          name: organizationId
+          type: string
+          required: true
+
+        - in: body
+          name: Patch Element
+          required: true
+          schema:
+            $ref: "#/definitions/PatchElement"
+          description: |
+            "Prescription patch element"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: |
+            *OK* - Specific Prescription Will be returned Prescriptionfully
+          schema:
+            type: array
+            items:  
+              $ref: '#/definitions/Prescription'
         500:
           description: |
             *Error* - Internal Server error
@@ -883,10 +1041,10 @@ definitions:
         type: string
         description: |
           mobile of Particular Customer
-
+          
   Department:
     type: object
-    required: [id, name]
+    required: [id, name, organizationType, organizationId]
     properties:
       id: 
         type: string
@@ -896,23 +1054,30 @@ definitions:
         type: string
         description: |
           name of the department
-      hospitalId:
+      organizationId:
         type: string
         description: |
-          hospital id
+          Organization id
+      organizationType:
+        type: string
+        description: |
+          Type of the Organization
+      organizationDetails:
+        $ref: "#/definitions/Organization"
       pocDetails:
-        type: string
-        description: |
-          Phone number with the POCs details
-      departmentStartingDate:
+        $ref: "#/definitions/ContactMedium"
+      startingDate:
         type: string
         description: |
           date of start functioning day of a department to get clear analysis of that department
-
-
-  Hospital:
+      freezingDate:
+        type: string
+        description: |
+          date of Freezing functioning day of a department to get clear analysis of that department
+          
+  Organization:
     type: object
-    required: [id, name]
+    required: [id, name, organizationType]
     properties:
       id: 
         type: string
@@ -922,14 +1087,58 @@ definitions:
         type: string
         description: |
           name of the hospital
+      contactMedium:
+        $ref: "#/definitions/ContactMedium"
       address:
+        $ref: "#/definitions/AdressRef"
+      state:
         type: string
         description: |
-          address of the hospital
-      phoneNumber:
+          State where its Situated
+      country:
         type: string
-        description : |
-          hospital's phone number
+        description: |
+          Country where its situated
+      organizationType:
+        $ref: "#/definitions/OrganizationType"
+  
+  AdressRef:
+    type: object
+    properties:
+      street1: 
+        type: string
+        description: | 
+          Street 1 of Organization
+      street2:
+        type: string
+        description: |
+          Street 2 of Organization
+      country:
+        type: string
+        description: |
+          Country of the organizaton
+      state:
+        type: string
+        description: |
+          State where its Situated
+      zipcode:
+        type: string
+        description: | 
+          Zipcode for the organization
+    
+          
+  OrganizationType:
+    type: string
+    enum:
+    - HOSPITAL_SA
+    - HOSPITAL_CH
+    - PATH_SA
+    - PATH_CH
+    - DISP_SA
+    - DISP_CH
+    - DIAG_SA
+    - DIAG_CH
+    
   
   Prescription:
     type: object
@@ -1011,7 +1220,7 @@ definitions:
         format: byte
         description: |
           pdf version of the prescription
-
+          
   PatchElement:
     type: array
     items:
@@ -1047,7 +1256,7 @@ definitions:
         type: string
         description: |
           Error Path
-
+          
   DepartmentType:
         type: string
         enum:
@@ -1062,6 +1271,10 @@ definitions:
         type: string
         description: |
           name of the patient
+      aadharId:
+        type: string
+        description: |
+          AAdhar ID of patient
       age:
         type: string
         description: |
@@ -1070,7 +1283,7 @@ definitions:
         type: string
         description: |
           address of the patient
-      contactNumber:
+      mobile:
         type: string
         description: |
           phone number of the patient
@@ -1104,6 +1317,7 @@ definitions:
     enum:
     - OP
     - IP
+    - BOTH
       
   GenderRef:
     type: string
