@@ -956,7 +956,7 @@ paths:
 definitions:
   Doctor:
     type: object
-    required: [id, aadharId, doctorRegistrationId, digiDoctorId, departmentId, sections]
+    required: [id, aadharId, doctorRegistrationId, digiDoctorId, departmentId, involvementType]
     properties:
       id:
         type: string
@@ -1016,7 +1016,7 @@ definitions:
           date of birth of a doctor(for analytics purpose)
       gender:
         $ref: '#/definitions/GenderRef'
-      sections:
+      involvementType:
         $ref: '#/definitions/DepartmentType'
       contact:
         $ref: '#/definitions/ContactMedium'
