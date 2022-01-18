@@ -586,7 +586,9 @@ definitions:
 
   PartyIndividual:
     type: object
-    required: [firstName, aadharId, username, password]
+    required:
+      - aadharId
+      - username
     properties:
       _id:
         type: string
