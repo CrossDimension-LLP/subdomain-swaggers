@@ -596,7 +596,7 @@ definitions:
           Id of Particular PartyIndividual
       aadharId:
         type: string
-        nullable: false
+        x-nullable: false
         description : |
           AAdhar Id of Particular PartyIndividual
       username:
