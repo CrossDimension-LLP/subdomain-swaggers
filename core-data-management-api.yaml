@@ -1058,10 +1058,10 @@ definitions:
         type: string
         description: |
           Organization id
-      organizationType:
-        type: string
+      status:
+        type: boolean
         description: |
-          Type of the Organization
+          Status of Department
       organizationDetails:
         $ref: "#/definitions/Organization"
       pocDetails:
