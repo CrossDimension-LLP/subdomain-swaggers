@@ -966,6 +966,8 @@ definitions:
         type: string
         description : |
           Aadhar Id of Particular Doctor 
+      salutation:
+        $ref: '#/definitions/SalutationRef'
       firstName:
         type: string
         description: |
@@ -1322,8 +1324,18 @@ definitions:
   GenderRef:
     type: string
     enum:
-    - MALE
-    - FEMALE
+    - Male
+    - Female
+    - Transgender
+    - Undisclosed
+  
+  SalutationRef:
+    type: string
+    enum:
+    - Dr.
+    - Mr.
+    - Mrs.
+    - Ms.
   
   MedicineShift:
     type: string
