@@ -339,7 +339,7 @@ definitions:
     
   SlotDetails:
     type: object
-    required: [dayOfWeek, slotStartTime, slotEndTime, slotCapacity]
+    required: [dayOfWeek, slotStartTime, slotEndTime, slotCapacity, slotCharges]
     properties:
       dayOfWeek:
         type: string
@@ -371,6 +371,10 @@ definitions:
         type: string
         description: |
           In a Single generation process the slots will be generated under same id 
+      slotCharges:
+        type: number
+        description:  
+          charges for doctor consultation
       
 
   PatchElement:
