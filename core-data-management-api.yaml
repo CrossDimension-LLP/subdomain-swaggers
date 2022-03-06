@@ -1289,6 +1289,18 @@ definitions:
         type: string
         description: |
           phone number of the patient
+      height:
+        type: string
+        description: |
+          height of the patient
+      weight:
+        type: string
+        description: |
+          weight of the patient
+      bp:
+        type: string
+        description: |
+          bp of the patient
  
   MedicineDetails:
     type: object
